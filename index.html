@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>document.documentElement.classList.add("js");</script>
+  <title>Betkastið — Hverjar eru líkurnar? · Íþrótta- og spáhlaðvarp</title>
+  <meta name="description" content="Betkastið er íslenska hlaðvarpið þar sem við spáum í spilin um úrslit íþróttaviðburða — af viti, gríni og greiningu. Hverjar eru líkurnar?" />
+  <meta name="theme-color" content="#062518" />
+  <meta name="color-scheme" content="light" />
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Betkastið — Hverjar eru líkurnar?" />
+  <meta property="og:description" content="Íslenska íþrótta- og spáhlaðvarpið. Spá, greining og líkur fyrir stóru leikina — í léttum dúr." />
+  <meta property="og:locale" content="is_IS" />
+  <meta property="og:site_name" content="Betkastið" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon: inline SVG odds mark -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23062518'/%3E%3Cpath d='M16 42 L28 30 L36 38 L50 22' fill='none' stroke='%2336D87A' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='50' cy='22' r='4.5' fill='%2336D87A'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "PodcastSeries",
+    "name": "Betkastið",
+    "alternateName": "Hverjar eru líkurnar?",
+    "description": "Íslenska íþrótta- og spáhlaðvarpið. Spá, greining og líkur fyrir stóru leikina — í léttum dúr.",
+    "inLanguage": "is",
+    "url": "https://betkastid.is",
+    "sameAs": [
+      "https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm",
+      "https://www.instagram.com/betkastid/",
+      "https://www.tiktok.com/@betkastid"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "bestRating": "5",
+      "ratingCount": "191"
+    }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#efni">Beint í meginmál</a>
+
+  <!-- ============ ICON SPRITE ============ -->
+  <svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute">
+    <!-- Brand glyphs (fill, 24x24) -->
+    <symbol id="i-spotify" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></symbol>
+    <symbol id="i-apple" viewBox="0 0 24 24"><path d="M5.34 0A5.328 5.328 0 000 5.34v13.32A5.328 5.328 0 005.34 24h13.32A5.328 5.328 0 0024 18.66V5.34A5.328 5.328 0 0018.66 0zm6.525 2.568c2.336 0 4.448.902 6.056 2.587 1.224 1.272 1.912 2.619 2.264 4.392.12.59.12 2.2.007 2.864a8.506 8.506 0 01-3.24 5.296c-.608.46-2.096 1.261-2.336 1.261-.088 0-.096-.091-.056-.46.072-.592.144-.715.48-.856.536-.224 1.448-.874 2.008-1.435a7.644 7.644 0 002.008-3.536c.208-.824.184-2.656-.048-3.504-.728-2.696-2.928-4.792-5.624-5.352-.784-.16-2.208-.16-3 0-2.728.56-4.984 2.76-5.672 5.528-.184.752-.184 2.584 0 3.336.456 1.832 1.64 3.512 3.192 4.512.304.2.672.408.824.472.336.144.408.264.472.856.04.36.03.464-.056.464-.056 0-.464-.176-.896-.384l-.04-.03c-2.472-1.216-4.056-3.274-4.632-6.012-.144-.706-.168-2.392-.03-3.04.36-1.74 1.048-3.1 2.192-4.304 1.648-1.737 3.768-2.656 6.128-2.656zm.134 2.81c.409.004.803.04 1.106.106 2.784.62 4.76 3.408 4.376 6.174-.152 1.114-.536 2.03-1.216 2.88-.336.43-1.152 1.15-1.296 1.15-.023 0-.048-.272-.048-.603v-.605l.416-.496c1.568-1.878 1.456-4.502-.256-6.224-.664-.67-1.432-1.064-2.424-1.246-.64-.118-.776-.118-1.448-.008-1.02.167-1.81.562-2.512 1.256-1.72 1.704-1.832 4.342-.264 6.222l.413.496v.608c0 .336-.027.608-.06.608-.03 0-.264-.16-.512-.36l-.034-.011c-.832-.664-1.568-1.842-1.872-2.997-.184-.698-.184-2.024.008-2.72.504-1.878 1.888-3.335 3.808-4.019.41-.145 1.133-.22 1.814-.211zm-.13 2.99c.31 0 .62.06.844.178.488.253.888.745 1.04 1.259.464 1.578-1.208 2.96-2.72 2.254h-.015c-.712-.331-1.096-.956-1.104-1.77 0-.733.408-1.371 1.112-1.745.224-.117.534-.176.844-.176zm-.011 4.728c.988-.004 1.706.349 1.97.97.198.464.124 1.932-.218 4.302-.232 1.656-.36 2.074-.68 2.356-.44.39-1.064.498-1.656.288h-.003c-.716-.257-.87-.605-1.164-2.644-.341-2.37-.416-3.838-.218-4.302.262-.616.974-.966 1.97-.97z"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></symbol>
+    <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></symbol>
+    <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.625 3.872 10.35 9.101 11.647z"/></symbol>
+
+    <!-- UI glyphs (stroke, 24x24) -->
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5.5v13a1 1 0 0 0 1.52.86l10.5-6.5a1 1 0 0 0 0-1.72L8.52 4.64A1 1 0 0 0 7 5.5Z"/></symbol>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.5 2.95 5.98 6.6.96-4.77 4.65 1.12 6.57L12 18.56l-5.9 3.1 1.13-6.57L2.45 9.44l6.6-.96L12 2.5Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 9 11l4 4 8-8"/><path d="M15 4h6v6"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-ball" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5 15.5 10l-1.3 4h-4.4L8.5 10 12 7.5Z"/><path d="M12 3v4.5M5 9.5l3.5.5M19 9.5l-3.5.5M8 21l1.8-4M16 21l-1.8-4"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M9 19h6M12 14v5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.2 2.9 8 7 9 4.1-1 7-4.8 7-9V6l-7-3Z"/><path d="m9.5 12 1.8 1.8 3.5-3.6"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 0 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/><path d="m6.3 6.3 3 3M14.7 14.7l3 3M17.7 6.3l-3 3M9.3 14.7l-3 3"/></symbol>
+    <symbol id="i-quote" viewBox="0 0 24 24"><path d="M9.5 6C6.5 6 4 8.5 4 11.5V18h6.5v-6.5H7.2c0-1.8 1-3 2.8-3.2L9.5 6Zm10 0c-3 0-5.5 2.5-5.5 5.5V18H20.5v-6.5h-3.3c0-1.8 1-3 2.8-3.2L19.5 6Z"/></symbol>
+  </svg>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="efst" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="#efst" aria-label="Betkastið — forsíða">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="34" height="34"><rect width="64" height="64" rx="16" fill="currentColor"/><path d="M16 42 L28 30 L36 38 L50 22" fill="none" stroke="#062518" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="22" r="4.5" fill="#062518"/></svg>
+        </span>
+        <span class="brand-word">Betkastið</span>
+      </a>
+
+      <nav class="nav" id="primary-nav" aria-label="Aðalvalmynd">
+        <a href="#thaettir">Þættir</a>
+        <a href="#hlusta">Hlusta</a>
+        <a href="#flokkar">Flokkar</a>
+        <a href="#um">Um okkur</a>
+        <a href="#hafa-samband">Hafa samband</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
+          <svg class="ic" aria-hidden="true"><use href="#i-spotify"></use></svg>
+          <span>Hlusta</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-label="Opna valmynd" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
+          <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="efni">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <span class="glow glow-1"></span>
+        <span class="glow glow-2"></span>
+        <span class="grid-lines"></span>
+      </div>
+
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow eyebrow-on-dark">
+            <span class="live-dot" aria-hidden="true"></span>
+            Íþróttahlaðvarp · Ísland
+          </p>
+          <h1 class="hero-title">Hverjar eru<br><span class="accent">líkurnar?</span></h1>
+          <p class="hero-lead">
+            Betkastið er hlaðvarpið þar sem við spáum í spilin um úrslit íþróttaviðburða —
+            af viti, gríni og greiningu. Spá, líkur og léttar samræður um stóru leikina.
+          </p>
+
+          <div class="hero-cta">
+            <a class="btn btn-bright" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
+              <svg class="ic" aria-hidden="true"><use href="#i-spotify"></use></svg>
+              Hlusta á Spotify
+            </a>
+            <a class="btn btn-ghost-dark" href="#thaettir">
+              Skoða þætti
+              <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg>
+            </a>
+          </div>
+
+          <p class="hero-rating">
+            <span class="stars" aria-hidden="true">
+              <svg class="ic"><use href="#i-star"></use></svg>
+              <svg class="ic"><use href="#i-star"></use></svg>
+              <svg class="ic"><use href="#i-star"></use></svg>
+              <svg class="ic"><use href="#i-star"></use></svg>
+              <svg class="ic"><use href="#i-star"></use></svg>
+            </span>
+            <span><strong>4,8</strong> meðaleinkunn · 191 umsögn á Spotify</span>
+          </p>
+        </div>
+
+        <!-- Featured episode "bet slip" card -->
+        <article class="feature-card" aria-labelledby="feature-title">
+          <div class="feature-art art-pl" aria-hidden="true">
+            <span class="art-tag">Enski boltinn</span>
+            <span class="art-big">ENSKA<br>DEILDIN</span>
+            <span class="art-mark">Betkastið · #138</span>
+          </div>
+          <div class="feature-body">
+            <p class="feature-kicker">
+              <span class="pulse" aria-hidden="true"></span> Nýjasti þátturinn
+            </p>
+            <h2 class="feature-title" id="feature-title">Enska deildin — Uppgjörsþáttur</h2>
+            <p class="feature-desc">
+              Við gerum upp umferðina í ensku úrvalsdeildinni, förum yfir óvæntu úrslitin
+              og spáum í hverjar líkurnar eru á framhaldinu.
+            </p>
+            <a class="btn btn-primary feature-play" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
+              <svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>
+              Spila þátt
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Odds ticker -->
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>Besta deildin</span><span class="odd">2,15</span>
+          <span>Enski boltinn</span><span class="odd">1,80</span>
+          <span>Handbolti</span><span class="odd">3,40</span>
+          <span>Lengjudeildin</span><span class="odd">2,75</span>
+          <span>Getraunir</span><span class="odd">4,20</span>
+          <span>Hverjar eru líkurnar?</span><span class="odd">★</span>
+          <span>Besta deildin</span><span class="odd">2,15</span>
+          <span>Enski boltinn</span><span class="odd">1,80</span>
+          <span>Handbolti</span><span class="odd">3,40</span>
+          <span>Lengjudeildin</span><span class="odd">2,75</span>
+          <span>Getraunir</span><span class="odd">4,20</span>
+          <span>Hverjar eru líkurnar?</span><span class="odd">★</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="stats" aria-label="Tölfræði">
+      <div class="container stats-grid">
+        <div class="stat" data-reveal>
+          <span class="stat-num" data-count="4.8" data-decimals="1">0</span>
+          <span class="stat-label">Meðaleinkunn á Spotify</span>
+        </div>
+        <div class="stat" data-reveal>
+          <span class="stat-num" data-count="191">0</span>
+          <span class="stat-label">Umsagnir hlustenda</span>
+        </div>
+        <div class="stat" data-reveal>
+          <span class="stat-num" data-count="100" data-suffix="+">0</span>
+          <span class="stat-label">Þættir í safninu</span>
+        </div>
+        <div class="stat" data-reveal>
+          <span class="stat-num stat-word">Vikulega</span>
+          <span class="stat-label">Nýr þáttur — alla daga ársins</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LISTEN & FOLLOW ============ -->
+    <section class="section" id="hlusta">
+      <div class="container">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Hlustaðu &amp; fylgdu</p>
+          <h2 class="section-title">Þar sem þú hlustar á hlaðvörp</h2>
+          <p class="section-sub">Smelltu þér inn á Spotify fyrir alla þættina — eða fylgdu okkur á samfélagsmiðlum fyrir spá, líkur og uppákomur milli þátta.</p>
+        </header>
+
+        <div class="platform-grid">
+          <a class="platform platform-feature brand-spotify" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+            <svg class="platform-ic" aria-hidden="true"><use href="#i-spotify"></use></svg>
+            <span class="platform-text">
+              <span class="platform-name">Spotify</span>
+              <span class="platform-meta">Allir þættir · uppfært vikulega</span>
+            </span>
+            <svg class="ic platform-go" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
+          </a>
+
+          <!-- NOTE: update Apple/YouTube with exact show URLs when available -->
+          <a class="platform" href="https://podcasts.apple.com/is/search?term=Betkasti%C3%B0" target="_blank" rel="noopener" data-reveal>
+            <svg class="platform-ic" aria-hidden="true"><use href="#i-apple"></use></svg>
+            <span class="platform-text">
+              <span class="platform-name">Apple Podcasts</span>
+              <span class="platform-meta">Áskrift &amp; tilkynningar</span>
+            </span>
+            <svg class="ic platform-go" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
+          </a>
+
+          <a class="platform" href="https://www.youtube.com/results?search_query=Betkasti%C3%B0" target="_blank" rel="noopener" data-reveal>
+            <svg class="platform-ic" aria-hidden="true"><use href="#i-youtube"></use></svg>
+            <span class="platform-text">
+              <span class="platform-name">YouTube</span>
+              <span class="platform-meta">Þættir í mynd</span>
+            </span>
+            <svg class="ic platform-go" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
+          </a>
+
+          <a class="platform brand-instagram" href="https://www.instagram.com/betkastid/" target="_blank" rel="noopener" data-reveal>
+            <svg class="platform-ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
+            <span class="platform-text">
+              <span class="platform-name">Instagram</span>
+              <span class="platform-meta">@betkastid</span>
+            </span>
+            <svg class="ic platform-go" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
+          </a>
+
+          <a class="platform brand-tiktok" href="https://www.tiktok.com/@betkastid" target="_blank" rel="noopener" data-reveal>
+            <svg class="platform-ic" aria-hidden="true"><use href="#i-tiktok"></use></svg>
+            <span class="platform-text">
+              <span class="platform-name">TikTok</span>
+              <span class="platform-meta">@betkastid</span>
+            </span>
+            <svg class="ic platform-go" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
+          </a>
+
+          <a class="platform brand-facebook" href="https://www.facebook.com/search/top?q=Betkasti%C3%B0" target="_blank" rel="noopener" data-reveal>
+            <svg class="platform-ic" aria-hidden="true"><use href="#i-facebook"></use></svg>
+            <span class="platform-text">
+              <span class="platform-name">Facebook</span>
+              <span class="platform-meta">Samfélagshópur</span>
+            </span>
+            <svg class="ic platform-go" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CATEGORIES ============ -->
+    <section class="section section-alt" id="flokkar">
+      <div class="container">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Flokkar</p>
+          <h2 class="section-title">Veldu þér umfjöllun</h2>
+          <p class="section-sub">Frá íslenska boltanum til ensku úrvalsdeildarinnar — og allt þar á milli.</p>
+        </header>
+
+        <div class="cat-grid">
+          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-trophy"></use></svg></span>
+            <span class="cat-name">Enski boltinn</span>
+            <span class="cat-desc">Úrvalsdeildin krufin — uppgjör og spár.</span>
+            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+          </a>
+          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-ball"></use></svg></span>
+            <span class="cat-name">Besta deildin</span>
+            <span class="cat-desc">Íslenski boltinn í deiglunni — vika fyrir viku.</span>
+            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+          </a>
+          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-trend"></use></svg></span>
+            <span class="cat-name">Lengjudeildin</span>
+            <span class="cat-desc">Neðri deildirnar og óvæntu sögurnar.</span>
+            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+          </a>
+          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-ball"></use></svg></span>
+            <span class="cat-name">Handbolti</span>
+            <span class="cat-desc">Olís-deildin og landsliðin — spá og greining.</span>
+            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+          </a>
+          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-spark"></use></svg></span>
+            <span class="cat-name">Spá &amp; greining</span>
+            <span class="cat-desc">Hverjar eru líkurnar? Við reiknum dæmið.</span>
+            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+          </a>
+          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-mic"></use></svg></span>
+            <span class="cat-name">Viðtöl &amp; gestir</span>
+            <span class="cat-desc">Sérfræðingar og skemmtilegir gestir í heimsókn.</span>
+            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EPISODES ============ -->
+    <section class="section" id="thaettir">
+      <div class="container">
+        <header class="section-head section-head-row" data-reveal>
+          <div>
+            <p class="eyebrow">Nýjustu þættirnir</p>
+            <h2 class="section-title">Beint úr hljóðverinu</h2>
+          </div>
+          <a class="btn btn-outline" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
+            Allir þættir
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
+          </a>
+        </header>
+
+        <div class="ep-grid">
+          <article class="ep-card" data-reveal>
+            <a class="ep-art art-pl" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Enska deildin — Uppgjörsþáttur">
+              <span class="ep-cat">Enski boltinn</span>
+              <span class="ep-art-title">ENSKA DEILDIN</span>
+              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
+            </a>
+            <div class="ep-body">
+              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Enska deildin — Uppgjörsþáttur</a></h3>
+              <p class="ep-desc">Við gerum upp umferðina, förum yfir óvæntu úrslitin og spáum í framhaldið.</p>
+            </div>
+          </article>
+
+          <article class="ep-card" data-reveal>
+            <a class="ep-art art-guest" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Arnar Laufdal — sports content creator">
+              <span class="ep-cat">Viðtal</span>
+              <span class="ep-art-title">ARNAR<br>LAUFDAL</span>
+              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
+            </a>
+            <div class="ep-body">
+              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Arnar Laufdal — sports content creator</a></h3>
+              <p class="ep-desc">Gesturinn ræðir lífið sem íþróttaefnishöfundur og hvað það þarf til.</p>
+            </div>
+          </article>
+
+          <article class="ep-card" data-reveal>
+            <a class="ep-art art-besta" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Gæðastjóri Bestu deildarinnar">
+              <span class="ep-cat">Besta deildin</span>
+              <span class="ep-art-title">GÆÐA­STJÓRINN</span>
+              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
+            </a>
+            <div class="ep-body">
+              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Gæðastjóri Bestu deildarinnar</a></h3>
+              <p class="ep-desc">Hverjar eru líkurnar á titlinum? Við krufum stöðuna í Bestu deild karla.</p>
+            </div>
+          </article>
+
+          <article class="ep-card" data-reveal>
+            <a class="ep-art art-lengju" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Upphitun fyrir Lengjudeildina x Baddi Borgars">
+              <span class="ep-cat">Lengjudeildin</span>
+              <span class="ep-art-title">UPP­HITUN</span>
+              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
+            </a>
+            <div class="ep-body">
+              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Upphitun fyrir Lengjudeildina × Baddi Borgars</a></h3>
+              <p class="ep-desc">Baddi Borgars mætir og við hitum upp fyrir spennandi tímabil neðri deilda.</p>
+            </div>
+          </article>
+
+          <article class="ep-card" data-reveal>
+            <a class="ep-art art-spa" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Víkingur ekki óstöðvandi, stemning hjá KR og þungt yfir Val">
+              <span class="ep-cat">Spá &amp; greining</span>
+              <span class="ep-art-title">TITIL­SLAGURINN</span>
+              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
+            </a>
+            <div class="ep-body">
+              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Víkingur ekki óstöðvandi, stemning hjá KR og þungt yfir Val</a></h3>
+              <p class="ep-desc">Er Víkingur í raun óstöðvandi? Við förum yfir stöðuna á toppi og botni.</p>
+            </div>
+          </article>
+
+          <article class="ep-card" data-reveal>
+            <a class="ep-art art-hand" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Úrslitakeppni Olís deildar karla">
+              <span class="ep-cat">Handbolti</span>
+              <span class="ep-art-title">ÚRSLITA­KEPPNIN</span>
+              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
+            </a>
+            <div class="ep-body">
+              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Úrslitakeppni Olís deildar karla</a></h3>
+              <p class="ep-desc">Allt að gerast í úrslitakeppninni — við förum yfir líkurnar á titlinum.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section section-alt" id="um">
+      <div class="container about-grid">
+        <div class="about-copy" data-reveal>
+          <p class="eyebrow">Um Betkastið</p>
+          <h2 class="section-title">Hverjar eru líkurnar?</h2>
+          <p class="about-lead">
+            Betkastið er fyrir alla þá sem finnst gaman að spá í spilin um úrslit
+            íþróttaviðburða — eða annarra viðburða og keppna sem eru til umræðu í
+            samfélaginu hverju sinni.
+          </p>
+          <p>
+            Við fáum til okkar sérfræðinga úr hverjum geira og ræðum mögulegar
+            niðurstöður í léttum dúr. Hver skoðun og spá hefur sitt vægi — markmiðið
+            er að skapa umræðu og hvetja fólk til að hugsa gagnrýnið. Betkastið
+            stendur með ábyrgri spilahegðun.
+          </p>
+          <ul class="about-list">
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Vikuleg umfjöllun um íslenskan og erlendan bolta</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Spá, greining og líkur fyrir stóru viðburðina</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Skemmtileg viðtöl við gesti og sérfræðinga</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Allt í léttum dúr — því hverjar eru líkurnar?</li>
+          </ul>
+        </div>
+
+        <aside class="about-panel" data-reveal>
+          <svg class="quote-mark" aria-hidden="true"><use href="#i-quote"></use></svg>
+          <p class="about-quote">Eitt besta íþróttahlaðvarpið á Íslandi — skemmtilegt, fróðlegt og alltaf hreint út.</p>
+          <div class="about-rate">
+            <span class="stars stars-lg" aria-hidden="true">
+              <svg class="ic"><use href="#i-star"></use></svg>
+              <svg class="ic"><use href="#i-star"></use></svg>
+              <svg class="ic"><use href="#i-star"></use></svg>
+              <svg class="ic"><use href="#i-star"></use></svg>
+              <svg class="ic"><use href="#i-star"></use></svg>
+            </span>
+            <span class="about-rate-num"><strong>4,8</strong> / 5 · 191 umsögn</span>
+          </div>
+          <a class="btn btn-bright about-cta" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
+            <svg class="ic" aria-hidden="true"><use href="#i-spotify"></use></svg>
+            Fylgja á Spotify
+          </a>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ VIP / CTA BAND ============ -->
+    <section class="cta-band" aria-labelledby="cta-title">
+      <div class="cta-bg" aria-hidden="true"><span class="glow glow-3"></span></div>
+      <div class="container cta-inner" data-reveal>
+        <p class="eyebrow eyebrow-on-dark">VIP-áskrift</p>
+        <h2 class="cta-title" id="cta-title">Viltu meira en bara þættina?</h2>
+        <p class="cta-sub">
+          Gakktu í Betkastið-samfélagið: aukaefni, spár og líkur fyrir stóru leikina —
+          beint frá þeim sem þekkja dæmið.
+        </p>
+        <div class="cta-actions">
+          <!-- NOTE: point "Gerast VIP" at the real subscription URL when ready -->
+          <a class="btn btn-bright" href="https://betkastid.is" target="_blank" rel="noopener">
+            <svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg>
+            Gerast VIP
+          </a>
+          <a class="btn btn-ghost-dark" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
+            <svg class="ic" aria-hidden="true"><use href="#i-spotify"></use></svg>
+            Fylgja á Spotify
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESPONSIBLE GAMBLING ============ -->
+    <aside class="responsible" aria-label="Ábyrg spilahegðun">
+      <div class="container responsible-inner">
+        <svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+        <p>
+          <strong>Spilaðu af ábyrgð. 18+.</strong>
+          Betkastið hvetur til ábyrgrar spilahegðunar. Ef spilamennska er farin að valda
+          vanda, hringdu í hjálparsímann <a href="tel:1717">1717</a>.
+        </p>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer" id="hafa-samband">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand brand-footer" href="#efst" aria-label="Betkastið — forsíða">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" width="32" height="32"><rect width="64" height="64" rx="16" fill="currentColor"/><path d="M16 42 L28 30 L36 38 L50 22" fill="none" stroke="#062518" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="22" r="4.5" fill="#062518"/></svg>
+          </span>
+          <span class="brand-word">Betkastið</span>
+        </a>
+        <p class="footer-tag">Hverjar eru líkurnar? Íslenska íþrótta- og spáhlaðvarpið.</p>
+        <div class="footer-social">
+          <a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Betkastið á Spotify"><svg class="ic" aria-hidden="true"><use href="#i-spotify"></use></svg></a>
+          <a href="https://www.instagram.com/betkastid/" target="_blank" rel="noopener" aria-label="Betkastið á Instagram"><svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg></a>
+          <a href="https://www.tiktok.com/@betkastid" target="_blank" rel="noopener" aria-label="Betkastið á TikTok"><svg class="ic" aria-hidden="true"><use href="#i-tiktok"></use></svg></a>
+          <a href="https://www.facebook.com/search/top?q=Betkasti%C3%B0" target="_blank" rel="noopener" aria-label="Betkastið á Facebook"><svg class="ic" aria-hidden="true"><use href="#i-facebook"></use></svg></a>
+        </div>
+      </div>
+
+      <nav class="footer-col" aria-label="Hlaðvarpið">
+        <h3>Hlaðvarpið</h3>
+        <a href="#thaettir">Þættir</a>
+        <a href="#hlusta">Hlusta</a>
+        <a href="#flokkar">Flokkar</a>
+        <a href="#um">Um okkur</a>
+      </nav>
+
+      <nav class="footer-col" aria-label="Hlusta">
+        <h3>Hlusta</h3>
+        <a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Spotify</a>
+        <a href="https://podcasts.apple.com/is/search?term=Betkasti%C3%B0" target="_blank" rel="noopener">Apple Podcasts</a>
+        <a href="https://www.youtube.com/results?search_query=Betkasti%C3%B0" target="_blank" rel="noopener">YouTube</a>
+      </nav>
+
+      <div class="footer-col">
+        <h3>Hafa samband</h3>
+        <a href="mailto:betkastidaskrift@gmail.com">
+          <svg class="ic ic-inline" aria-hidden="true"><use href="#i-mail"></use></svg>
+          betkastidaskrift@gmail.com
+        </a>
+        <p class="footer-contact">
+          <svg class="ic ic-inline" aria-hidden="true"><use href="#i-pin"></use></svg>
+          Skipasund 11, 104 Reykjavík
+        </p>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© <span data-year>2026</span> Betkastið. Allur réttur áskilinn.</p>
+      <p class="footer-meta">Spilaðu af ábyrgð · 18+ · Hverjar eru líkurnar?</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
