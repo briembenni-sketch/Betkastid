@@ -227,6 +227,8 @@ ul { list-style: none; padding: 0; }
   letter-spacing: -.02em;
   color: var(--ink);
 }
+.brand-logo { height: 34px; width: auto; }
+.brand-logo-footer { height: 42px; }
 
 .nav { display: flex; align-items: center; gap: 4px; margin-inline: auto; }
 .nav a {
@@ -357,6 +359,7 @@ ul { list-style: none; padding: 0; }
 .feature-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.3rem, 1.1rem + 1vw, 1.7rem); line-height: 1.1; letter-spacing: -.02em; }
 .feature-desc { margin-top: 12px; color: var(--muted); font-size: 1rem; }
 .feature-play { margin-top: 22px; }
+.feature-cover { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: var(--emerald-900); }
 
 /* Art gradients (cohesive green family, distinct per topic) */
 .art-pl     { background: linear-gradient(140deg, #0A6E36, #062518 88%); }
@@ -577,6 +580,12 @@ ul { list-style: none; padding: 0; }
 .about-rate-num { color: var(--on-dark-mut); font-size: .96rem; }
 .about-rate-num strong { color: #fff; }
 .about-cta { margin-top: 26px; }
+.about-host {
+  display: block; position: relative; z-index: 1;
+  width: auto; max-width: 100%; max-height: 320px;
+  margin: 28px auto 0;
+  filter: drop-shadow(0 16px 32px rgba(0,0,0,.45));
+}
 
 /* ---------- CTA band ---------- */
 .cta-band {
@@ -593,6 +602,14 @@ ul { list-style: none; padding: 0; }
 .cta-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 1.4rem + 3vw, 3.4rem); line-height: 1.04; letter-spacing: -.025em; color: #fff; }
 .cta-sub { margin-top: 18px; color: var(--on-dark-mut); font-size: 1.12rem; }
 .cta-actions { margin-top: 32px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.cta-host {
+  display: none;
+  position: absolute; right: clamp(8px, 3vw, 56px); bottom: 0; z-index: -1;
+  width: auto; max-height: 440px;
+  pointer-events: none;
+  filter: drop-shadow(0 22px 44px rgba(0,0,0,.5));
+}
+@media (min-width: 1180px) { .cta-host { display: block; } }
 
 /* ---------- Responsible gambling ---------- */
 .responsible { background: var(--emerald-950); color: var(--on-dark-mut); padding-block: 22px; border-top: 1px solid rgba(234,246,238,.08); }

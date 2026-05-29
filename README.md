@@ -13,6 +13,9 @@ No build step. Plain, static, fast.
 - `index.html` — markup + inline SVG icon sprite + JSON-LD (`PodcastSeries`)
 - `styles.css` — design system (CSS variables), layout, animations, responsive
 - `script.js` — mobile nav, sticky header, scroll-reveal, animated stat counters, scroll-spy
+- `assets/` — brand imagery wired into the page: wordmark logo (header/footer), app icons
+  (favicon / apple-touch), podcast cover (hero card + social preview) and host cut-out photos
+  (About panel, VIP band) — web-optimized from the source files in `Betkast logo og myndir/`
 
 ## Design
 
@@ -41,5 +44,8 @@ Spotify show and site. A few outbound links are marked with `NOTE:` comments in
 
 - **Apple Podcasts / YouTube** — currently link to a search for "Betkastið"
 - **„Gerast VIP"** — currently links to betkastid.is; swap for the real subscription URL
+- **Source images** — the originals in `Betkast logo og myndir/` are large (~210 MB of
+  full-resolution PNGs). The site only uses the optimized derivatives in `assets/`, so the
+  originals can safely be removed from the repo (or moved to release storage) to keep clones small
 
 > Betkastið hvetur til ábyrgrar spilahegðunar. 18+.
