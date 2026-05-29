@@ -1,0 +1,11 @@
+# Installed agent skills (tooling, not part of the site)
+.agents/
+skills-lock.json
+
+# Local dev / OS
+node_modules/
+.DS_Store
+*.log
+
+# Screenshots used for local verification
+/.preview/
