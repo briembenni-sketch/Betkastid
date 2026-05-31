@@ -32,6 +32,8 @@
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Loka valmynd" : "Opna valmynd");
       toggle.querySelector("use").setAttribute("href", open ? "#i-close" : "#i-menu");
+      // Lock background scroll while the dropdown is open
+      document.documentElement.classList.toggle("nav-open", open);
     };
 
     toggle.addEventListener("click", () => {

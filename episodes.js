@@ -108,8 +108,11 @@
     }).join("");
   }
 
-  function cardHTML(e) {
-    return '<a class="ep-card" style="--i:' + e.i + '" href="thattur.html?ep=' + attr(e.slug) + '">' +
+  function cardHTML(e, idx) {
+    // Stagger by position on screen, capped so paginated/old-sorted cards
+    // never inherit a multi-second animation delay from their feed index.
+    const d = Math.min(idx || 0, 11);
+    return '<a class="ep-card" style="--i:' + d + '" href="thattur.html?ep=' + attr(e.slug) + '">' +
       '<span class="ep-cover">' +
       (e.img ? '<img loading="lazy" src="' + attr(e.img) + '" alt="" width="400" height="400">' : "") +
       '<span class="ep-badge">' + esc(labelOf(e.cat)) + "</span>" +
@@ -121,7 +124,7 @@
 
   function render() {
     const list = visible();
-    grid.innerHTML = list.slice(0, state.shown).map(cardHTML).join("") ||
+    grid.innerHTML = list.slice(0, state.shown).map((e, idx) => cardHTML(e, idx)).join("") ||
       '<p class="ep-empty">Engir þættir fundust' + (state.q ? ' fyrir „' + esc(state.q) + "”" : "") + ".</p>";
     moreBtn.hidden = state.shown >= list.length;
     if (countEl) {
