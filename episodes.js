@@ -225,40 +225,28 @@
   }
 
   /* ---------- wiring ---------- */
-  function wire() {
-    // filter chips
+  function wireArchive() {
     filtersEl.addEventListener("click", (e) => {
       const b = e.target.closest("[data-cat]");
       if (b) setFilter(b.dataset.cat);
     });
-    // play from a card
     grid.addEventListener("click", (e) => {
       const card = e.target.closest(".ep-card");
       if (!card || !card.dataset.audio) return;
       playEpisode({ audio: card.dataset.audio, img: card.dataset.img, title: card.dataset.title });
     });
-    // load more
     moreBtn.addEventListener("click", () => {
       state.shown += PAGE;
       render();
     });
-    // category cards (Flokkar) -> filter + scroll
-    document.querySelectorAll("[data-cat-link]").forEach((a) => {
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        setFilter(a.dataset.catLink);
-        const t = document.getElementById("thaettir");
-        if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+  }
+
+  function wireHero() {
+    heroBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (state.all.length) playEpisode(state.all[0]);
+      else window.location.href = "thaettir.html";
     });
-    // hero "play latest"
-    if (heroBtn) {
-      heroBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (state.all.length) playEpisode(state.all[0]);
-        else document.getElementById("thaettir").scrollIntoView({ behavior: "smooth" });
-      });
-    }
   }
 
   function skeletons() {
@@ -274,11 +262,14 @@
     moreBtn = document.getElementById("ep-more");
     countEl = document.getElementById("ep-count");
     heroBtn = document.getElementById("play-latest");
-    if (!grid) return;
 
     initPlayer();
-    wire();
-    skeletons();
+
+    const hasArchive = !!grid;
+    if (!hasArchive && !heroBtn) return; // nothing episode-related on this page
+
+    if (hasArchive) { wireArchive(); skeletons(); }
+    if (heroBtn) wireHero();
 
     const ctrl = "AbortController" in window ? new AbortController() : null;
     const timer = setTimeout(() => ctrl && ctrl.abort(), 12000);
@@ -291,14 +282,18 @@
       .then((xml) => {
         clearTimeout(timer);
         state.all = parse(xml);
-        if (!state.all.length) return fail();
-        renderFilters();
-        render();
+        if (!state.all.length) { if (hasArchive) fail(); return; }
+        if (hasArchive) {
+          const p = new URLSearchParams(location.search).get("flokkur");
+          if (p && CATS.some((c) => c.id === p)) state.cat = p;
+          renderFilters();
+          render();
+        }
       })
       .catch((err) => {
         clearTimeout(timer);
         console.error("Betkastið episodes:", err);
-        fail();
+        if (hasArchive) fail();
       });
   }
 
