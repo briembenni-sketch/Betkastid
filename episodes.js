@@ -2,7 +2,8 @@
    Betkastið — episodes archive, search/sort/filter, episode page + player
    Pulls every episode live from the public RSS feed (CORS-enabled),
    classifies by topic, powers the searchable/sortable/filterable archive,
-   renders the dedicated episode page (thattur.html?ep=…) and plays in-page.
+   renders the dedicated episode page (thattur.html?ep=…) with live Apple
+   Podcasts deep links (iTunes JSONP, matched by GUID) and plays in-page.
    Vanilla JS, accessible, reduced-motion aware.
    ================================================================= */
 (function () {
@@ -10,8 +11,8 @@
 
   const FEED = "https://anchor.fm/s/10a51d438/podcast/rss";
   const SHOW = "https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm";
-  const APPLE = "https://podcasts.apple.com/is/search?term=Betkasti%C3%B0";
-  const YOUTUBE = "https://www.youtube.com/results?search_query=Betkasti%C3%B0";
+  const APPLE_ID = "1739686688";
+  const APPLE = "https://podcasts.apple.com/is/podcast/id" + APPLE_ID;
   const ITUNES_NS = "http://www.itunes.com/dtds/podcast-1.0.dtd";
   const PAGE = 12;
 
@@ -67,19 +68,17 @@
       const ns = (tag, a) => { const el = it.getElementsByTagNameNS(ITUNES_NS, tag)[0]; return el ? (a ? el.getAttribute(a) : el.textContent.trim()) : ""; };
       const enc = it.querySelector("enclosure");
       const title = get("title");
-      const link = get("link");
       const guid = get("guid");
       const desc = plain(get("description") || ns("summary"));
       const tail = (guid || "").replace(/[^a-z0-9]/gi, "").slice(-6).toLowerCase();
       return {
-        title, link,
+        title, guid,
         audio: enc ? enc.getAttribute("url") : "",
         img: ns("image", "href"),
         dur: fmtDur(ns("duration")),
         date: fmtDate(get("pubDate")),
         cat: classify(title),
         desc,
-        spotify: link && /spotify\.com/.test(link) ? link : SHOW,
         slug: (slugify(title) || "thattur") + (tail ? "-" + tail : ""),
         search: (title + " " + desc).toLowerCase(),
       };
@@ -108,11 +107,9 @@
     }).join("");
   }
 
-  function cardHTML(e, idx) {
-    // Stagger by position on screen, capped so paginated/old-sorted cards
-    // never inherit a multi-second animation delay from their feed index.
-    const d = Math.min(idx || 0, 11);
-    return '<a class="ep-card" style="--i:' + d + '" href="thattur.html?ep=' + attr(e.slug) + '">' +
+  // pos = position within the batch being inserted (capped, so the stagger stays snappy)
+  function cardHTML(e, pos) {
+    return '<a class="ep-card" style="--i:' + Math.min(pos || 0, 10) + '" href="thattur.html?ep=' + attr(e.slug) + '">' +
       '<span class="ep-cover">' +
       (e.img ? '<img loading="lazy" src="' + attr(e.img) + '" alt="" width="400" height="400">' : "") +
       '<span class="ep-badge">' + esc(labelOf(e.cat)) + "</span>" +
@@ -183,16 +180,31 @@
     const p = player.audio.play(); if (p && p.catch) p.catch(() => {});
   }
 
+  /* ---------- Apple Podcasts deep links via iTunes JSONP (matched by GUID) ---------- */
+  let itunesP;
+  function itunesEpisodes() {
+    if (itunesP) return itunesP;
+    itunesP = new Promise((resolve) => {
+      const cb = "__itcb" + Math.random().toString(36).slice(2);
+      const s = document.createElement("script");
+      let done = false;
+      const cleanup = () => { if (done) return; done = true; clearTimeout(t); try { delete window[cb]; } catch (e) { window[cb] = undefined; } if (s.parentNode) s.parentNode.removeChild(s); };
+      const t = setTimeout(() => { cleanup(); resolve([]); }, 8000);
+      window[cb] = (data) => { cleanup(); resolve(((data && data.results) || []).filter((x) => x.episodeGuid)); };
+      s.onerror = () => { cleanup(); resolve([]); };
+      s.src = "https://itunes.apple.com/lookup?id=" + APPLE_ID + "&country=is&entity=podcastEpisode&limit=200&callback=" + cb;
+      document.head.appendChild(s);
+    });
+    return itunesP;
+  }
+
   /* ---------- episode detail page (thattur.html) ---------- */
   function renderDetail() {
     const status = document.getElementById("ed-status");
     const card = document.getElementById("episode");
     const slug = new URLSearchParams(location.search).get("ep");
     const ep = state.all.find((e) => e.slug === slug);
-    if (!ep) {
-      if (status) status.innerHTML = 'Þátturinn fannst ekki. <a href="thaettir.html">Sjá alla þætti</a>.';
-      return;
-    }
+    if (!ep) { if (status) status.innerHTML = 'Þátturinn fannst ekki. <a href="thaettir.html">Sjá alla þætti</a>.'; return; }
     document.title = ep.title + " · Betkastið";
     const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
     document.getElementById("ed-art").src = ep.img || "";
@@ -207,9 +219,10 @@
       para.split(/\n/).forEach((line, i) => { if (i) p.appendChild(document.createElement("br")); p.appendChild(document.createTextNode(line)); });
       desc.appendChild(p);
     });
-    document.getElementById("ed-spotify").href = ep.spotify;
-    document.getElementById("ed-apple").href = APPLE;
-    document.getElementById("ed-youtube").href = YOUTUBE;
+    document.getElementById("ed-spotify").href = SHOW;
+    const apple = document.getElementById("ed-apple");
+    apple.href = APPLE;
+    itunesEpisodes().then((eps) => { const m = eps.find((x) => x.episodeGuid === ep.guid); if (m && m.trackViewUrl) apple.href = m.trackViewUrl; });
     document.getElementById("ed-play").addEventListener("click", () => playEpisode(ep));
     if (status) status.hidden = true;
     card.hidden = false;
@@ -218,7 +231,14 @@
   /* ---------- wiring ---------- */
   function wireArchive() {
     filtersEl.addEventListener("click", (e) => { const b = e.target.closest("[data-cat]"); if (b) setFilter(b.dataset.cat); });
-    moreBtn.addEventListener("click", () => { state.shown += PAGE; render(); });
+    // "Sýna alla þætti": reveal every remaining episode at once, appended smoothly
+    moreBtn.addEventListener("click", () => {
+      const list = visible();
+      const start = state.shown;
+      state.shown = list.length;
+      grid.insertAdjacentHTML("beforeend", list.slice(start).map((e, idx) => cardHTML(e, idx)).join(""));
+      moreBtn.hidden = true;
+    });
     if (searchEl) searchEl.addEventListener("input", () => { state.q = searchEl.value; state.shown = PAGE; render(); });
     if (sortEl) sortEl.addEventListener("change", () => { state.sort = sortEl.value; state.shown = PAGE; render(); });
   }
