@@ -20,7 +20,8 @@ No build step. Plain, static, fast.
 - `script.js` — mobile nav, sticky header, scroll-reveal, animated stat counters, scroll-spy
 - `episodes.js` — fetches every episode live from the public RSS feed (CORS-enabled),
   classifies each by topic, and powers the search, sort and count-pill filters, the dedicated
-  episode page (Spotify description + Spotify/Apple/YouTube links) and the in-page player
+  episode page (full Spotify description, Spotify show link + live Apple Podcasts episode
+  links via iTunes JSONP matched by GUID) and the in-page player
 - `assets/` — brand imagery wired into the page: wordmark logo (header/footer), app icons
   (favicon / apple-touch), podcast cover (social preview) and host cut-out photos
   (hero, About panel, VIP band) — web-optimized from the source files in `Betkast logo og myndir/`
@@ -54,7 +55,9 @@ Spotify show and site. A few outbound links are marked with `NOTE:` comments in
 - **Episodes** — pulled live from the RSS feed (`anchor.fm/s/10a51d438/podcast/rss`) in the
   browser, auto-classified into topic filters, and each plays in-page via its audio enclosure,
   so new episodes appear automatically with no code changes
-- **Apple Podcasts / YouTube** — currently link to a search for "Betkastið"
+- **Episode links** — each episode page deep-links to that episode on **Apple Podcasts**
+  (live via the iTunes lookup API, matched by GUID). **Spotify** opens the show (Spotify does
+  not expose public per-episode URLs without their API). The podcast is not on YouTube
 - **„Gerast VIP"** — currently links to betkastid.is; swap for the real subscription URL
 - **Source images** — the originals in `Betkast logo og myndir/` are large (~210 MB of
   full-resolution PNGs). The site only uses the optimized derivatives in `assets/`, so the
