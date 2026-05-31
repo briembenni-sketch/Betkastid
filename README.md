@@ -1,16 +1,19 @@
 # Betkastið — landing page
 
-A modern, green-themed landing page for **Betkastið**, the Icelandic sports &
-prediction podcast — _„Hverjar eru líkurnar?"_ It takes cues from chessafterdark.is
-(sticky nav → host hero → stats → listen/follow → topic categories → full episode
-archive with an on-site player → about → footer) with a distinctive sports-book
-identity built around a green palette.
+A modern, green-themed site for **Betkastið**, the Icelandic sports &
+prediction podcast — _„Hverjar eru líkurnar?"_ It's a small multi-page static site —
+**Forsíða**, **Þættir** (a filterable episode archive with an on-site player) and
+**Hafa samband** — sharing one header/footer and taking cues from chessafterdark.is,
+with a distinctive sports-book identity built around a green palette.
 
 ## Stack
 
 No build step. Plain, static, fast.
 
-- `index.html` — markup + inline SVG icon sprite + JSON-LD (`PodcastSeries`)
+- `index.html` — **Forsíða**: hero, stats, listen/follow, category teasers, VIP CTA
+- `thaettir.html` — **Þættir**: the full, filterable episode archive + in-page player
+- `hafa-samband.html` — **Hafa samband**: contact details + a short "Um okkur" section
+- shared inline SVG icon sprite, header and footer on every page; JSON-LD (`PodcastSeries`) on the front page
 - `styles.css` — design system (CSS variables), layout, animations, responsive
 - `script.js` — mobile nav, sticky header, scroll-reveal, animated stat counters, scroll-spy
 - `episodes.js` — fetches every episode live from the public RSS feed (CORS-enabled),
