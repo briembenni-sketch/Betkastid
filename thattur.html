@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script>document.documentElement.classList.add("js");</script>
-  <title>Allir þættir · Betkastið</title>
-  <meta name="description" content="Allir þættir Betkastsins á einum stað. Spilaðu beint á síðunni, leitaðu og síaðu eftir flokki." />
+  <title>Þáttur · Betkastið</title>
+  <meta name="description" content="Hlustaðu á þátt af Betkastinu, lestu lýsinguna og opnaðu hann á Spotify, Apple Podcasts eða YouTube." />
   <meta name="theme-color" content="#062518" />
   <meta name="color-scheme" content="dark" />
-  <link rel="canonical" href="https://betkastid.is/thaettir.html" />
+  <link rel="canonical" href="https://betkastid.is/thattur.html" />
 
   <!-- Open Graph / social -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Allir þættir · Betkastið" />
-  <meta property="og:description" content="Allir þættir Betkastsins á einum stað. Spilaðu beint á síðunni, leitaðu og síaðu eftir flokki." />
+  <meta property="og:title" content="Þáttur · Betkastið" />
+  <meta property="og:description" content="Hlustaðu á þátt af Betkastinu, lestu lýsinguna og opnaðu hann á Spotify, Apple Podcasts eða YouTube." />
   <meta property="og:locale" content="is_IS" />
   <meta property="og:site_name" content="Betkastið" />
-  <meta property="og:url" content="https://betkastid.is/thaettir.html" />
+  <meta property="og:url" content="https://betkastid.is/thattur.html" />
   <meta property="og:image" content="https://betkastid.is/assets/cover-betkastid.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="1200" />
@@ -96,49 +96,30 @@
 
   <main id="efni">
 
-    <!-- ============ EPISODES ============ -->
-    <section class="section" id="thaettir">
+    <!-- ============ EPISODE DETAIL ============ -->
+    <section class="section ep-detail-section">
       <div class="container">
-        <header class="section-head section-head-row" data-reveal>
-          <div>
-            <p class="eyebrow">Þættirnir</p>
-            <h1 class="section-title">Allir þættir</h1>
-            <p class="section-sub" id="ep-count">Sæki þætti…</p>
-          </div>
-          <a class="btn btn-outline" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
-            Opna á Spotify
-            <svg class="ic" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
-          </a>
-        </header>
+        <a class="ep-back" href="thaettir.html">&larr; Til baka í þætti</a>
 
-        <div class="ep-toolbar" data-reveal>
-          <label class="ep-search">
-            <svg class="ic" aria-hidden="true"><use href="#i-search"></use></svg>
-            <input id="ep-search" type="search" placeholder="Leita að gesti eða efni…" aria-label="Leita í þáttum" autocomplete="off" />
-          </label>
-          <label class="ep-sort">
-            <span class="ep-sort-label">Raða</span>
-            <select id="ep-sort" aria-label="Raða þáttum">
-              <option value="new">Nýjast fyrst</option>
-              <option value="old">Elst fyrst</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="ep-filters" id="ep-filters" aria-label="Sía þætti eftir flokki"></div>
-
-        <div class="ep-grid" id="ep-grid" aria-live="polite">
-          <noscript>
-            <div class="ep-fallback">
-              <p>Kveiktu á JavaScript til að sjá og spila alla þættina, eða opnaðu þá á Spotify:</p>
-              <iframe title="Betkastið á Spotify" loading="lazy" src="https://open.spotify.com/embed/show/7bT5TGtyCpSrZZnTYmk7fm" height="420" allow="encrypted-media"></iframe>
+        <article class="ep-detail" id="episode" hidden>
+          <div class="ep-detail-head">
+            <img class="ep-detail-art" id="ed-art" src="" alt="" width="320" height="320" />
+            <div class="ep-detail-info">
+              <span class="ed-badge" id="ed-badge"></span>
+              <p class="ep-detail-meta" id="ed-meta"></p>
+              <h1 class="ep-detail-title" id="ed-title"></h1>
+              <div class="ep-detail-actions">
+                <button class="btn btn-bright" type="button" id="ed-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg> Spila þátt</button>
+                <a class="btn btn-outline" id="ed-spotify" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-spotify"></use></svg> Spotify</a>
+                <a class="btn btn-outline" id="ed-apple" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-apple"></use></svg> Apple Podcasts</a>
+                <a class="btn btn-outline" id="ed-youtube" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-youtube"></use></svg> YouTube</a>
+              </div>
             </div>
-          </noscript>
-        </div>
+          </div>
+          <div class="ep-detail-desc" id="ed-desc"></div>
+        </article>
 
-        <div class="ep-more-wrap">
-          <button class="btn btn-outline" type="button" id="ep-more" hidden>Sýna fleiri þætti</button>
-        </div>
+        <p class="ep-detail-status" id="ed-status">Sæki þátt…</p>
       </div>
     </section>
   </main>
@@ -191,6 +172,27 @@
       <p class="footer-meta">Hverjar eru líkurnar?</p>
     </div>
   </footer>
+
+  <!-- In-page audio player -->
+  <div class="player" id="player" role="region" aria-label="Hljóðspilari">
+    <img class="player-art" id="p-art" src="" alt="" width="52" height="52" />
+    <div class="player-info">
+      <span class="player-now">Í spilun</span>
+      <span class="player-title" id="p-title"></span>
+    </div>
+    <button class="player-btn" type="button" id="p-toggle" aria-label="Spila eða gera hlé">
+      <svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>
+    </button>
+    <div class="player-seekwrap">
+      <span class="player-time" id="p-cur">0:00</span>
+      <input class="player-seek" id="p-seek" type="range" min="0" max="1000" value="0" aria-label="Staðsetning í þætti" />
+      <span class="player-time" id="p-dur">0:00</span>
+    </div>
+    <button class="player-close" type="button" id="p-close" aria-label="Loka spilara">
+      <svg class="ic" aria-hidden="true"><use href="#i-close"></use></svg>
+    </button>
+    <audio id="p-audio" preload="none"></audio>
+  </div>
 
   <script src="script.js" defer></script>
   <script src="episodes.js" defer></script>
