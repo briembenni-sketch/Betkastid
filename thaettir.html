@@ -54,6 +54,7 @@
     <symbol id="i-arrow-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></symbol>
     <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.5 2.95 5.98 6.6.96-4.77 4.65 1.12 6.57L12 18.56l-5.9 3.1 1.13-6.57L2.45 9.44l6.6-.96L12 2.5Z"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></symbol>
     <symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 9 11l4 4 8-8"/><path d="M15 4h6v6"/></symbol>
@@ -109,7 +110,13 @@
           </a>
         </header>
 
-        <div class="ep-filters" id="ep-filters" aria-label="Sía þætti eftir flokki"></div>
+        <div class="ep-toolbar" data-reveal>
+          <label class="ep-search">
+            <svg class="ic" aria-hidden="true"><use href="#i-search"></use></svg>
+            <input id="ep-search" type="search" placeholder="Leita að gesti eða efni…" aria-label="Leita í þáttum" autocomplete="off" />
+          </label>
+          <div class="ep-filters" id="ep-filters" aria-label="Sía þætti eftir flokki"></div>
+        </div>
 
         <div class="ep-grid" id="ep-grid" aria-live="polite">
           <noscript>
@@ -207,6 +214,28 @@
     </button>
     <audio id="p-audio" preload="none"></audio>
   </div>
+
+  <!-- Episode detail modal -->
+  <dialog id="ep-modal" class="ep-modal" aria-labelledby="em-title">
+    <div class="em-inner">
+      <button class="em-close" id="em-close" type="button" aria-label="Loka"><svg class="ic" aria-hidden="true"><use href="#i-close"></use></svg></button>
+      <div class="em-head">
+        <img class="em-art" id="em-art" src="" alt="" width="116" height="116" />
+        <div class="em-meta">
+          <span class="em-badge" id="em-badge"></span>
+          <h2 class="em-title" id="em-title"></h2>
+          <p class="em-sub" id="em-sub"></p>
+        </div>
+      </div>
+      <div class="em-desc" id="em-desc"></div>
+      <div class="em-actions">
+        <button class="btn btn-bright" id="em-play" type="button"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg> Spila þátt</button>
+        <a class="btn btn-outline" id="em-spotify" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-spotify"></use></svg> Spotify</a>
+        <a class="btn btn-outline" id="em-apple" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-apple"></use></svg> Apple Podcasts</a>
+        <a class="btn btn-outline" id="em-youtube" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-youtube"></use></svg> YouTube</a>
+      </div>
+    </div>
+  </dialog>
 
   <script src="script.js" defer></script>
   <script src="episodes.js" defer></script>

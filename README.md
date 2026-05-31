@@ -17,7 +17,8 @@ No build step. Plain, static, fast.
 - `styles.css` — design system (CSS variables), layout, animations, responsive
 - `script.js` — mobile nav, sticky header, scroll-reveal, animated stat counters, scroll-spy
 - `episodes.js` — fetches every episode live from the public RSS feed (CORS-enabled),
-  classifies each by topic, and renders the filterable archive + the sticky in-page player
+  classifies each by topic, and powers the search + count-pill filters, a per-episode detail
+  modal (Spotify description + Spotify/Apple/YouTube links) and the sticky in-page player
 - `assets/` — brand imagery wired into the page: wordmark logo (header/footer), app icons
   (favicon / apple-touch), podcast cover (social preview) and host cut-out photos
   (hero, About panel, VIP band) — web-optimized from the source files in `Betkast logo og myndir/`
@@ -25,8 +26,9 @@ No build step. Plain, static, fast.
 ## Design
 
 - **Type:** Bricolage Grotesque (display) · Hanken Grotesk (body) · Space Mono (labels/odds)
-- **Color:** light editorial base with a deep-emerald hero/footer and vivid green accents
-- **Details:** odds ticker, betting-slip episode artwork, tabular-num stats, soft depth
+- **Color:** deep-emerald dark theme across every page with vivid green accents
+- **Details:** odds ticker, live per-episode Spotify artwork, search + count-pill filters,
+  episode detail modal, tabular-num stats, soft depth
 - **Accessibility:** semantic HTML, skip link, visible focus rings, AA contrast,
   `prefers-reduced-motion` support, keyboard-friendly nav, 44px+ touch targets
 

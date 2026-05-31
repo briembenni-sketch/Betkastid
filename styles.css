@@ -6,18 +6,18 @@
 
 /* ---------- Tokens ---------- */
 :root {
-  /* Surfaces (light base) */
-  --bg:          #F3F6F1;
-  --bg-alt:      #E9EFE6;
-  --surface:     #FFFFFF;
-  --surface-2:   #FBFDFA;
+  /* Surfaces (dark emerald base) */
+  --bg:          #04150E;
+  --bg-alt:      #07221A;
+  --surface:     #0C2E1F;
+  --surface-2:   #0A2A1C;
 
-  /* Ink */
-  --ink:         #0C1A11;
-  --ink-soft:    #2A3A30;
-  --muted:       #4F5E52;
-  --line:        #E1E8DD;
-  --line-strong: #CDD8C7;
+  /* Ink (on dark) */
+  --ink:         #EAF6EE;
+  --ink-soft:    #C7DBCF;
+  --muted:       #95AEA0;
+  --line:        rgba(233,246,238,.12);
+  --line-strong: rgba(233,246,238,.22);
 
   /* Greens */
   --green-900:   #06231A;
@@ -880,6 +880,105 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md)
 .contact-socials a:hover { background: var(--green-400); color: var(--emerald-950); transform: translateY(-2px); }
 .contact-socials .ic { width: 20px; height: 20px; }
 @media (max-width: 760px) { .contact-grid { grid-template-columns: 1fr; } }
+
+/* =================================================================
+   DARK THEME fixes + search toolbar + detail modal
+   (base tokens above are dark; these fix components that hard-coded
+    light styling, restyle the filters, and add the new UI)
+   ================================================================= */
+
+/* ambient brand glow behind every page */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(58% 46% at 86% -6%, rgba(54,216,122,.10), transparent 60%),
+    radial-gradient(46% 40% at -6% 4%, rgba(23,178,87,.08), transparent 60%);
+}
+
+/* green text accents readable on dark */
+.eyebrow { color: var(--green-400); }
+.cat-go { color: var(--green-400); }
+.ep-title a:hover { color: var(--green-300); }
+.cat-ic, .contact-ic { color: var(--green-300); background: linear-gradient(140deg, rgba(54,216,122,.18), rgba(23,178,87,.06)); }
+.about-list .ic { color: var(--green-400); stroke: var(--green-400); background: rgba(54,216,122,.14); }
+.platform:hover .platform-go { color: var(--green-300); }
+.platform.brand-tiktok:hover .platform-ic { fill: var(--ink); }
+
+/* header: dark translucent */
+.site-header { background: rgba(4,21,14,.72); }
+.site-header[data-scrolled] { background: rgba(4,21,14,.92); border-bottom-color: rgba(233,246,238,.1); box-shadow: 0 6px 24px -18px #000; }
+
+/* elevated cards on the dark base */
+.about-panel { border: 1px solid rgba(233,246,238,.1); }
+
+/* outline button on dark */
+.btn-outline { --btn-fg: var(--ink); border-color: var(--line-strong); }
+.btn-outline:hover { background: rgba(255,255,255,.06); border-color: var(--green-400); color: #fff; }
+
+/* episode skeleton shimmer on dark */
+.ep-skel { background: var(--surface); border-color: var(--line); }
+.ep-skel .sk { background: linear-gradient(100deg, rgba(255,255,255,.03) 30%, rgba(255,255,255,.09) 50%, rgba(255,255,255,.03) 70%); background-size: 200% 100%; }
+
+/* mobile nav dropdown: dark */
+@media (max-width: 820px) {
+  .nav { background: rgba(4,21,14,.97); border-bottom-color: rgba(233,246,238,.1); }
+  .nav a { border-bottom-color: rgba(233,246,238,.08); }
+}
+
+/* ---------- Episodes toolbar: search + count-pills ---------- */
+.ep-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 30px; }
+.ep-search {
+  display: inline-flex; align-items: center; gap: 10px;
+  flex: 1 1 260px; min-width: 0; max-width: 380px; height: 46px; padding: 0 16px;
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 999px; color: var(--muted);
+  transition: border-color .18s var(--ease);
+}
+.ep-search:focus-within { border-color: var(--green-400); }
+.ep-search .ic { width: 18px; height: 18px; flex: none; }
+.ep-search input { flex: 1; min-width: 0; border: none; background: none; outline: none; font-family: var(--font-body); font-size: .98rem; color: var(--ink); }
+.ep-search input::placeholder { color: var(--muted); }
+
+.ep-filters { display: flex; flex-wrap: wrap; gap: 9px; margin: 0; flex: 1 1 auto; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px; min-height: 40px; padding: 0 15px;
+  font-family: var(--font-body); font-weight: 600; font-size: .92rem;
+  color: var(--ink-soft); background: rgba(255,255,255,.03);
+  border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer;
+  transition: background .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease), transform .18s var(--ease);
+}
+.chip:hover { transform: translateY(-1px); border-color: var(--green-400); color: var(--ink); }
+.chip.is-active { background: var(--green-400); border-color: var(--green-400); color: var(--emerald-950); }
+.chip-n { font-family: var(--font-mono); font-size: .8rem; opacity: .7; }
+.chip.is-active .chip-n { opacity: .9; }
+
+/* ---------- Episode detail modal ---------- */
+.ep-modal { border: none; padding: 0; background: transparent; width: min(640px, 92vw); color: var(--ink); }
+.ep-modal::backdrop { background: rgba(2,10,6,.74); backdrop-filter: blur(4px); }
+.em-inner {
+  position: relative; background: linear-gradient(160deg, var(--surface), var(--surface-2));
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: clamp(22px, 4vw, 34px); box-shadow: var(--shadow-lg); max-height: 88vh; overflow: auto;
+}
+.em-close {
+  position: absolute; right: 14px; top: 14px; width: 40px; height: 40px; border-radius: 11px;
+  border: 1px solid var(--line); background: rgba(255,255,255,.05); color: var(--ink); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.em-close:hover { background: rgba(255,255,255,.12); }
+.em-close .ic { width: 18px; height: 18px; }
+.em-head { display: flex; gap: 18px; align-items: flex-start; padding-right: 40px; }
+.em-art { width: 116px; height: 116px; border-radius: 14px; object-fit: cover; flex: none; background: var(--emerald-900); box-shadow: var(--shadow-md); }
+.em-badge { display: inline-block; font-family: var(--font-mono); font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: var(--emerald-950); background: var(--green-400); padding: 4px 10px; border-radius: 999px; }
+.em-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.3rem, 1.05rem + 1.2vw, 1.85rem); line-height: 1.12; letter-spacing: -.02em; margin-top: 10px; color: #fff; }
+.em-sub { margin-top: 7px; font-family: var(--font-mono); font-size: .78rem; letter-spacing: .04em; color: var(--muted); }
+.em-desc { margin-top: 18px; color: var(--ink-soft); white-space: pre-line; line-height: 1.6; }
+.em-actions { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 10px; }
+.em-actions .btn { min-height: 46px; }
+@media (max-width: 520px) {
+  .em-head { flex-direction: column; }
+  .em-art { width: 100%; height: auto; aspect-ratio: 1 / 1; }
+  .em-actions .btn { flex: 1 1 100%; }
+}
 
 /* ---------- Print ---------- */
 @media print {
