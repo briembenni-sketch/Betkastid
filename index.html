@@ -73,6 +73,7 @@
 
     <!-- UI glyphs (stroke, 24x24) -->
     <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5.5v13a1 1 0 0 0 1.52.86l10.5-6.5a1 1 0 0 0 0-1.72L8.52 4.64A1 1 0 0 0 7 5.5Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.4"/><rect x="14" y="5" width="4" height="14" rx="1.4"/></symbol>
     <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></symbol>
     <symbol id="i-arrow-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
@@ -141,13 +142,13 @@
           </p>
 
           <div class="hero-cta">
-            <a class="btn btn-bright" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
+            <button class="btn btn-bright" type="button" id="play-latest">
+              <svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>
+              Spila nýjasta þátt
+            </button>
+            <a class="btn btn-ghost-dark" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
               <svg class="ic" aria-hidden="true"><use href="#i-spotify"></use></svg>
               Hlusta á Spotify
-            </a>
-            <a class="btn btn-ghost-dark" href="#thaettir">
-              Skoða þætti
-              <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg>
             </a>
           </div>
 
@@ -163,24 +164,10 @@
           </p>
         </div>
 
-        <!-- Featured episode "bet slip" card -->
-        <article class="feature-card" aria-labelledby="feature-title">
-          <img class="feature-cover" src="assets/cover-betkastid.jpg" alt="Betkastið — hlaðvarpsmynd með umsjónarmanni og íþróttaboltum" width="1200" height="1200" />
-          <div class="feature-body">
-            <p class="feature-kicker">
-              <span class="pulse" aria-hidden="true"></span> Nýjasti þátturinn
-            </p>
-            <h2 class="feature-title" id="feature-title">Enska deildin — Uppgjörsþáttur</h2>
-            <p class="feature-desc">
-              Við gerum upp umferðina í ensku úrvalsdeildinni, förum yfir óvæntu úrslitin
-              og spáum í hverjar líkurnar eru á framhaldinu.
-            </p>
-            <a class="btn btn-primary feature-play" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
-              <svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>
-              Spila þátt
-            </a>
-          </div>
-        </article>
+        <!-- Host hero figure -->
+        <div class="hero-figure">
+          <img class="hero-host" src="assets/host-hero.webp" alt="Umsjónarmaður Betkastsins með bolta" width="495" height="1520" />
+        </div>
       </div>
 
       <!-- Odds ticker -->
@@ -298,45 +285,45 @@
         <header class="section-head" data-reveal>
           <p class="eyebrow">Flokkar</p>
           <h2 class="section-title">Veldu þér umfjöllun</h2>
-          <p class="section-sub">Frá íslenska boltanum til ensku úrvalsdeildarinnar — og allt þar á milli.</p>
+          <p class="section-sub">Smelltu á flokk og við síum alla þættina fyrir þig — frá íslenska boltanum til enska og allt þar á milli.</p>
         </header>
 
         <div class="cat-grid">
-          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+          <a class="cat-card" href="#thaettir" data-cat-link="english" data-reveal>
             <span class="cat-ic"><svg aria-hidden="true"><use href="#i-trophy"></use></svg></span>
-            <span class="cat-name">Enski boltinn</span>
-            <span class="cat-desc">Úrvalsdeildin krufin — uppgjör og spár.</span>
-            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+            <span class="cat-name">Enski &amp; evrópskur</span>
+            <span class="cat-desc">Úrvalsdeildin og Evrópukeppnirnar — uppgjör og spár.</span>
+            <span class="cat-go">Sía þætti <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
           </a>
-          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+          <a class="cat-card" href="#thaettir" data-cat-link="besta" data-reveal>
             <span class="cat-ic"><svg aria-hidden="true"><use href="#i-ball"></use></svg></span>
             <span class="cat-name">Besta deildin</span>
-            <span class="cat-desc">Íslenski boltinn í deiglunni — vika fyrir viku.</span>
-            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+            <span class="cat-desc">Íslenski toppfótboltinn — vika fyrir viku.</span>
+            <span class="cat-go">Sía þætti <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
           </a>
-          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+          <a class="cat-card" href="#thaettir" data-cat-link="nedri" data-reveal>
             <span class="cat-ic"><svg aria-hidden="true"><use href="#i-trend"></use></svg></span>
-            <span class="cat-name">Lengjudeildin</span>
-            <span class="cat-desc">Neðri deildirnar og óvæntu sögurnar.</span>
-            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+            <span class="cat-name">Neðri deildir</span>
+            <span class="cat-desc">Lengjudeildin og 2.–5. deild — allar sögurnar.</span>
+            <span class="cat-go">Sía þætti <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
           </a>
-          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
-            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-ball"></use></svg></span>
+          <a class="cat-card" href="#thaettir" data-cat-link="handbolti" data-reveal>
+            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-shield"></use></svg></span>
             <span class="cat-name">Handbolti</span>
-            <span class="cat-desc">Olís-deildin og landsliðin — spá og greining.</span>
-            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+            <span class="cat-desc">Olís-deildin, landsliðin og stórmótin.</span>
+            <span class="cat-go">Sía þætti <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
           </a>
-          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
-            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-spark"></use></svg></span>
-            <span class="cat-name">Spá &amp; greining</span>
-            <span class="cat-desc">Hverjar eru líkurnar? Við reiknum dæmið.</span>
-            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+          <a class="cat-card" href="#thaettir" data-cat-link="karfa" data-reveal>
+            <span class="cat-ic"><svg aria-hidden="true"><use href="#i-ball"></use></svg></span>
+            <span class="cat-name">Körfubolti</span>
+            <span class="cat-desc">Íslenski körfuboltinn og NBA — spá og greining.</span>
+            <span class="cat-go">Sía þætti <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
           </a>
-          <a class="cat-card" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" data-reveal>
+          <a class="cat-card" href="#thaettir" data-cat-link="vidtal" data-reveal>
             <span class="cat-ic"><svg aria-hidden="true"><use href="#i-mic"></use></svg></span>
             <span class="cat-name">Viðtöl &amp; gestir</span>
             <span class="cat-desc">Sérfræðingar og skemmtilegir gestir í heimsókn.</span>
-            <span class="cat-go">Skoða <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
+            <span class="cat-go">Sía þætti <svg class="ic" aria-hidden="true"><use href="#i-arrow-r"></use></svg></span>
           </a>
         </div>
       </div>
@@ -347,87 +334,29 @@
       <div class="container">
         <header class="section-head section-head-row" data-reveal>
           <div>
-            <p class="eyebrow">Nýjustu þættirnir</p>
-            <h2 class="section-title">Beint úr hljóðverinu</h2>
+            <p class="eyebrow">Þættirnir</p>
+            <h2 class="section-title">Allir þættir — spilaðu beint hér</h2>
+            <p class="section-sub" id="ep-count">Sæki þætti…</p>
           </div>
           <a class="btn btn-outline" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
-            Allir þættir
+            Opna á Spotify
             <svg class="ic" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
           </a>
         </header>
 
-        <div class="ep-grid">
-          <article class="ep-card" data-reveal>
-            <a class="ep-art art-pl" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Enska deildin — Uppgjörsþáttur">
-              <span class="ep-cat">Enski boltinn</span>
-              <span class="ep-art-title">ENSKA DEILDIN</span>
-              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
-            </a>
-            <div class="ep-body">
-              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Enska deildin — Uppgjörsþáttur</a></h3>
-              <p class="ep-desc">Við gerum upp umferðina, förum yfir óvæntu úrslitin og spáum í framhaldið.</p>
-            </div>
-          </article>
+        <div class="ep-filters" id="ep-filters" aria-label="Sía þætti eftir flokki"></div>
 
-          <article class="ep-card" data-reveal>
-            <a class="ep-art art-guest" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Arnar Laufdal — sports content creator">
-              <span class="ep-cat">Viðtal</span>
-              <span class="ep-art-title">ARNAR<br>LAUFDAL</span>
-              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
-            </a>
-            <div class="ep-body">
-              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Arnar Laufdal — sports content creator</a></h3>
-              <p class="ep-desc">Gesturinn ræðir lífið sem íþróttaefnishöfundur og hvað það þarf til.</p>
+        <div class="ep-grid" id="ep-grid" aria-live="polite">
+          <noscript>
+            <div class="ep-fallback">
+              <p>Kveiktu á JavaScript til að sjá og spila alla þættina — eða opnaðu þá á Spotify:</p>
+              <iframe title="Betkastið á Spotify" loading="lazy" src="https://open.spotify.com/embed/show/7bT5TGtyCpSrZZnTYmk7fm" height="420" allow="encrypted-media"></iframe>
             </div>
-          </article>
+          </noscript>
+        </div>
 
-          <article class="ep-card" data-reveal>
-            <a class="ep-art art-besta" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Gæðastjóri Bestu deildarinnar">
-              <span class="ep-cat">Besta deildin</span>
-              <span class="ep-art-title">GÆÐA­STJÓRINN</span>
-              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
-            </a>
-            <div class="ep-body">
-              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Gæðastjóri Bestu deildarinnar</a></h3>
-              <p class="ep-desc">Hverjar eru líkurnar á titlinum? Við krufum stöðuna í Bestu deild karla.</p>
-            </div>
-          </article>
-
-          <article class="ep-card" data-reveal>
-            <a class="ep-art art-lengju" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Upphitun fyrir Lengjudeildina x Baddi Borgars">
-              <span class="ep-cat">Lengjudeildin</span>
-              <span class="ep-art-title">UPP­HITUN</span>
-              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
-            </a>
-            <div class="ep-body">
-              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Upphitun fyrir Lengjudeildina × Baddi Borgars</a></h3>
-              <p class="ep-desc">Baddi Borgars mætir og við hitum upp fyrir spennandi tímabil neðri deilda.</p>
-            </div>
-          </article>
-
-          <article class="ep-card" data-reveal>
-            <a class="ep-art art-spa" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Víkingur ekki óstöðvandi, stemning hjá KR og þungt yfir Val">
-              <span class="ep-cat">Spá &amp; greining</span>
-              <span class="ep-art-title">TITIL­SLAGURINN</span>
-              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
-            </a>
-            <div class="ep-body">
-              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Víkingur ekki óstöðvandi, stemning hjá KR og þungt yfir Val</a></h3>
-              <p class="ep-desc">Er Víkingur í raun óstöðvandi? Við förum yfir stöðuna á toppi og botni.</p>
-            </div>
-          </article>
-
-          <article class="ep-card" data-reveal>
-            <a class="ep-art art-hand" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener" aria-label="Spila: Úrslitakeppni Olís deildar karla">
-              <span class="ep-cat">Handbolti</span>
-              <span class="ep-art-title">ÚRSLITA­KEPPNIN</span>
-              <span class="ep-play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></span>
-            </a>
-            <div class="ep-body">
-              <h3 class="ep-title"><a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">Úrslitakeppni Olís deildar karla</a></h3>
-              <p class="ep-desc">Allt að gerast í úrslitakeppninni — við förum yfir líkurnar á titlinum.</p>
-            </div>
-          </article>
+        <div class="ep-more-wrap">
+          <button class="btn btn-outline" type="button" id="ep-more" hidden>Sýna fleiri þætti</button>
         </div>
       </div>
     </section>
@@ -567,6 +496,28 @@
     </div>
   </footer>
 
+  <!-- In-page audio player -->
+  <div class="player" id="player" role="region" aria-label="Hljóðspilari">
+    <img class="player-art" id="p-art" src="" alt="" width="52" height="52" />
+    <div class="player-info">
+      <span class="player-now">Í spilun</span>
+      <span class="player-title" id="p-title"></span>
+    </div>
+    <button class="player-btn" type="button" id="p-toggle" aria-label="Spila eða gera hlé">
+      <svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>
+    </button>
+    <div class="player-seekwrap">
+      <span class="player-time" id="p-cur">0:00</span>
+      <input class="player-seek" id="p-seek" type="range" min="0" max="1000" value="0" aria-label="Staðsetning í þætti" />
+      <span class="player-time" id="p-dur">0:00</span>
+    </div>
+    <button class="player-close" type="button" id="p-close" aria-label="Loka spilara">
+      <svg class="ic" aria-hidden="true"><use href="#i-close"></use></svg>
+    </button>
+    <audio id="p-audio" preload="none"></audio>
+  </div>
+
   <script src="script.js" defer></script>
+  <script src="episodes.js" defer></script>
 </body>
 </html>
