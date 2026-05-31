@@ -1,19 +1,22 @@
 /* =================================================================
-   Betkastið — episodes + on-site player
+   Betkastið — episodes, search, filters, detail modal + player
    Pulls every episode live from the public RSS feed (CORS-enabled),
-   classifies by topic, renders a filterable grid and plays in-page.
-   Vanilla JS, no dependencies. Accessible + reduced-motion aware.
+   classifies by topic, renders a searchable/filterable grid, opens a
+   per-episode detail modal (Spotify description + platform links) and
+   plays episodes in-page. Vanilla JS, accessible, reduced-motion aware.
    ================================================================= */
 (function () {
   "use strict";
 
   const FEED = "https://anchor.fm/s/10a51d438/podcast/rss";
-  const SPOTIFY = "https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm";
+  const SHOW = "https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm";
+  const APPLE = "https://podcasts.apple.com/is/search?term=Betkasti%C3%B0";
+  const YOUTUBE = "https://www.youtube.com/results?search_query=Betkasti%C3%B0";
   const ITUNES_NS = "http://www.itunes.com/dtds/podcast-1.0.dtd";
-  const PAGE = 9;
+  const PAGE = 12;
 
   const CATS = [
-    { id: "all", label: "Allir þættir" },
+    { id: "all", label: "Allir" },
     { id: "english", label: "Enski & evrópskur" },
     { id: "besta", label: "Besta deildin" },
     { id: "nedri", label: "Neðri deildir" },
@@ -37,129 +40,104 @@
 
   /* ---------- formatting ---------- */
   const MONTHS = ["jan.", "feb.", "mars", "apr.", "maí", "jún.", "júl.", "ág.", "sep.", "okt.", "nóv.", "des."];
-  function fmtDate(s) {
-    const d = new Date(s);
-    return isNaN(d) ? "" : d.getDate() + ". " + MONTHS[d.getMonth()] + " " + d.getFullYear();
-  }
-  function durToSec(d) {
-    if (!d) return 0;
-    if (d.indexOf(":") > -1) return d.split(":").map(Number).reduce((a, b) => a * 60 + b, 0);
-    return parseInt(d, 10) || 0;
-  }
-  function fmtDur(d) {
-    const sec = durToSec(d);
-    if (!sec) return "";
-    const h = Math.floor(sec / 3600);
-    const m = Math.round((sec % 3600) / 60);
-    return h ? h + " klst " + m + " mín" : m + " mín";
-  }
-  function clock(t) {
-    t = Math.max(0, Math.floor(t || 0));
-    const m = Math.floor(t / 60);
-    const s = t % 60;
-    return m + ":" + (s < 10 ? "0" : "") + s;
-  }
+  function fmtDate(s) { const d = new Date(s); return isNaN(d) ? "" : d.getDate() + ". " + MONTHS[d.getMonth()] + " " + d.getFullYear(); }
+  function durToSec(d) { if (!d) return 0; if (d.indexOf(":") > -1) return d.split(":").map(Number).reduce((a, b) => a * 60 + b, 0); return parseInt(d, 10) || 0; }
+  function fmtDur(d) { const sec = durToSec(d); if (!sec) return ""; const h = Math.floor(sec / 3600), m = Math.round((sec % 3600) / 60); return h ? h + " klst " + m + " mín" : m + " mín"; }
+  function clock(t) { t = Math.max(0, Math.floor(t || 0)); const m = Math.floor(t / 60), s = t % 60; return m + ":" + (s < 10 ? "0" : "") + s; }
   const esc = (s) => String(s || "").replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
   const attr = (s) => String(s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  function plain(htmlStr) {
+    if (!htmlStr) return "";
+    let s = htmlStr.replace(/<\/(p|div|li)>/gi, "\n").replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "");
+    const ta = document.createElement("textarea"); ta.innerHTML = s; s = ta.value;
+    return s.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+  }
 
   /* ---------- parse ---------- */
   function parse(xml) {
     const doc = new DOMParser().parseFromString(xml, "application/xml");
     if (doc.querySelector("parsererror")) throw new Error("RSS parse error");
-    return Array.from(doc.querySelectorAll("item"))
-      .map((it) => {
-        const get = (sel) => {
-          const el = it.querySelector(sel);
-          return el ? el.textContent.trim() : "";
-        };
-        const nsGet = (tag, a) => {
-          const el = it.getElementsByTagNameNS(ITUNES_NS, tag)[0];
-          return el ? el.getAttribute(a) || el.textContent.trim() : "";
-        };
-        const enc = it.querySelector("enclosure");
-        const title = get("title");
-        return {
-          title,
-          audio: enc ? enc.getAttribute("url") : "",
-          img: nsGet("image", "href"),
-          dur: fmtDur(nsGet("duration")),
-          date: fmtDate(get("pubDate")),
-          cat: classify(title),
-        };
-      })
-      .filter((e) => e.audio);
+    return Array.from(doc.querySelectorAll("item")).map((it, i) => {
+      const get = (sel) => { const el = it.querySelector(sel); return el ? el.textContent.trim() : ""; };
+      const ns = (tag, a) => { const el = it.getElementsByTagNameNS(ITUNES_NS, tag)[0]; return el ? (a ? el.getAttribute(a) : el.textContent.trim()) : ""; };
+      const enc = it.querySelector("enclosure");
+      const title = get("title");
+      const link = get("link");
+      const desc = plain(get("description") || ns("summary"));
+      return {
+        i, title, link,
+        audio: enc ? enc.getAttribute("url") : "",
+        img: ns("image", "href"),
+        dur: fmtDur(ns("duration")),
+        date: fmtDate(get("pubDate")),
+        cat: classify(title),
+        desc,
+        spotify: link && /spotify\.com/.test(link) ? link : SHOW,
+        search: (title + " " + desc).toLowerCase(),
+      };
+    }).filter((e) => e.audio).map((e, idx) => (e.i = idx, e));
   }
 
   /* ---------- state + elements ---------- */
-  const state = { all: [], cat: "all", shown: PAGE };
-  let grid, filtersEl, moreBtn, countEl, heroBtn;
+  const state = { all: [], cat: "all", q: "", shown: PAGE };
+  let grid, filtersEl, moreBtn, countEl, heroBtn, searchEl;
 
-  const visible = () => (state.cat === "all" ? state.all : state.all.filter((e) => e.cat === state.cat));
+  function visible() {
+    const q = state.q.trim().toLowerCase();
+    return state.all.filter((e) => (state.cat === "all" || e.cat === state.cat) && (!q || e.search.indexOf(q) > -1));
+  }
 
   function renderFilters() {
     const counts = {};
     state.all.forEach((e) => (counts[e.cat] = (counts[e.cat] || 0) + 1));
-    filtersEl.innerHTML = CATS.filter((c) => c.id === "all" || counts[c.id])
-      .map((c) => {
-        const n = c.id === "all" ? state.all.length : counts[c.id];
-        const on = c.id === state.cat;
-        return (
-          '<button class="chip' + (on ? " is-active" : "") + '" type="button" data-cat="' + c.id +
-          '" aria-pressed="' + on + '">' + esc(c.label) + ' <span class="chip-n">' + n + "</span></button>"
-        );
-      })
-      .join("");
+    filtersEl.innerHTML = CATS.filter((c) => c.id === "all" || counts[c.id]).map((c) => {
+      const n = c.id === "all" ? state.all.length : counts[c.id];
+      const on = c.id === state.cat;
+      return '<button class="chip' + (on ? " is-active" : "") + '" type="button" data-cat="' + c.id +
+        '" aria-pressed="' + on + '">' + esc(c.label) + ' <span class="chip-n">· ' + n + "</span></button>";
+    }).join("");
   }
 
-  function cardHTML(e, i) {
-    return (
-      '<article class="ep-card" style="--i:' + i + '" data-audio="' + attr(e.audio) + '" data-img="' + attr(e.img) + '" data-title="' + attr(e.title) + '">' +
+  function cardHTML(e) {
+    return '<article class="ep-card" style="--i:' + e.i + '" data-i="' + e.i + '" tabindex="0" role="button" aria-label="' + attr(e.title) + ' — opna nánar">' +
       '<div class="ep-cover">' +
       (e.img ? '<img loading="lazy" src="' + attr(e.img) + '" alt="" width="400" height="400">' : "") +
       '<span class="ep-badge">' + esc(labelOf(e.cat)) + "</span>" +
-      '<button class="ep-playbtn" type="button" aria-label="Spila: ' + attr(e.title) + '"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg></button>' +
+      '<span class="ep-playbtn" aria-hidden="true"><svg class="ic"><use href="#i-play"></use></svg></span>' +
       "</div>" +
-      '<div class="ep-body">' +
-      '<h3 class="ep-title">' + esc(e.title) + "</h3>" +
-      '<p class="ep-meta">' + [e.date, e.dur].filter(Boolean).join(" · ") + "</p>" +
-      "</div></article>"
-    );
+      '<div class="ep-body"><h3 class="ep-title">' + esc(e.title) + "</h3>" +
+      '<p class="ep-meta">' + [e.date, e.dur].filter(Boolean).join(" · ") + "</p></div></article>";
   }
 
   function render() {
     const list = visible();
-    grid.innerHTML =
-      list.slice(0, state.shown).map(cardHTML).join("") ||
-      '<p class="ep-empty">Engir þættir í þessum flokki.</p>';
+    grid.innerHTML = list.slice(0, state.shown).map(cardHTML).join("") ||
+      '<p class="ep-empty">Engir þættir fundust' + (state.q ? ' fyrir „' + esc(state.q) + "”" : "") + ".</p>";
     moreBtn.hidden = state.shown >= list.length;
     if (countEl) {
-      countEl.textContent =
-        list.length + " þættir" + (state.cat !== "all" ? " í flokknum „" + labelOf(state.cat) + "”" : " í safninu");
+      const where = state.cat !== "all" ? " í flokknum „" + labelOf(state.cat) + "”" : "";
+      countEl.textContent = state.q ? list.length + " þættir fundust" + where : list.length + " þættir" + (where || " í safninu");
     }
   }
 
   function setFilter(cat) {
-    state.cat = cat;
-    state.shown = PAGE;
-    if (filtersEl) {
-      filtersEl.querySelectorAll(".chip").forEach((b) => {
-        const on = b.dataset.cat === cat;
-        b.classList.toggle("is-active", on);
-        b.setAttribute("aria-pressed", String(on));
-      });
-    }
+    state.cat = cat; state.shown = PAGE;
+    filtersEl.querySelectorAll(".chip").forEach((b) => {
+      const on = b.dataset.cat === cat;
+      b.classList.toggle("is-active", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
     if (state.all.length) render();
   }
 
   function fail() {
+    if (searchEl) searchEl.closest(".ep-search").style.display = "none";
     if (filtersEl) filtersEl.hidden = true;
     moreBtn.hidden = true;
-    grid.innerHTML =
-      '<div class="ep-fallback">' +
+    grid.innerHTML = '<div class="ep-fallback">' +
       "<p>Ekki tókst að sækja þáttalistann í augnablikinu — hér eru allir þættirnir á Spotify:</p>" +
       '<iframe title="Betkastið á Spotify" loading="lazy" src="https://open.spotify.com/embed/show/7bT5TGtyCpSrZZnTYmk7fm" height="420" allow="encrypted-media"></iframe>' +
-      '<a class="btn btn-primary" href="' + SPOTIFY + '" target="_blank" rel="noopener">Opna á Spotify</a>' +
-      "</div>";
+      '<a class="btn btn-primary" href="' + SHOW + '" target="_blank" rel="noopener">Opna á Spotify</a></div>';
   }
 
   /* ---------- player ---------- */
@@ -168,47 +146,25 @@
     const el = document.getElementById("player");
     if (!el) return;
     Object.assign(player, {
-      el,
-      audio: document.getElementById("p-audio"),
-      art: document.getElementById("p-art"),
-      title: document.getElementById("p-title"),
-      toggle: document.getElementById("p-toggle"),
-      seek: document.getElementById("p-seek"),
-      cur: document.getElementById("p-cur"),
-      durEl: document.getElementById("p-dur"),
-      close: document.getElementById("p-close"),
-      icon: document.querySelector("#p-toggle use"),
-      seeking: false,
+      el, audio: document.getElementById("p-audio"), art: document.getElementById("p-art"),
+      title: document.getElementById("p-title"), toggle: document.getElementById("p-toggle"),
+      seek: document.getElementById("p-seek"), cur: document.getElementById("p-cur"),
+      durEl: document.getElementById("p-dur"), close: document.getElementById("p-close"),
+      icon: document.querySelector("#p-toggle use"), seeking: false,
     });
-
-    player.toggle.addEventListener("click", () => {
-      if (player.audio.paused) player.audio.play();
-      else player.audio.pause();
-    });
-    player.close.addEventListener("click", () => {
-      player.audio.pause();
-      player.el.classList.remove("is-on");
-      document.body.classList.remove("player-open");
-    });
+    player.toggle.addEventListener("click", () => { if (player.audio.paused) player.audio.play(); else player.audio.pause(); });
+    player.close.addEventListener("click", () => { player.audio.pause(); player.el.classList.remove("is-on"); document.body.classList.remove("player-open"); });
     player.audio.addEventListener("play", () => player.icon.setAttribute("href", "#i-pause"));
     player.audio.addEventListener("pause", () => player.icon.setAttribute("href", "#i-play"));
-    player.audio.addEventListener("loadedmetadata", () => {
-      player.durEl.textContent = clock(player.audio.duration);
-    });
+    player.audio.addEventListener("loadedmetadata", () => { player.durEl.textContent = clock(player.audio.duration); });
     player.audio.addEventListener("timeupdate", () => {
       if (player.seeking || !player.audio.duration) return;
       player.seek.value = String((player.audio.currentTime / player.audio.duration) * 1000);
       player.cur.textContent = clock(player.audio.currentTime);
     });
     player.audio.addEventListener("ended", () => player.icon.setAttribute("href", "#i-play"));
-    player.seek.addEventListener("input", () => {
-      player.seeking = true;
-      if (player.audio.duration) player.cur.textContent = clock((player.seek.value / 1000) * player.audio.duration);
-    });
-    player.seek.addEventListener("change", () => {
-      if (player.audio.duration) player.audio.currentTime = (player.seek.value / 1000) * player.audio.duration;
-      player.seeking = false;
-    });
+    player.seek.addEventListener("input", () => { player.seeking = true; if (player.audio.duration) player.cur.textContent = clock((player.seek.value / 1000) * player.audio.duration); });
+    player.seek.addEventListener("change", () => { if (player.audio.duration) player.audio.currentTime = (player.seek.value / 1000) * player.audio.duration; player.seeking = false; });
   }
 
   function playEpisode(ep) {
@@ -224,21 +180,54 @@
     if (p && p.catch) p.catch(() => {});
   }
 
+  /* ---------- detail modal ---------- */
+  const modal = {};
+  function initModal() {
+    const el = document.getElementById("ep-modal");
+    if (!el) return;
+    Object.assign(modal, {
+      el, art: document.getElementById("em-art"), badge: document.getElementById("em-badge"),
+      title: document.getElementById("em-title"), sub: document.getElementById("em-sub"),
+      desc: document.getElementById("em-desc"), play: document.getElementById("em-play"),
+      spotify: document.getElementById("em-spotify"), apple: document.getElementById("em-apple"),
+      youtube: document.getElementById("em-youtube"), close: document.getElementById("em-close"),
+    });
+    modal.close.addEventListener("click", () => modal.el.close());
+    modal.el.addEventListener("click", (e) => { if (e.target === modal.el) modal.el.close(); }); // backdrop
+    modal.apple.href = APPLE;
+    modal.youtube.href = YOUTUBE;
+  }
+
+  function openModal(ep) {
+    if (!modal.el || !ep) return;
+    modal.art.src = ep.img || "";
+    modal.badge.textContent = labelOf(ep.cat);
+    modal.title.textContent = ep.title;
+    modal.sub.textContent = [ep.date, ep.dur].filter(Boolean).join(" · ");
+    modal.desc.textContent = ep.desc || "Engin lýsing í boði fyrir þennan þátt.";
+    modal.spotify.href = ep.spotify;
+    modal.play.onclick = () => { modal.el.close(); playEpisode(ep); };
+    if (typeof modal.el.showModal === "function") modal.el.showModal();
+    else modal.el.setAttribute("open", "");
+  }
+
   /* ---------- wiring ---------- */
   function wireArchive() {
-    filtersEl.addEventListener("click", (e) => {
-      const b = e.target.closest("[data-cat]");
-      if (b) setFilter(b.dataset.cat);
-    });
+    filtersEl.addEventListener("click", (e) => { const b = e.target.closest("[data-cat]"); if (b) setFilter(b.dataset.cat); });
     grid.addEventListener("click", (e) => {
-      const card = e.target.closest(".ep-card");
-      if (!card || !card.dataset.audio) return;
-      playEpisode({ audio: card.dataset.audio, img: card.dataset.img, title: card.dataset.title });
+      const card = e.target.closest(".ep-card"); if (!card) return;
+      const ep = state.all[+card.dataset.i]; if (!ep) return;
+      if (e.target.closest(".ep-playbtn")) playEpisode(ep);
+      else openModal(ep);
     });
-    moreBtn.addEventListener("click", () => {
-      state.shown += PAGE;
-      render();
+    grid.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const card = e.target.closest(".ep-card"); if (!card) return;
+      e.preventDefault();
+      const ep = state.all[+card.dataset.i]; if (ep) openModal(ep);
     });
+    moreBtn.addEventListener("click", () => { state.shown += PAGE; render(); });
+    if (searchEl) searchEl.addEventListener("input", () => { state.q = searchEl.value; state.shown = PAGE; render(); });
   }
 
   function wireHero() {
@@ -251,7 +240,7 @@
 
   function skeletons() {
     let s = "";
-    for (let i = 0; i < 6; i++) s += '<div class="ep-skel"><div class="sk"></div><div class="sk sk2"></div></div>';
+    for (let i = 0; i < 8; i++) s += '<div class="ep-skel"><div class="sk"></div><div class="sk sk2"></div></div>';
     grid.innerHTML = s;
   }
 
@@ -262,11 +251,13 @@
     moreBtn = document.getElementById("ep-more");
     countEl = document.getElementById("ep-count");
     heroBtn = document.getElementById("play-latest");
+    searchEl = document.getElementById("ep-search");
 
     initPlayer();
+    initModal();
 
     const hasArchive = !!grid;
-    if (!hasArchive && !heroBtn) return; // nothing episode-related on this page
+    if (!hasArchive && !heroBtn) return;
 
     if (hasArchive) { wireArchive(); skeletons(); }
     if (heroBtn) wireHero();
@@ -275,10 +266,7 @@
     const timer = setTimeout(() => ctrl && ctrl.abort(), 12000);
 
     fetch(FEED, ctrl ? { signal: ctrl.signal } : undefined)
-      .then((r) => {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.text();
-      })
+      .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
       .then((xml) => {
         clearTimeout(timer);
         state.all = parse(xml);
@@ -290,11 +278,7 @@
           render();
         }
       })
-      .catch((err) => {
-        clearTimeout(timer);
-        console.error("Betkastið episodes:", err);
-        if (hasArchive) fail();
-      });
+      .catch((err) => { clearTimeout(timer); console.error("Betkastið episodes:", err); if (hasArchive) fail(); });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
