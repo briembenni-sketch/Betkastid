@@ -125,6 +125,13 @@ ul { list-style: none; padding: 0; }
 .section { padding-block: clamp(64px, 9vw, 124px); }
 .section-alt { background: var(--bg-alt); }
 
+/* Þættir page: the episodes section sits directly under the header, so trim
+   its top spacing to lift the heading, search and grid closer to the fold. */
+#thaettir { padding-top: clamp(24px, 3.5vw, 44px); }
+#thaettir .section-head { margin-bottom: clamp(18px, 2.6vw, 28px); }
+#thaettir .eyebrow { margin-bottom: 12px; }
+#thaettir .ep-filters { margin-bottom: 22px; }
+
 /* ---------- Eyebrow / section heads ---------- */
 .eyebrow {
   font-family: var(--font-mono);
