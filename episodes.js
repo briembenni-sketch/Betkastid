@@ -87,7 +87,7 @@
 
   /* ---------- state + elements ---------- */
   const state = { all: [], cat: "all", q: "", sort: "new", shown: PAGE };
-  let grid, filtersEl, moreBtn, countEl, heroBtn, searchEl, sortEl;
+  let grid, moreBtn, countEl, heroBtn, searchEl, catDD, sortDD, openDD = null;
 
   function visible() {
     const q = state.q.trim().toLowerCase();
@@ -96,15 +96,15 @@
     return list;
   }
 
-  function renderFilters() {
+  // Build the category dropdown items (only categories that actually have episodes).
+  function catItems() {
     const counts = {};
     state.all.forEach((e) => (counts[e.cat] = (counts[e.cat] || 0) + 1));
-    filtersEl.innerHTML = CATS.filter((c) => c.id === "all" || counts[c.id]).map((c) => {
-      const n = c.id === "all" ? state.all.length : counts[c.id];
-      const on = c.id === state.cat;
-      return '<button class="chip' + (on ? " is-active" : "") + '" type="button" data-cat="' + c.id +
-        '" aria-pressed="' + on + '">' + esc(c.label) + ' <span class="chip-n">· ' + n + "</span></button>";
-    }).join("");
+    return CATS.filter((c) => c.id === "all" || counts[c.id]).map((c) => ({
+      value: c.id,
+      label: c.label,
+      count: c.id === "all" ? state.all.length : counts[c.id],
+    }));
   }
 
   // pos = position within the batch being inserted (capped, so the stagger stays snappy)
@@ -130,15 +130,83 @@
     }
   }
 
-  function setFilter(cat) {
-    state.cat = cat; state.shown = PAGE;
-    filtersEl.querySelectorAll(".chip").forEach((b) => { const on = b.dataset.cat === cat; b.classList.toggle("is-active", on); b.setAttribute("aria-pressed", String(on)); });
-    if (state.all.length) render();
+  /* ---------- pretty single-select dropdown (powers category + sort) ---------- */
+  function makeDropdown(mount, opts) {
+    let items = [], value = null;
+    mount.classList.add("ep-dd");
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "ep-dd-btn";
+    btn.setAttribute("aria-haspopup", "true");
+    btn.setAttribute("aria-expanded", "false");
+    btn.innerHTML =
+      '<span class="ep-dd-label">' + esc(opts.label) + "</span>" +
+      '<span class="ep-dd-value"></span>' +
+      '<svg class="ic ep-dd-caret" aria-hidden="true"><use href="#i-chevron"></use></svg>';
+    const valueEl = btn.querySelector(".ep-dd-value");
+    const menu = document.createElement("div");
+    menu.className = "ep-dd-menu";
+    menu.setAttribute("role", "menu");
+    menu.setAttribute("aria-label", opts.label);
+    menu.hidden = true;
+    mount.append(btn, menu);
+
+    function renderMenu() {
+      menu.innerHTML = items.map((it) => {
+        const on = it.value === value;
+        return '<button type="button" role="menuitemradio" class="ep-dd-opt' + (on ? " is-active" : "") +
+          '" data-value="' + attr(it.value) + '" aria-checked="' + on + '" tabindex="-1">' +
+          '<svg class="ic ep-dd-check" aria-hidden="true"><use href="#i-check"></use></svg>' +
+          '<span class="ep-dd-opt-label">' + esc(it.label) + "</span>" +
+          (it.count != null ? '<span class="ep-dd-n">' + it.count + "</span>" : "") +
+          "</button>";
+      }).join("");
+      const cur = items.find((it) => it.value === value) || items[0];
+      valueEl.textContent = cur ? cur.label : "";
+    }
+    const optionEls = () => Array.prototype.slice.call(menu.querySelectorAll(".ep-dd-opt"));
+    function open() {
+      if (openDD && openDD !== api) openDD.close(false);
+      menu.hidden = false; btn.setAttribute("aria-expanded", "true"); mount.classList.add("is-open");
+      openDD = api;
+      const active = menu.querySelector(".ep-dd-opt.is-active") || menu.querySelector(".ep-dd-opt");
+      if (active) active.focus({ preventScroll: true });
+    }
+    function close(focusBtn) {
+      if (menu.hidden) return;
+      menu.hidden = true; btn.setAttribute("aria-expanded", "false"); mount.classList.remove("is-open");
+      if (openDD === api) openDD = null;
+      if (focusBtn) btn.focus();
+    }
+    function choose(v) {
+      if (v !== value) { value = v; renderMenu(); if (opts.onChange) opts.onChange(v); }
+      close(true);
+    }
+
+    btn.addEventListener("click", () => (menu.hidden ? open() : close(true)));
+    btn.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+    });
+    menu.addEventListener("click", (e) => { const o = e.target.closest(".ep-dd-opt"); if (o) choose(o.dataset.value); });
+    menu.addEventListener("keydown", (e) => {
+      const list = optionEls(), i = list.indexOf(document.activeElement);
+      if (e.key === "ArrowDown") { e.preventDefault(); (list[i + 1] || list[0]).focus({ preventScroll: true }); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); (list[i - 1] || list[list.length - 1]).focus({ preventScroll: true }); }
+      else if (e.key === "Home") { e.preventDefault(); if (list[0]) list[0].focus({ preventScroll: true }); }
+      else if (e.key === "End") { e.preventDefault(); if (list.length) list[list.length - 1].focus({ preventScroll: true }); }
+      else if (e.key === "Escape" || e.key === "Tab") { close(true); }
+    });
+
+    const api = {
+      close: close,
+      setItems: (list) => { items = list || []; renderMenu(); },
+      setValue: (v) => { value = v; renderMenu(); },
+    };
+    return api;
   }
 
   function fail() {
     const tb = document.querySelector(".ep-toolbar"); if (tb) tb.style.display = "none";
-    if (filtersEl) filtersEl.hidden = true;
     moreBtn.hidden = true;
     grid.innerHTML = '<div class="ep-fallback">' +
       "<p>Ekki tókst að sækja þáttalistann í augnablikinu, hér eru allir þættirnir á Spotify:</p>" +
@@ -230,7 +298,6 @@
 
   /* ---------- wiring ---------- */
   function wireArchive() {
-    filtersEl.addEventListener("click", (e) => { const b = e.target.closest("[data-cat]"); if (b) setFilter(b.dataset.cat); });
     // "Sýna alla þætti": reveal every remaining episode at once, appended smoothly
     moreBtn.addEventListener("click", () => {
       const list = visible();
@@ -240,7 +307,8 @@
       moreBtn.hidden = true;
     });
     if (searchEl) searchEl.addEventListener("input", () => { state.q = searchEl.value; state.shown = PAGE; render(); });
-    if (sortEl) sortEl.addEventListener("change", () => { state.sort = sortEl.value; state.shown = PAGE; render(); });
+    // Close an open dropdown when clicking anywhere outside it.
+    document.addEventListener("click", (e) => { if (openDD && !e.target.closest(".ep-dd")) openDD.close(false); });
   }
   function wireHero() {
     heroBtn.addEventListener("click", (e) => { e.preventDefault(); if (state.all.length) playEpisode(state.all[0]); else window.location.href = "thaettir.html"; });
@@ -250,12 +318,10 @@
   /* ---------- boot ---------- */
   function boot() {
     grid = document.getElementById("ep-grid");
-    filtersEl = document.getElementById("ep-filters");
     moreBtn = document.getElementById("ep-more");
     countEl = document.getElementById("ep-count");
     heroBtn = document.getElementById("play-latest");
     searchEl = document.getElementById("ep-search");
-    sortEl = document.getElementById("ep-sort");
 
     initPlayer();
 
@@ -264,7 +330,21 @@
     const hasHero = !!heroBtn;
     if (!hasArchive && !hasDetail && !hasHero) return;
 
-    if (hasArchive) { wireArchive(); skeletons(); }
+    if (hasArchive) {
+      catDD = makeDropdown(document.getElementById("ep-cat-dd"), {
+        label: "Flokkur",
+        onChange: (v) => { state.cat = v; state.shown = PAGE; render(); },
+      });
+      sortDD = makeDropdown(document.getElementById("ep-sort-dd"), {
+        label: "Raða",
+        onChange: (v) => { state.sort = v; state.shown = PAGE; render(); },
+      });
+      catDD.setItems([{ value: "all", label: "Allir" }]);
+      catDD.setValue("all");
+      sortDD.setItems([{ value: "new", label: "Nýjast fyrst" }, { value: "old", label: "Elst fyrst" }]);
+      sortDD.setValue(state.sort);
+      wireArchive(); skeletons();
+    }
     if (hasHero) wireHero();
 
     const ctrl = "AbortController" in window ? new AbortController() : null;
@@ -279,7 +359,9 @@
         if (hasArchive) {
           const p = new URLSearchParams(location.search).get("flokkur");
           if (p && CATS.some((c) => c.id === p)) state.cat = p;
-          renderFilters(); render();
+          catDD.setItems(catItems());
+          catDD.setValue(state.cat);
+          render();
         }
         if (hasDetail) renderDetail();
       })

@@ -52,6 +52,7 @@
     <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.4"/><rect x="14" y="5" width="4" height="14" rx="1.4"/></symbol>
     <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></symbol>
     <symbol id="i-arrow-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></symbol>
@@ -99,16 +100,10 @@
     <!-- ============ EPISODES ============ -->
     <section class="section" id="thaettir">
       <div class="container">
-        <header class="section-head section-head-row" data-reveal>
-          <div>
-            <p class="eyebrow">Þættirnir</p>
-            <h1 class="section-title">Allir þættir</h1>
-            <p class="section-sub" id="ep-count">Sæki þætti…</p>
-          </div>
-          <a class="btn btn-outline" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
-            Opna á Spotify
-            <svg class="ic" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
-          </a>
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Þættirnir</p>
+          <h1 class="section-title">Allir þættir</h1>
+          <p class="section-sub" id="ep-count">Sæki þætti…</p>
         </header>
 
         <div class="ep-toolbar" data-reveal>
@@ -116,16 +111,13 @@
             <svg class="ic" aria-hidden="true"><use href="#i-search"></use></svg>
             <input id="ep-search" type="search" placeholder="Leita að gesti eða efni…" aria-label="Leita í þáttum" autocomplete="off" />
           </label>
-          <label class="ep-sort">
-            <span class="ep-sort-label">Raða</span>
-            <select id="ep-sort" aria-label="Raða þáttum">
-              <option value="new">Nýjast fyrst</option>
-              <option value="old">Elst fyrst</option>
-            </select>
-          </label>
+          <div class="ep-dd" id="ep-cat-dd"></div>
+          <div class="ep-dd" id="ep-sort-dd"></div>
+          <a class="btn btn-outline ep-toolbar-cta" href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">
+            Opna á Spotify
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
+          </a>
         </div>
-
-        <div class="ep-filters" id="ep-filters" aria-label="Sía þætti eftir flokki"></div>
 
         <div class="ep-grid" id="ep-grid" aria-live="polite">
           <noscript>

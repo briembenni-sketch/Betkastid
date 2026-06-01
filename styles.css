@@ -130,7 +130,6 @@ ul { list-style: none; padding: 0; }
 #thaettir { padding-top: clamp(24px, 3.5vw, 44px); }
 #thaettir .section-head { margin-bottom: clamp(18px, 2.6vw, 28px); }
 #thaettir .eyebrow { margin-bottom: 12px; }
-#thaettir .ep-filters { margin-bottom: 22px; }
 
 /* ---------- Eyebrow / section heads ---------- */
 .eyebrow {
@@ -741,14 +740,13 @@ ul { list-style: none; padding: 0; }
   .header-actions .btn-sm { padding: 0 12px; }
   .hero-cta .btn, .cta-actions .btn { width: 100%; }
 
-  /* Episodes toolbar: stack search over a full-width sort */
+  /* Episodes toolbar: search on its own line, the two dropdowns share the next
+     row, and the Spotify CTA drops to a full-width button below them. */
   .ep-toolbar { gap: 10px; }
   .ep-search { flex-basis: 100%; max-width: none; }
-  .ep-sort { margin-left: 0; width: 100%; }
-  #ep-sort { flex: 1; }
-
-  /* Roomier touch targets for the category chips */
-  .chip { min-height: 44px; }
+  .ep-dd { flex: 1 1 auto; }
+  .ep-dd-btn { width: 100%; }
+  .ep-toolbar-cta { flex: 1 1 100%; }
 
   /* Episode-detail actions read as full-width buttons */
   .ep-detail-actions { width: 100%; }
@@ -795,21 +793,59 @@ ul { list-style: none; padding: 0; }
 }
 
 /* =================================================================
-   Episode filters (chips)
+   Episode toolbar dropdowns (category + sort) — custom & themed
    ================================================================= */
-.ep-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
-.chip {
-  display: inline-flex; align-items: center; gap: 8px;
-  min-height: 42px; padding: 0 16px;
-  font-family: var(--font-body); font-weight: 600; font-size: .95rem;
-  color: var(--ink-soft); background: var(--surface);
-  border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer;
-  transition: background .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease), transform .18s var(--ease);
+.ep-dd { position: relative; flex: none; }
+
+.ep-dd-btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  height: 46px; padding: 0 14px 0 16px;
+  font-family: var(--font-body); font-weight: 600; font-size: .98rem; color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 999px;
+  cursor: pointer; white-space: nowrap;
+  transition: border-color .18s var(--ease), background .18s var(--ease);
 }
-.chip:hover { border-color: var(--green-300); transform: translateY(-1px); }
-.chip.is-active { background: var(--green-700); border-color: var(--green-700); color: #fff; }
-.chip-n { font-family: var(--font-mono); font-size: .76rem; opacity: .65; }
-.chip.is-active .chip-n { opacity: .85; }
+.ep-dd-btn:hover { border-color: var(--green-400); }
+.ep-dd-btn:focus-visible { border-color: var(--green-400); outline: none; }
+.ep-dd.is-open .ep-dd-btn { border-color: var(--green-400); background: var(--surface-2); }
+.ep-dd-label { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.ep-dd-value { color: var(--ink); }
+.ep-dd-caret { width: 16px; height: 16px; margin-left: auto; color: var(--muted); fill: none; transition: transform .2s var(--ease); }
+.ep-dd.is-open .ep-dd-caret { transform: rotate(180deg); }
+
+.ep-dd-menu {
+  position: absolute; z-index: 60; top: calc(100% + 8px); left: 0;
+  min-width: 100%; max-width: calc(100vw - 32px); width: max-content;
+  max-height: min(340px, 60vh); overflow-y: auto;
+  display: flex; flex-direction: column; gap: 2px;
+  margin: 0; padding: 6px;
+  background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  animation: ep-dd-in .16s var(--ease);
+}
+/* the right-hand (sort) menu opens leftward so it never spills past the edge */
+#ep-sort-dd .ep-dd-menu { left: auto; right: 0; }
+@keyframes ep-dd-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+.ep-dd-opt {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  min-height: 40px; padding: 8px 12px;
+  font-family: var(--font-body); font-weight: 600; font-size: .95rem; text-align: left; white-space: nowrap;
+  color: var(--ink-soft); background: none; border: 0; border-radius: 10px; cursor: pointer;
+  transition: background .14s var(--ease), color .14s var(--ease);
+}
+.ep-dd-opt:hover, .ep-dd-opt:focus-visible { background: rgba(255,255,255,.06); color: var(--ink); outline: none; }
+.ep-dd-opt.is-active { color: var(--ink); }
+.ep-dd-check { width: 16px; height: 16px; flex: none; color: var(--green-400); fill: none; opacity: 0; }
+.ep-dd-opt.is-active .ep-dd-check { opacity: 1; }
+.ep-dd-opt-label { flex: 1; }
+.ep-dd-n { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); }
+.ep-dd-opt.is-active .ep-dd-n { color: var(--green-300); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ep-dd-menu { animation: none; }
+  .ep-dd-caret { transition: none; }
+}
 
 /* =================================================================
    Episode cards (dynamic, from RSS)
@@ -981,11 +1017,13 @@ body::before {
   .nav a { border-bottom-color: rgba(233,246,238,.08); }
 }
 
-/* ---------- Episodes toolbar: search + count-pills ---------- */
+/* ---------- Episodes toolbar: search + dropdowns + Spotify CTA, one row ---------- */
 .ep-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 30px; }
+/* the dropdowns are built by JS; without it, the <noscript> embed stands in */
+html:not(.js) .ep-toolbar { display: none; }
 .ep-search {
   display: inline-flex; align-items: center; gap: 10px;
-  flex: 1 1 260px; min-width: 0; max-width: 380px; height: 46px; padding: 0 16px;
+  flex: 1 1 260px; min-width: 0; max-width: none; height: 46px; padding: 0 16px;
   background: var(--surface); border: 1.5px solid var(--line); border-radius: 999px; color: var(--muted);
   transition: border-color .18s var(--ease);
 }
@@ -993,19 +1031,6 @@ body::before {
 .ep-search .ic { width: 18px; height: 18px; flex: none; }
 .ep-search input { flex: 1; min-width: 0; border: none; background: none; outline: none; font-family: var(--font-body); font-size: 16px; color: var(--ink); }
 .ep-search input::placeholder { color: var(--muted); }
-
-.ep-filters { display: flex; flex-wrap: wrap; gap: 9px; margin: 0; flex: 1 1 auto; }
-.chip {
-  display: inline-flex; align-items: center; gap: 5px; min-height: 40px; padding: 0 15px;
-  font-family: var(--font-body); font-weight: 600; font-size: .92rem;
-  color: var(--ink-soft); background: rgba(255,255,255,.03);
-  border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer;
-  transition: background .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease), transform .18s var(--ease);
-}
-.chip:hover { transform: translateY(-1px); border-color: var(--green-400); color: var(--ink); }
-.chip.is-active { background: var(--green-400); border-color: var(--green-400); color: var(--emerald-950); }
-.chip-n { font-family: var(--font-mono); font-size: .8rem; opacity: .7; }
-.chip.is-active .chip-n { opacity: .9; }
 
 /* ---------- Episode detail modal ---------- */
 .ep-modal { border: none; padding: 0; background: transparent; width: min(640px, 92vw); color: var(--ink); }
@@ -1036,22 +1061,12 @@ body::before {
   .em-actions .btn { flex: 1 1 100%; }
 }
 
-/* ---------- Episode cards as links + toolbar sort ---------- */
+/* ---------- Episode cards as links + toolbar spacing ---------- */
 .ep-card { display: block; color: inherit; }
 .ep-card .ep-cover, .ep-card .ep-body, .ep-card .ep-meta { display: block; }
-.ep-toolbar { margin-bottom: 16px; }
-.ep-filters { margin: 0 0 30px; }
-.ep-sort { display: inline-flex; align-items: center; gap: 9px; margin-left: auto; }
-.ep-sort-label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-#ep-sort {
-  appearance: none; -webkit-appearance: none;
-  height: 46px; padding: 0 38px 0 16px;
-  font-family: var(--font-body); font-weight: 600; font-size: 16px; color: var(--ink); cursor: pointer;
-  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2395AEA0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 13px center;
-  background-size: 16px; border: 1.5px solid var(--line); border-radius: 999px;
-}
-#ep-sort:focus-visible { border-color: var(--green-400); outline: none; }
-#ep-sort option { background: var(--surface-2); color: var(--ink); }
+.ep-toolbar { margin-bottom: clamp(22px, 3vw, 30px); }
+/* Spotify CTA sits inline at the end of the toolbar; match the 46px control height */
+.ep-toolbar-cta { min-height: 46px; white-space: nowrap; }
 
 /* ---------- Episode detail page ---------- */
 .ep-back { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: .82rem; letter-spacing: .06em; color: var(--green-400); margin-bottom: 28px; }
