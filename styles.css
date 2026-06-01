@@ -98,7 +98,6 @@ ul { list-style: none; padding: 0; }
   border-radius: 6px;
 }
 .hero :focus-visible,
-.cta-band :focus-visible,
 .site-footer :focus-visible { outline-color: var(--green-400); }
 
 /* Selection */
@@ -146,7 +145,6 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
   gap: .6em;
   margin-bottom: 18px;
 }
-.eyebrow-on-dark { color: var(--green-400); }
 
 .live-dot, .pulse {
   width: 9px; height: 9px; border-radius: 50%;
@@ -570,7 +568,7 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
 /* ---------- About ---------- */
 .about-grid {
   display: grid; grid-template-columns: 1.25fr .75fr;
-  gap: clamp(32px, 5vw, 72px); align-items: center;
+  gap: clamp(32px, 5vw, 72px); align-items: start;
 }
 .about-lead { margin-top: 18px; font-size: 1.18rem; color: var(--ink-soft); font-weight: 500; }
 .about-copy p + p { margin-top: 16px; color: var(--muted); }
@@ -607,30 +605,6 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
   margin: 28px auto 0;
   filter: drop-shadow(0 16px 32px rgba(0,0,0,.45));
 }
-
-/* ---------- CTA band ---------- */
-.cta-band {
-  position: relative;
-  background: radial-gradient(120% 140% at 50% 0%, var(--emerald-850), var(--emerald-950) 70%);
-  color: var(--on-dark);
-  padding-block: clamp(64px, 9vw, 110px);
-  text-align: center;
-  isolation: isolate; overflow: hidden;
-}
-.cta-bg { position: absolute; inset: 0; z-index: -1; }
-.glow-3 { position: absolute; width: 600px; height: 360px; left: 50%; top: -120px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle, rgba(54,216,122,.4), transparent 65%); filter: blur(70px); }
-.cta-inner { max-width: 680px; margin-inline: auto; }
-.cta-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 1.4rem + 3vw, 3.4rem); line-height: 1.04; letter-spacing: -.025em; color: #fff; }
-.cta-sub { margin-top: 18px; color: var(--on-dark-mut); font-size: 1.12rem; }
-.cta-actions { margin-top: 32px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.cta-host {
-  display: none;
-  position: absolute; right: clamp(8px, 3vw, 56px); bottom: 0; z-index: -1;
-  width: auto; max-height: 440px;
-  pointer-events: none;
-  filter: drop-shadow(0 22px 44px rgba(0,0,0,.5));
-}
-@media (min-width: 1180px) { .cta-host { display: block; } }
 
 /* ---------- Responsible gambling ---------- */
 .responsible { background: var(--emerald-950); color: var(--on-dark-mut); padding-block: 22px; border-top: 1px solid rgba(234,246,238,.08); }
@@ -741,7 +715,7 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
   .section-head-row { align-items: flex-start; }
   .header-actions .btn span { display: none; }
   .header-actions .btn-sm { padding: 0 12px; }
-  .hero-cta .btn, .cta-actions .btn { width: 100%; }
+  .hero-cta .btn { width: 100%; }
 
   /* Episodes toolbar: search on its own line, the two dropdowns share the next
      row, and the Spotify CTA drops to a full-width button below them. */
@@ -1088,6 +1062,6 @@ html:not(.js) .ep-toolbar { display: none; }
 
 /* ---------- Print ---------- */
 @media print {
-  .site-header, .ticker, .cta-band, .nav-toggle, .player { display: none; }
+  .site-header, .ticker, .nav-toggle, .player { display: none; }
   .hero, .stats, .about-panel, .site-footer { background: #fff !important; color: #000 !important; }
 }
