@@ -84,6 +84,8 @@ html.nav-open, html.nav-open body { overflow: hidden; }
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; padding: 0; }
+/* the hidden attribute must win over component display rules (flex/inline-flex) */
+[hidden] { display: none !important; }
 
 /* Icons */
 .ic { width: 1.15em; height: 1.15em; fill: currentColor; flex: none; }
@@ -125,11 +127,12 @@ ul { list-style: none; padding: 0; }
 .section { padding-block: clamp(64px, 9vw, 124px); }
 .section-alt { background: var(--bg-alt); }
 
-/* Þættir page: the episodes section sits directly under the header, so trim
-   its top spacing to lift the heading, search and grid closer to the fold. */
-#thaettir { padding-top: clamp(24px, 3.5vw, 44px); }
-#thaettir .section-head { margin-bottom: clamp(18px, 2.6vw, 28px); }
-#thaettir .eyebrow { margin-bottom: 12px; }
+/* When a plain section is the first block under the header (þættir, hafa
+   samband, þáttasíða), trim its top spacing so the content isn't pushed below
+   the fold. The home page leads with .hero, so it keeps its own spacing. */
+main > .section:first-child { padding-top: clamp(24px, 3.5vw, 44px); }
+main > .section:first-child .section-head { margin-bottom: clamp(18px, 2.6vw, 28px); }
+main > .section:first-child .eyebrow { margin-bottom: 12px; }
 
 /* ---------- Eyebrow / section heads ---------- */
 .eyebrow {
