@@ -27,13 +27,28 @@
   const nav = document.getElementById("primary-nav");
 
   if (toggle && nav) {
+    const root = document.documentElement;
+    let navScrollY = 0;
     const setOpen = (open) => {
+      const wasOpen = root.classList.contains("nav-open");
       nav.toggleAttribute("data-open", open);
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Loka valmynd" : "Opna valmynd");
       toggle.querySelector("use").setAttribute("href", open ? "#i-close" : "#i-menu");
-      // Lock background scroll while the dropdown is open
-      document.documentElement.classList.toggle("nav-open", open);
+      // Lock the background by pinning the body (not overflow:hidden, which iOS
+      // ignores and which breaks the fixed menu). Save/restore the scroll spot.
+      if (open && !wasOpen) {
+        navScrollY = window.scrollY || window.pageYOffset || 0;
+        document.body.style.top = -navScrollY + "px";
+        root.classList.add("nav-open");
+      } else if (!open && wasOpen) {
+        root.classList.remove("nav-open");
+        document.body.style.top = "";
+        const prevBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = "auto"; // restore instantly, skip smooth-scroll
+        window.scrollTo(0, navScrollY);
+        root.style.scrollBehavior = prevBehavior;
+      }
     };
 
     toggle.addEventListener("click", () => {
