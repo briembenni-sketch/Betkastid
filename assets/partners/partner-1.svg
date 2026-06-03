@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64" fill="#ffffff" role="img" aria-label="Samstarfsaðili">
+  <circle cx="30" cy="32" r="17" fill="none" stroke="#ffffff" stroke-width="5"/>
+  <circle cx="30" cy="15" r="4.5"/>
+  <rect x="64" y="23" width="104" height="9" rx="4.5"/>
+  <rect x="64" y="38" width="68" height="8" rx="4" opacity="0.65"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64" fill="#ffffff" role="img" aria-label="Samstarfsaðili">
+  <circle cx="30" cy="42" r="4.5"/>
+  <path d="M19 35a16 16 0 0 1 22 0" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+  <path d="M12 27a26 26 0 0 1 36 0" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+  <rect x="64" y="23" width="100" height="9" rx="4.5"/>
+  <rect x="64" y="38" width="64" height="8" rx="4" opacity="0.65"/>
+</svg>

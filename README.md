@@ -10,10 +10,11 @@ with a distinctive sports-book identity built around a green palette.
 
 No build step. Plain, static, fast.
 
-- `index.html` — **Forsíða**: hero, stats, listen/follow, category teasers, VIP CTA
+- `index.html` — **Forsíða**: hero (cover art), stats, video, clips, listen/follow,
+  category teasers, partners
 - `thaettir.html` — **Þættir**: the searchable, sortable, filterable episode archive
 - `thattur.html` — **Þáttur**: a single-episode page (artwork, Spotify description,
-  Spotify/Apple/YouTube links and in-page play), opened from any episode card
+  Spotify/Apple links and in-page play), opened from any episode card
 - `hafa-samband.html` — **Hafa samband**: contact details + a short "Um okkur" section
 - shared inline SVG icon sprite, header and footer on every page; JSON-LD (`PodcastSeries`) on the front page
 - `styles.css` — design system (CSS variables), layout, animations, responsive
@@ -23,8 +24,9 @@ No build step. Plain, static, fast.
   episode page (full Spotify description, Spotify show link + live Apple Podcasts episode
   links via iTunes JSONP matched by GUID) and the in-page player
 - `assets/` — brand imagery wired into the page: wordmark logo (header/footer), app icons
-  (favicon / apple-touch), podcast cover (social preview) and host cut-out photos
-  (hero, About panel, VIP band) — web-optimized from the source files in `Betkast logo og myndir/`
+  (favicon / apple-touch), podcast cover (social preview + hero album card) and host cut-out
+  photos (clips, About panel) — web-optimized from the source files in `Betkast logo og myndir/`.
+  `assets/partners/` holds white placeholder logos for the Samstarfsaðilar section
 
 ## Design
 
@@ -57,8 +59,14 @@ Spotify show and site. A few outbound links are marked with `NOTE:` comments in
   so new episodes appear automatically with no code changes
 - **Episode links** — each episode page deep-links to that episode on **Apple Podcasts**
   (live via the iTunes lookup API, matched by GUID). **Spotify** opens the show (Spotify does
-  not expose public per-episode URLs without their API). The podcast is not on YouTube
-- **„Gerast VIP"** — currently links to betkastid.is; swap for the real subscription URL
+  not expose public per-episode URLs without their API). Episodes are now published **in video
+  on Spotify** (not on YouTube)
+- **Front-page video** (`#myndband`) — drop the event video at `assets/betkastid-myndband.mp4`
+  (the WeTransfer file); until then the cover image shows as the poster
+- **Clips** (`#klippur`) — the four cards link to the TikTok/Instagram profiles and reuse brand
+  photos as thumbnails; point each `href` at the real post and swap `clip-thumb` for its thumbnail
+- **Partners** (`#samstarf`) — `assets/partners/partner-*.svg` are white placeholders; replace
+  them with the real transparent-white partner logos (keep the filenames or update `src`)
 - **Source images** — the originals in `Betkast logo og myndir/` are large (~210 MB of
   full-resolution PNGs). The site only uses the optimized derivatives in `assets/`, so the
   originals can safely be removed from the repo (or moved to release storage) to keep clones small
