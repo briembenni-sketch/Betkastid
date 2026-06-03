@@ -87,7 +87,7 @@
 
   /* ---------- state + elements ---------- */
   const state = { all: [], cat: "all", q: "", sort: "new", shown: PAGE };
-  let grid, moreBtn, countEl, heroBtn, searchEl, catDD, sortDD, openDD = null;
+  let grid, moreBtn, countEl, heroBtns, searchEl, catDD, sortDD, openDD = null;
 
   function visible() {
     const q = state.q.trim().toLowerCase();
@@ -311,7 +311,9 @@
     document.addEventListener("click", (e) => { if (openDD && !e.target.closest(".ep-dd")) openDD.close(false); });
   }
   function wireHero() {
-    heroBtn.addEventListener("click", (e) => { e.preventDefault(); if (state.all.length) playEpisode(state.all[0]); else window.location.href = "thaettir.html"; });
+    heroBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) => { e.preventDefault(); if (state.all.length) playEpisode(state.all[0]); else window.location.href = "thaettir.html"; });
+    });
   }
   function skeletons() { let s = ""; for (let i = 0; i < 8; i++) s += '<div class="ep-skel"><div class="sk"></div><div class="sk sk2"></div></div>'; grid.innerHTML = s; }
 
@@ -320,14 +322,14 @@
     grid = document.getElementById("ep-grid");
     moreBtn = document.getElementById("ep-more");
     countEl = document.getElementById("ep-count");
-    heroBtn = document.getElementById("play-latest");
+    heroBtns = document.querySelectorAll("[data-play-latest]");
     searchEl = document.getElementById("ep-search");
 
     initPlayer();
 
     const hasArchive = !!grid;
     const hasDetail = !!document.getElementById("episode");
-    const hasHero = !!heroBtn;
+    const hasHero = heroBtns.length > 0;
     if (!hasArchive && !hasDetail && !hasHero) return;
 
     if (hasArchive) {

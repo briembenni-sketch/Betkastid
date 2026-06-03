@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <script>document.documentElement.classList.add("js");</script>
   <title>Betkastið · Hverjar eru líkurnar?</title>
-  <meta name="description" content="Betkastið er íslenska hlaðvarpið þar sem við spáum í spilin um úrslit íþróttaviðburða, af viti, gríni og greiningu." />
+  <meta name="description" content="Betkastið er hlaðvarpið þar sem við spáum í spilin um úrslit íþróttaviðburða og ræðum málefni líðandi stundar í samfélaginu, af viti, gríni og greiningu." />
   <meta name="theme-color" content="#062518" />
   <meta name="color-scheme" content="dark" />
   <link rel="canonical" href="https://betkastid.is/" />
@@ -13,7 +13,7 @@
   <!-- Open Graph / social -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Betkastið · Hverjar eru líkurnar?" />
-  <meta property="og:description" content="Betkastið er íslenska hlaðvarpið þar sem við spáum í spilin um úrslit íþróttaviðburða, af viti, gríni og greiningu." />
+  <meta property="og:description" content="Betkastið er hlaðvarpið þar sem við spáum í spilin um úrslit íþróttaviðburða og ræðum málefni líðandi stundar í samfélaginu, af viti, gríni og greiningu." />
   <meta property="og:locale" content="is_IS" />
   <meta property="og:site_name" content="Betkastið" />
   <meta property="og:url" content="https://betkastid.is/" />
@@ -40,7 +40,7 @@
     "@type": "PodcastSeries",
     "name": "Betkastið",
     "alternateName": "Hverjar eru líkurnar?",
-    "description": "Íslenska íþrótta- og spáhlaðvarpið. Spá, greining og líkur fyrir stóru leikina.",
+    "description": "Íslenska íþrótta- og spáhlaðvarpið. Spá, líkur og léttar samræður um stóru málin — íþróttaviðburði og málefni líðandi stundar.",
     "inLanguage": "is",
     "url": "https://betkastid.is",
     "image": "https://betkastid.is/assets/cover-betkastid.jpg",
@@ -125,12 +125,13 @@
         <div class="hero-copy">
           <h1 class="hero-title">Hverjar eru<br><span class="accent">líkurnar?</span></h1>
           <p class="hero-lead">
-            Betkastið er hlaðvarpið þar sem við spáum í spilin um úrslit íþróttaviðburða,
-            af viti, gríni og greiningu. Spá, líkur og léttar samræður um stóru leikina.
+            Betkastið er hlaðvarpið þar sem við spáum í spilin um úrslit íþróttaviðburða
+            og ræðum málefni líðandi stundar í samfélaginu, af viti, gríni og greiningu.
+            Spá, líkur og léttar samræður um stóru málin.
           </p>
 
           <div class="hero-cta">
-            <button class="btn btn-bright" type="button" id="play-latest">
+            <button class="btn btn-bright" type="button" id="play-latest" data-play-latest>
               <svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>
               Spila nýjasta þátt
             </button>
@@ -140,37 +141,44 @@
             </a>
           </div>
 
-          <p class="hero-rating">
-            <span class="stars" aria-hidden="true">
-              <svg class="ic"><use href="#i-star"></use></svg>
-              <svg class="ic"><use href="#i-star"></use></svg>
-              <svg class="ic"><use href="#i-star"></use></svg>
-              <svg class="ic"><use href="#i-star"></use></svg>
-              <svg class="ic"><use href="#i-star"></use></svg>
-            </span>
-            <span><strong>4,8</strong> meðaleinkunn · 191 umsögn á Spotify</span>
+          <p class="hero-stats">
+            <span><strong>+200.000</strong> hlustanir</span>
+            <span class="hero-stats-dot" aria-hidden="true">·</span>
+            <span><strong>+12.000</strong> hlustendur</span>
+            <span class="hero-stats-dot" aria-hidden="true">·</span>
+            <span>Nýr þáttur <strong>vikulega</strong></span>
           </p>
         </div>
 
         <div class="hero-figure">
-          <img class="hero-host" src="assets/host-hero.webp" alt="Umsjónarmaður Betkastsins með bolta" width="495" height="1520" />
+          <div class="hero-cover">
+            <img class="hero-cover-img" src="assets/cover-betkastid.jpg" alt="Betkastið — íþrótta- og spáhlaðvarpið" width="900" height="900" />
+            <button class="hero-cover-play" type="button" data-play-latest aria-label="Spila nýjasta þátt">
+              <svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>
+            </button>
+            <span class="hero-cover-tag"><span class="pulse" aria-hidden="true"></span> Nýr þáttur vikulega</span>
+          </div>
         </div>
       </div>
 
       <div class="ticker" aria-hidden="true">
         <div class="ticker-track">
-          <span>Besta deildin</span><span class="odd">2,15</span>
-          <span>Enski boltinn</span><span class="odd">1,80</span>
-          <span>Handbolti</span><span class="odd">3,40</span>
-          <span>Lengjudeildin</span><span class="odd">2,75</span>
-          <span>Getraunir</span><span class="odd">4,20</span>
-          <span>Hverjar eru líkurnar?</span><span class="odd">★</span>
-          <span>Besta deildin</span><span class="odd">2,15</span>
-          <span>Enski boltinn</span><span class="odd">1,80</span>
-          <span>Handbolti</span><span class="odd">3,40</span>
-          <span>Lengjudeildin</span><span class="odd">2,75</span>
-          <span>Getraunir</span><span class="odd">4,20</span>
-          <span>Hverjar eru líkurnar?</span><span class="odd">★</span>
+          <span>Stemming</span><span class="odd">2,15</span>
+          <span>Fróðleikur</span>
+          <span>Vitleysa</span><span class="odd">1,80</span>
+          <span>Afþreying</span>
+          <span>Gæsahúð</span><span class="odd">3,40</span>
+          <span>Stuðlar</span>
+          <span>Spá &amp; greining</span><span class="odd">★</span>
+          <span>Hverjar eru líkurnar?</span>
+          <span>Stemming</span><span class="odd">2,15</span>
+          <span>Fróðleikur</span>
+          <span>Vitleysa</span><span class="odd">1,80</span>
+          <span>Afþreying</span>
+          <span>Gæsahúð</span><span class="odd">3,40</span>
+          <span>Stuðlar</span>
+          <span>Spá &amp; greining</span><span class="odd">★</span>
+          <span>Hverjar eru líkurnar?</span>
         </div>
       </div>
     </section>
@@ -179,20 +187,88 @@
     <section class="stats" aria-label="Tölfræði">
       <div class="container stats-grid">
         <div class="stat" data-reveal>
-          <span class="stat-num" data-count="4.8" data-decimals="1">0</span>
-          <span class="stat-label">Meðaleinkunn á Spotify</span>
+          <span class="stat-num" data-count="200000" data-prefix="+">0</span>
+          <span class="stat-label">Hlustanir á hlaðvarpið</span>
         </div>
         <div class="stat" data-reveal>
-          <span class="stat-num" data-count="191">0</span>
-          <span class="stat-label">Umsagnir hlustenda</span>
-        </div>
-        <div class="stat" data-reveal>
-          <span class="stat-num" data-count="100" data-suffix="+">0</span>
-          <span class="stat-label">Þættir í safninu</span>
+          <span class="stat-num" data-count="106">0</span>
+          <span class="stat-label">Þættir gefnir út</span>
         </div>
         <div class="stat" data-reveal>
           <span class="stat-num stat-word">Vikulega</span>
           <span class="stat-label">Nýr þáttur í hverri viku</span>
+        </div>
+        <div class="stat" data-reveal>
+          <span class="stat-num" data-count="1800000" data-prefix="+">0</span>
+          <span class="stat-label">Áhorf á TikTok</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIDEO ============ -->
+    <section class="section" id="myndband">
+      <div class="container">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Betkastið í mynd</p>
+          <h2 class="section-title">Sjáðu þáttinn, ekki bara heyrðu hann</h2>
+          <p class="section-sub">Þættirnir koma út í mynd á Spotify. Hér er svipmynd af stemningunni þegar stuðlarnir rúlla í stúdíóinu.</p>
+        </header>
+
+        <figure class="video-frame" data-reveal>
+          <!-- NOTE: Settu myndbandið frá WeTransfer hér: assets/betkastid-myndband.mp4
+               (og eftir atvikum assets/betkastid-myndband.webm fyrir minni skrá).
+               Þangað til birtist forsíðumyndin (cover) sem plakat. -->
+          <video class="video-el" controls preload="none" playsinline poster="assets/cover-betkastid.jpg">
+            <source src="assets/betkastid-myndband.mp4" type="video/mp4" />
+            Vafrinn þinn styður ekki innbyggð myndbönd —
+            <a href="https://open.spotify.com/show/7bT5TGtyCpSrZZnTYmk7fm" target="_blank" rel="noopener">horfðu á Spotify</a>.
+          </video>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ CLIPS ============ -->
+    <section class="section section-alt" id="klippur">
+      <div class="container">
+        <header class="section-head section-head-row" data-reveal>
+          <div>
+            <p class="eyebrow">Klippur</p>
+            <h2 class="section-title">Bestu mómentin</h2>
+            <p class="section-sub">Stutt brot úr þáttunum með yfir 1,8 milljón áhorf samtals — fylgdu okkur á TikTok og Instagram fyrir nýjar klippur úr hverjum þætti.</p>
+          </div>
+          <a class="btn btn-outline" href="https://www.tiktok.com/@betkastid" target="_blank" rel="noopener">
+            Fleiri klippur
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
+          </a>
+        </header>
+
+        <!-- NOTE: Tengdu hverja klippu á raunverulega TikTok-/Instagram-færslu (href) og
+             skiptu bakgrunnsmyndinni (clip-thumb) út fyrir thumbnail klippunnar þegar það er til. -->
+        <div class="clip-grid">
+          <a class="clip-card clip-1" href="https://www.tiktok.com/@betkastid" target="_blank" rel="noopener" aria-label="Klippa á TikTok" data-reveal>
+            <img class="clip-thumb" src="assets/cover-betkastid.jpg" alt="" loading="lazy" />
+            <span class="clip-play" aria-hidden="true"><svg class="ic"><use href="#i-play"></use></svg></span>
+            <span class="clip-tag"><svg class="ic" aria-hidden="true"><use href="#i-tiktok"></use></svg> TikTok</span>
+            <span class="clip-cap">Hápunktar vikunnar</span>
+          </a>
+          <a class="clip-card clip-2" href="https://www.instagram.com/betkastid/" target="_blank" rel="noopener" aria-label="Klippa á Instagram" data-reveal>
+            <img class="clip-thumb" src="assets/host-point.webp" alt="" loading="lazy" />
+            <span class="clip-play" aria-hidden="true"><svg class="ic"><use href="#i-play"></use></svg></span>
+            <span class="clip-tag"><svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg> Instagram</span>
+            <span class="clip-cap">Hverjar eru líkurnar?</span>
+          </a>
+          <a class="clip-card clip-3" href="https://www.tiktok.com/@betkastid" target="_blank" rel="noopener" aria-label="Klippa á TikTok" data-reveal>
+            <img class="clip-thumb" src="assets/host-mic.webp" alt="" loading="lazy" />
+            <span class="clip-play" aria-hidden="true"><svg class="ic"><use href="#i-play"></use></svg></span>
+            <span class="clip-tag"><svg class="ic" aria-hidden="true"><use href="#i-tiktok"></use></svg> TikTok</span>
+            <span class="clip-cap">Spá fyrir stórleikinn</span>
+          </a>
+          <a class="clip-card clip-4" href="https://www.instagram.com/betkastid/" target="_blank" rel="noopener" aria-label="Klippa á Instagram" data-reveal>
+            <img class="clip-thumb" src="assets/host-hero.webp" alt="" loading="lazy" />
+            <span class="clip-play" aria-hidden="true"><svg class="ic"><use href="#i-play"></use></svg></span>
+            <span class="clip-tag"><svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg> Instagram</span>
+            <span class="clip-cap">Bestu brotin</span>
+          </a>
         </div>
       </div>
     </section>
@@ -203,7 +279,7 @@
         <header class="section-head" data-reveal>
           <p class="eyebrow">Hlustaðu &amp; fylgdu</p>
           <h2 class="section-title">Þar sem þú hlustar á hlaðvörp</h2>
-          <p class="section-sub">Smelltu þér inn á Spotify fyrir alla þættina, eða fylgdu okkur á samfélagsmiðlum fyrir spá, líkur og uppákomur milli þátta.</p>
+          <p class="section-sub">Þættirnir koma nú út í mynd á Spotify — eða fylgdu okkur á samfélagsmiðlum fyrir spá, líkur og uppákomur milli þátta.</p>
         </header>
 
         <div class="platform-grid">
@@ -211,7 +287,7 @@
             <svg class="platform-ic" aria-hidden="true"><use href="#i-spotify"></use></svg>
             <span class="platform-text">
               <span class="platform-name">Spotify</span>
-              <span class="platform-meta">Allir þættir · uppfært vikulega</span>
+              <span class="platform-meta">Allir þættir í mynd · uppfært vikulega</span>
             </span>
             <svg class="ic platform-go" aria-hidden="true"><use href="#i-arrow-ur"></use></svg>
           </a>
@@ -301,6 +377,34 @@
       </div>
     </section>
 
+    <!-- ============ PARTNERS ============ -->
+    <section class="section partners" id="samstarf" aria-label="Samstarfsaðilar">
+      <div class="container">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Samstarfsaðilar</p>
+          <h2 class="section-title">Í góðum félagsskap</h2>
+          <p class="section-sub">Við erum stolt af samstarfsaðilum okkar — og opin fyrir fleirum. Hafðu samband ef fyrirtækið þitt vill vera með.</p>
+        </header>
+
+        <!-- NOTE: Þetta eru placeholder-merki. Skiptu þeim út fyrir raunveruleg (transparent,
+             hvít) logo samstarfsaðila — settu skrárnar í assets/partners/ og uppfærðu src + alt. -->
+        <div class="partner-grid" data-reveal>
+          <span class="partner-logo"><img src="assets/partners/partner-1.svg" alt="Samstarfsaðili" width="200" height="64" loading="lazy" /></span>
+          <span class="partner-logo"><img src="assets/partners/partner-2.svg" alt="Samstarfsaðili" width="200" height="64" loading="lazy" /></span>
+          <span class="partner-logo"><img src="assets/partners/partner-3.svg" alt="Samstarfsaðili" width="200" height="64" loading="lazy" /></span>
+          <span class="partner-logo"><img src="assets/partners/partner-4.svg" alt="Samstarfsaðili" width="200" height="64" loading="lazy" /></span>
+          <span class="partner-logo"><img src="assets/partners/partner-5.svg" alt="Samstarfsaðili" width="200" height="64" loading="lazy" /></span>
+        </div>
+
+        <div class="partners-cta" data-reveal>
+          <a class="btn btn-bright" href="hafa-samband.html">
+            <svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg>
+            Verða samstarfsaðili
+          </a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ============ FOOTER ============ -->
@@ -340,7 +444,7 @@
         </a>
         <p class="footer-contact">
           <svg class="ic ic-inline" aria-hidden="true"><use href="#i-pin"></use></svg>
-          Skipasund 11, 104 Reykjavík
+          Hlíðasmári 8, 201 Kópavogur
         </p>
       </div>
     </div>

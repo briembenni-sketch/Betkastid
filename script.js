@@ -107,20 +107,24 @@
   }
 
   /* ---------- Animated stat counters ---------- */
-  const fmt = (value, decimals) =>
-    value.toLocaleString("is-IS", {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
-    });
+  // Deterministic Icelandic number formatting (dot thousands, comma decimals) so the
+  // counts read the same on every browser, regardless of available locale data.
+  const fmt = (value, decimals) => {
+    const neg = value < 0;
+    const parts = Math.abs(value).toFixed(decimals).split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return (neg ? "-" : "") + parts.join(",");
+  };
 
   const runCount = (el) => {
     const target = parseFloat(el.dataset.count);
     const decimals = parseInt(el.dataset.decimals || "0", 10);
     const suffix = el.dataset.suffix || "";
+    const prefix = el.dataset.prefix || "";
     if (Number.isNaN(target)) return;
 
     if (reduceMotion) {
-      el.textContent = fmt(target, decimals) + suffix;
+      el.textContent = prefix + fmt(target, decimals) + suffix;
       return;
     }
 
@@ -129,9 +133,9 @@
     const step = (now) => {
       const t = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-      el.textContent = fmt(target * eased, decimals) + suffix;
+      el.textContent = prefix + fmt(target * eased, decimals) + suffix;
       if (t < 1) requestAnimationFrame(step);
-      else el.textContent = fmt(target, decimals) + suffix;
+      else el.textContent = prefix + fmt(target, decimals) + suffix;
     };
     requestAnimationFrame(step);
   };
