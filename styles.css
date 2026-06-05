@@ -422,7 +422,7 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
 /* ---------- Stats ---------- */
 .stats { background: var(--emerald-950); color: var(--on-dark); }
 .stats-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 1px;
 }
 .stat {
@@ -712,10 +712,6 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
   .nav-toggle { display: inline-flex; }
   /* nav is taken out of flow here, so push the actions to the right edge */
   .header-actions { margin-left: auto; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .stat:nth-child(2)::before { display: none; }
-  .stat:nth-child(3) { border-top: 1px solid rgba(234,246,238,.12); }
-  .stat:nth-child(4) { border-top: 1px solid rgba(234,246,238,.12); }
 }
 
 @media (max-width: 560px) {
@@ -725,6 +721,11 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
   .header-actions .btn span { display: none; }
   .header-actions .btn-sm { padding: 0 12px; }
   .hero-cta .btn { width: 100%; }
+
+  /* Three big stats stack into a single column */
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat + .stat::before { display: none; }
+  .stat + .stat { border-top: 1px solid rgba(234,246,238,.12); }
 
   /* Episodes toolbar: search on its own line, the two dropdowns share the next
      row, and the Spotify CTA drops to a full-width button below them. */
@@ -739,11 +740,7 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
   .ep-detail-actions .btn { flex: 1 1 140px; }
 }
 
-@media (max-width: 380px) {
-  .stats-grid { grid-template-columns: 1fr; }
-  .stat::before, .stat:nth-child(3), .stat:nth-child(4) { border: 0 !important; }
-  .stat + .stat { border-top: 1px solid rgba(234,246,238,.12); }
-}
+/* (stats stacking is handled in the 560px breakpoint above) */
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -1227,6 +1224,29 @@ html:not(.js) .ep-toolbar { display: none; }
   .hero-cover-play { width: 70px; height: 70px; }
   .hero-cover-play .ic { width: 28px; height: 28px; }
 }
+
+/* Partnership packages (contact page) */
+.package-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; align-items: start; }
+.package-card {
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius);
+  padding: clamp(24px, 3vw, 34px); box-shadow: var(--shadow-sm);
+  transition: transform .2s var(--ease), box-shadow .25s var(--ease), border-color .2s var(--ease);
+}
+.package-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--green-300); }
+.package-name {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.7rem); letter-spacing: -.01em; color: #fff;
+}
+.package-list { margin-top: 18px; display: grid; gap: 12px; }
+.package-list li { display: flex; align-items: flex-start; gap: 12px; font-weight: 500; color: var(--ink-soft); }
+.package-list .ic {
+  width: 22px; height: 22px; flex: none; margin-top: 2px;
+  color: var(--green-400); stroke: var(--green-400); fill: none;
+  background: rgba(54,216,122,.14); border-radius: 50%; padding: 3px;
+}
+.package-note { margin-top: clamp(24px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.package-note-text { color: var(--muted); font-size: .98rem; max-width: 52ch; }
+@media (max-width: 760px) { .package-grid { grid-template-columns: 1fr; } }
 
 /* ---------- Print ---------- */
 @media print {
