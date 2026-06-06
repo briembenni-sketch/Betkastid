@@ -61,8 +61,13 @@ Spotify show and site. A few outbound links are marked with `NOTE:` comments in
   (live via the iTunes lookup API, matched by GUID). **Spotify** opens the show (Spotify does
   not expose public per-episode URLs without their API). Episodes are now published **in video
   on Spotify** (not on YouTube)
-- **Clips** (`#klippur`) — the four cards link to the TikTok/Instagram profiles and reuse brand
-  photos as thumbnails; point each `href` at the real post and swap `clip-thumb` for its thumbnail
+- **Clips** (`#klippur`) — a self-playing, coverflow-style slideshow of real Instagram clips
+  (official `/embed/` iframes from `@betkastid`). It auto-advances with a progress bar and supports
+  prev/next, play/pause, dot navigation, keyboard (←/→/space) and touch swipe; it pauses on hover,
+  focus and when off-screen, lazy-loads neighbouring embeds, respects `prefers-reduced-motion`, and
+  degrades to a plain grid of links without JS. Add a clip by copying one
+  `<li class="clipshow-slide" data-code="…">` with the post's shortcode — the counter, dots and
+  playback update automatically
 - **Partners** (`#samstarf`) — `assets/partners/partner-*.svg` are white placeholders; replace
   them with the real transparent-white partner logos (keep the filenames or update `src`)
 - **Source images** — the originals in `Betkast logo og myndir/` are large (~210 MB of
