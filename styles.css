@@ -1132,18 +1132,6 @@ html:not(.js) .ep-toolbar { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .hero-cover { animation: none; } }
 
-/* Video */
-.video-frame {
-  position: relative; margin: 0;
-  border-radius: var(--radius-lg); overflow: hidden;
-  border: 1px solid var(--line); background: var(--emerald-950);
-  box-shadow: var(--shadow-lg);
-}
-.video-el {
-  display: block; width: 100%; height: auto;
-  aspect-ratio: 16 / 9; object-fit: cover; background: var(--emerald-950);
-}
-
 /* Clips (link out to TikTok / Instagram) */
 .clip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .clip-card {

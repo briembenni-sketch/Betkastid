@@ -10,7 +10,7 @@ with a distinctive sports-book identity built around a green palette.
 
 No build step. Plain, static, fast.
 
-- `index.html` — **Forsíða**: hero (cover art), stats, video, clips, listen/follow,
+- `index.html` — **Forsíða**: hero (cover art), stats, clips, listen/follow,
   category teasers, partners
 - `thaettir.html` — **Þættir**: the searchable, sortable, filterable episode archive
 - `thattur.html` — **Þáttur**: a single-episode page (artwork, Spotify description,
@@ -61,8 +61,6 @@ Spotify show and site. A few outbound links are marked with `NOTE:` comments in
   (live via the iTunes lookup API, matched by GUID). **Spotify** opens the show (Spotify does
   not expose public per-episode URLs without their API). Episodes are now published **in video
   on Spotify** (not on YouTube)
-- **Front-page video** (`#myndband`) — drop the event video at `assets/betkastid-myndband.mp4`
-  (the WeTransfer file); until then the cover image shows as the poster
 - **Clips** (`#klippur`) — the four cards link to the TikTok/Instagram profiles and reuse brand
   photos as thumbnails; point each `href` at the real post and swap `clip-thumb` for its thumbnail
 - **Partners** (`#samstarf`) — `assets/partners/partner-*.svg` are white placeholders; replace
