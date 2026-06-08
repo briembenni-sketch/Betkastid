@@ -1202,28 +1202,40 @@ html:not(.js) .ep-toolbar { display: none; }
   box-shadow: 0 30px 80px -24px rgba(0,0,0,.7), 0 0 0 1px rgba(124,235,168,.22), 0 0 60px -12px rgba(23,178,87,.5);
 }
 
-.clipshow-embed {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  border: 0; display: block; background: #fff;
-  opacity: 0; transition: opacity .45s var(--ease);
+/* Media: blurred backdrop fills the frame, foreground media is letterboxed
+   so clips of any aspect ratio (9:16, 4:5, 1:1) sit cleanly inside it */
+.clipshow-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-size: cover; background-position: center;
+  filter: blur(26px) saturate(1.2) brightness(.62); transform: scale(1.2);
 }
-.clipshow-slide.is-loaded .clipshow-embed { opacity: 1; }
-/* Neighbours are a visual preview only — clicks select the slide, not the embed */
-.clipshow-slide:not([data-pos="active"]) .clipshow-embed { pointer-events: none; }
+.clipshow-media {
+  position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
+  object-fit: contain; display: block;
+}
+.clipshow-slide[data-pos="active"] .clipshow-media { cursor: pointer; }
+/* Neighbours are a preview only — clicks select the slide, not the media */
+.clipshow-slide:not([data-pos="active"]) .clipshow-media { pointer-events: none; }
 
-.clipshow-poster {
-  position: absolute; inset: 0; z-index: 0; color: #fff; text-align: center;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+/* Media-type chip (video / photo) */
+.clipshow-chip {
+  position: absolute; left: 12px; top: 12px; z-index: 3;
+  width: 30px; height: 30px; border-radius: 999px; display: grid; place-items: center;
+  color: #fff; background: rgba(4,21,14,.55);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border: 1px solid rgba(234,246,238,.16);
 }
-.clipshow-poster .ic { width: 42px; height: 42px; opacity: .92; }
-.clipshow-poster-n { font-family: var(--font-mono); font-size: 1.1rem; letter-spacing: .12em; color: rgba(255,255,255,.7); }
+.clipshow-chip .ic { width: 15px; height: 15px; }
+
+/* Buffering spinner (active video only) */
 .clipshow-spin {
-  position: absolute; left: 50%; top: 50%; z-index: 1; width: 34px; height: 34px; margin: -17px 0 0 -17px;
-  border-radius: 50%; border: 3px solid rgba(255,255,255,.22); border-top-color: #fff;
-  animation: clipshow-spin .8s linear infinite;
+  position: absolute; left: 50%; top: 50%; z-index: 2; width: 34px; height: 34px; margin: -17px 0 0 -17px;
+  border-radius: 50%; border: 3px solid rgba(255,255,255,.25); border-top-color: #fff;
+  animation: clipshow-spin .8s linear infinite; opacity: 0; transition: opacity .2s var(--ease);
+  pointer-events: none;
 }
 @keyframes clipshow-spin { to { transform: rotate(360deg); } }
-.clipshow-slide.is-loaded .clipshow-spin { opacity: 0; animation: none; }
+.clipshow-slide.is-buffering[data-pos="active"] .clipshow-spin { opacity: 1; }
 
 /* Touch swipe layer (added by JS on coarse pointers only) */
 .clipshow-swipe { position: absolute; inset: 0; z-index: 8; touch-action: pan-y; }
@@ -1261,6 +1273,19 @@ html:not(.js) .ep-toolbar { display: none; }
 .clipshow-play .ic-pause { display: none; }
 .clipshow-play.is-playing .ic-play { display: none; }
 .clipshow-play.is-playing .ic-pause { display: block; }
+
+.clipshow-mute {
+  flex: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
+  border: 1.5px solid var(--line-strong); background: var(--surface); color: var(--ink);
+  display: grid; place-items: center;
+  transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease), transform .18s var(--ease);
+}
+.clipshow-mute:hover { background: var(--surface-2); border-color: var(--green-400); color: #fff; transform: translateY(-2px); }
+.clipshow-mute .ic { width: 20px; height: 20px; }
+.clipshow-mute .ic-sound { display: none; }
+.clipshow-mute.is-on { border-color: var(--green-500); color: var(--green-300); }
+.clipshow-mute.is-on .ic-muted { display: none; }
+.clipshow-mute.is-on .ic-sound { display: block; }
 
 .clipshow-progress {
   position: relative; flex: 1 1 150px; max-width: 320px; height: 6px;
@@ -1338,7 +1363,7 @@ html:not(.js) .ep-toolbar { display: none; }
 
 /* Reduced motion: kill 3D transitions + spinner (autoplay is off in JS too) */
 @media (prefers-reduced-motion: reduce) {
-  .clipshow-slide, .clipshow-embed { transition: none; }
+  .clipshow-slide { transition: none; }
   .clipshow-spin { animation: none; }
 }
 

@@ -188,62 +188,65 @@
     sections.forEach((s) => spy.observe(s));
   }
 
-  /* ---------- Instagram clip slideshow ---------- */
+  /* ---------- Clip slideshow (self-hosted Instagram video + photos) ----------
+     Videos play inline (muted autoplay, advance when each clip ends); photo
+     posts advance on a timer. Accessible, reduced-motion aware, off-screen
+     pause, keyboard + touch. */
   const clipshow = document.querySelector("[data-clipshow]");
   if (clipshow) {
     const slides = Array.from(clipshow.querySelectorAll(".clipshow-slide"));
     const n = slides.length;
 
     if (n) {
-      const stage = clipshow.querySelector("[data-clipshow-stage]");
-      const prevBtn = clipshow.querySelector("[data-clipshow-prev]");
-      const nextBtn = clipshow.querySelector("[data-clipshow-next]");
+      const stage    = clipshow.querySelector("[data-clipshow-stage]");
+      const prevBtn  = clipshow.querySelector("[data-clipshow-prev]");
+      const nextBtn  = clipshow.querySelector("[data-clipshow-next]");
       const toggleBtn = clipshow.querySelector("[data-clipshow-toggle]");
-      const bar = clipshow.querySelector("[data-clipshow-bar]");
-      const curEl = clipshow.querySelector("[data-clipshow-current]");
+      const muteBtn  = clipshow.querySelector("[data-clipshow-mute]");
+      const bar      = clipshow.querySelector("[data-clipshow-bar]");
+      const curEl    = clipshow.querySelector("[data-clipshow-current]");
       const openLink = clipshow.querySelector("[data-clipshow-open]");
       const dotsWrap = clipshow.querySelector("[data-clipshow-dots]");
-      const liveEl = clipshow.querySelector("[data-clipshow-live]");
-      const interval = Math.max(2500, parseInt(clipshow.dataset.interval || "8000", 10));
-      const coarse = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+      const liveEl   = clipshow.querySelector("[data-clipshow-live]");
+      const imgMs    = Math.max(2500, parseInt(clipshow.dataset.interval || "6000", 10));
+      const coarse   = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
       const postUrl = (i) => "https://www.instagram.com/p/" + slides[i].dataset.code + "/";
+      const isVideo = (i) => slides[i].dataset.type === "video";
+      const mediaOf = (i) => slides[i].querySelector(".clipshow-media");
       const pad = (k) => String(k + 1).padStart(2, "0");
+      const kind = (i) => (isVideo(i) ? "Myndband " : "Mynd ");
 
       let index = 0;
       let playing = !reduceMotion;
-      let hovering = false, focusWithin = false, dragging = false, inView = true, running = false;
-      let raf = null, startT = 0, elapsed = 0;
-      let swipeEl = null;
+      let soundOn = false;
+      let inView = true, dragging = false, running = false;
+      let raf = null, imgStart = 0;
 
-      /* Build the dot navigation */
+      const setBar = (p) => { if (bar) bar.style.transform = "scaleX(" + Math.max(0, Math.min(1, p)).toFixed(4) + ")"; };
+
+      /* Dots */
       const dots = slides.map((_, i) => {
         const d = document.createElement("button");
         d.type = "button";
         d.className = "clipshow-dot";
-        d.setAttribute("aria-label", "Klippa " + (i + 1));
-        d.addEventListener("click", () => jump(i));
+        d.setAttribute("aria-label", kind(i) + (i + 1));
+        d.addEventListener("click", () => go(i));
         dotsWrap.appendChild(d);
         return d;
       });
 
-      /* Lazily inject an Instagram embed iframe into a slide (once) */
-      const mount = (i) => {
+      /* Wire a video element's buffering + ended events once */
+      const prepVideo = (i) => {
+        const v = mediaOf(i);
+        if (!v || v.dataset.prepped) return v;
+        v.dataset.prepped = "1";
         const slide = slides[i];
-        if (slide.dataset.mounted) return;
-        const card = slide.querySelector(".clipshow-card");
-        const frame = document.createElement("iframe");
-        frame.className = "clipshow-embed";
-        frame.src = postUrl(i) + "embed/";
-        frame.loading = "lazy";
-        frame.title = "Betkastið — klippa " + (i + 1) + " á Instagram";
-        frame.setAttribute("scrolling", "no");
-        frame.setAttribute("frameborder", "0");
-        frame.setAttribute("allowtransparency", "true");
-        frame.allow = "encrypted-media; picture-in-picture; web-share; clipboard-write";
-        frame.addEventListener("load", () => slide.classList.add("is-loaded"));
-        card.appendChild(frame);
-        slide.dataset.mounted = "1";
+        v.addEventListener("waiting", () => slide.classList.add("is-buffering"));
+        v.addEventListener("playing", () => slide.classList.remove("is-buffering"));
+        v.addEventListener("canplay", () => slide.classList.remove("is-buffering"));
+        v.addEventListener("ended", () => { if (index === i && playing) advance(); });
+        return v;
       };
 
       /* Signed distance from the active slide, wrapping the shortest way round */
@@ -264,35 +267,58 @@
           else if (o < 0) pos = "far-prev";
           s.dataset.pos = pos;
           s.setAttribute("aria-hidden", o === 0 ? "false" : "true");
-          const poster = s.querySelector(".clipshow-poster");
-          if (poster) poster.tabIndex = o === 0 ? 0 : -1;
         });
-        mount(index);
-        mount((index + 1) % n);
-        mount((index - 1 + n) % n);
         dots.forEach((d, i) => d.setAttribute("aria-current", i === index ? "true" : "false"));
         if (curEl) curEl.textContent = pad(index);
         if (openLink) {
           openLink.href = postUrl(index);
           openLink.setAttribute("aria-label", "Opna klippu " + (index + 1) + " á Instagram");
         }
-        if (swipeEl) swipeEl.href = postUrl(index);
-        if (liveEl) liveEl.textContent = "Klippa " + (index + 1) + " af " + n;
+        if (liveEl) liveEl.textContent = kind(index) + (index + 1) + " af " + n;
       };
 
-      const shouldRun = () => playing && inView && !hovering && !focusWithin && !dragging && n > 1;
+      /* Activate current slide: pause/rewind the others, start the active video
+         (or the photo timer). Never (re)starts the rAF loop itself. */
+      const setupActive = () => {
+        slides.forEach((s, i) => {
+          if (i !== index && isVideo(i)) {
+            const v = mediaOf(i);
+            if (v) { v.pause(); try { v.currentTime = 0; } catch (e) {} }
+            s.classList.remove("is-buffering");
+          }
+        });
+        imgStart = performance.now();
+        if (isVideo(index)) {
+          const v = prepVideo(index);
+          if (!v) return;
+          if (!v.getAttribute("src") && v.dataset.src) v.setAttribute("src", v.dataset.src);
+          v.muted = !soundOn;
+          if (playing && inView) {
+            slides[index].classList.add("is-buffering");
+            try { v.currentTime = 0; } catch (e) {}
+            const pr = v.play();
+            if (pr && pr.catch) pr.catch(() => {
+              v.muted = true; soundOn = false; reflectMute();
+              v.play().catch(() => slides[index].classList.remove("is-buffering"));
+            });
+          } else {
+            v.pause();
+          }
+        }
+      };
+
+      const shouldRun = () => playing && inView && !dragging && n > 1;
 
       const loop = (now) => {
         if (!shouldRun()) { running = false; raf = null; return; }
-        elapsed = now - startT;
-        const p = elapsed / interval;
-        if (p >= 1) {
-          index = (index + 1) % n;
-          render();
-          elapsed = 0; startT = now;
-          if (bar) bar.style.transform = "scaleX(0)";
-        } else if (bar) {
-          bar.style.transform = "scaleX(" + p.toFixed(4) + ")";
+        if (isVideo(index)) {
+          const v = mediaOf(index);
+          if (v && v.duration && isFinite(v.duration)) setBar(v.currentTime / v.duration);
+          /* advance handled by the video "ended" event */
+        } else {
+          const p = (now - imgStart) / imgMs;
+          if (p >= 1) advanceInline();
+          else setBar(p);
         }
         raf = requestAnimationFrame(loop);
       };
@@ -300,114 +326,121 @@
       const kick = () => {
         if (running || !shouldRun()) return;
         running = true;
-        startT = performance.now() - elapsed;
         raf = requestAnimationFrame(loop);
       };
       const halt = () => { running = false; if (raf) cancelAnimationFrame(raf); raf = null; };
 
-      const go = (i) => {
-        index = (i % n + n) % n;
+      /* Step forward without touching the loop (called from inside loop / ended) */
+      const advanceInline = () => {
+        index = (index + 1) % n;
         render();
-        elapsed = 0; startT = performance.now();
-        if (bar) bar.style.transform = "scaleX(0)";
+        setBar(0);
+        setupActive();
+      };
+      const advance = () => { advanceInline(); kick(); };
+
+      /* User navigation (pauses the outgoing video, then sets up the target) */
+      const go = (i) => {
+        if (isVideo(index)) { const cur = mediaOf(index); if (cur) cur.pause(); }
+        index = ((i % n) + n) % n;
+        render();
+        setBar(0);
+        setupActive();
         kick();
       };
       const nav = (d) => go(index + d);
-      const jump = (i) => go(i);
+
+      const reflectMute = () => {
+        if (!muteBtn) return;
+        muteBtn.classList.toggle("is-on", soundOn);
+        muteBtn.setAttribute("aria-pressed", String(soundOn));
+        muteBtn.setAttribute("aria-label", soundOn ? "Þagga niður" : "Kveikja á hljóði");
+      };
 
       const setPlaying = (v) => {
         playing = v;
         toggleBtn.classList.toggle("is-playing", v);
         toggleBtn.setAttribute("aria-pressed", String(v));
         toggleBtn.setAttribute("aria-label", v ? "Gera hlé á sýningu" : "Spila sýningu");
-        if (v) kick(); else halt();
+        if (v) { setupActive(); kick(); }
+        else { halt(); if (isVideo(index)) { const m = mediaOf(index); if (m) m.pause(); } }
+      };
+
+      const setSound = (on) => {
+        soundOn = on;
+        reflectMute();
+        if (isVideo(index)) {
+          const v = mediaOf(index);
+          if (v) { v.muted = !soundOn; if (soundOn && playing && inView && v.paused) v.play().catch(() => {}); }
+        }
       };
 
       /* Controls */
       if (prevBtn) prevBtn.addEventListener("click", () => nav(-1));
       if (nextBtn) nextBtn.addEventListener("click", () => nav(1));
       if (toggleBtn) toggleBtn.addEventListener("click", () => setPlaying(!playing));
+      if (muteBtn) muteBtn.addEventListener("click", () => setSound(!soundOn));
 
-      /* Click a side peek to bring it to the front */
+      /* Click active media = play/pause (mouse); click a side peek = select it */
       slides.forEach((s, i) => {
         s.addEventListener("click", (e) => {
-          if (s.dataset.pos === "active") return; // active embed handles its own click
-          e.preventDefault();
-          jump(i);
+          if (s.dataset.pos === "active") {
+            if (!coarse) { e.preventDefault(); setPlaying(!playing); }
+          } else {
+            e.preventDefault();
+            go(i);
+          }
         });
       });
 
-      /* Pause while pointing at or focused within the player */
-      if (!coarse) {
-        clipshow.addEventListener("pointerenter", () => { hovering = true; halt(); });
-        clipshow.addEventListener("pointerleave", () => { hovering = false; kick(); });
-      }
-      clipshow.addEventListener("focusin", () => { focusWithin = true; halt(); });
-      clipshow.addEventListener("focusout", (e) => {
-        if (!clipshow.contains(e.relatedTarget)) { focusWithin = false; kick(); }
-      });
-
-      /* Keyboard: arrows navigate, space toggles play, home/end jump */
+      /* Keyboard */
       clipshow.addEventListener("keydown", (e) => {
         if (e.key === "ArrowLeft") { e.preventDefault(); nav(-1); }
         else if (e.key === "ArrowRight") { e.preventDefault(); nav(1); }
-        else if (e.key === "Home") { e.preventDefault(); jump(0); }
-        else if (e.key === "End") { e.preventDefault(); jump(n - 1); }
+        else if (e.key === "Home") { e.preventDefault(); go(0); }
+        else if (e.key === "End") { e.preventDefault(); go(n - 1); }
         else if (e.key === " " || e.key === "Spacebar") { e.preventDefault(); setPlaying(!playing); }
+        else if (e.key === "m" || e.key === "M") { setSound(!soundOn); }
       });
 
-      /* Touch: a swipe layer over the stage (coarse pointers only, so the embed
-         stays directly clickable with a mouse). Swipe = navigate, tap = open. */
+      /* Touch swipe (coarse pointers): swipe = navigate, tap = play/pause */
       if (coarse && stage) {
-        swipeEl = document.createElement("a");
-        swipeEl.className = "clipshow-swipe";
-        swipeEl.setAttribute("aria-hidden", "true");
-        swipeEl.tabIndex = -1;
-        swipeEl.target = "_blank";
-        swipeEl.rel = "noopener";
-        swipeEl.href = postUrl(index);
-        stage.appendChild(swipeEl);
-
+        const swipe = document.createElement("div");
+        swipe.className = "clipshow-swipe";
+        swipe.setAttribute("aria-hidden", "true");
+        stage.appendChild(swipe);
         let x0 = 0, y0 = 0, moved = false;
-        swipeEl.addEventListener("pointerdown", (e) => {
-          x0 = e.clientX; y0 = e.clientY; moved = false; dragging = true; halt();
-        });
-        swipeEl.addEventListener("pointermove", (e) => {
-          if (dragging && Math.abs(e.clientX - x0) > 8) moved = true;
-        });
+        swipe.addEventListener("pointerdown", (e) => { x0 = e.clientX; y0 = e.clientY; moved = false; dragging = true; halt(); });
+        swipe.addEventListener("pointermove", (e) => { if (dragging && Math.abs(e.clientX - x0) > 8) moved = true; });
         const end = (e) => {
           if (!dragging) return;
           dragging = false;
           const dx = e.clientX - x0, dy = e.clientY - y0;
-          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
-            e.preventDefault();
-            nav(dx < 0 ? 1 : -1);
-          } else if (!moved) {
-            window.open(postUrl(index), "_blank", "noopener");
-          } else {
-            kick();
-          }
+          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) nav(dx < 0 ? 1 : -1);
+          else if (!moved) setPlaying(!playing);
+          else kick();
         };
-        swipeEl.addEventListener("click", (e) => e.preventDefault());
-        swipeEl.addEventListener("pointerup", end);
-        swipeEl.addEventListener("pointercancel", () => { dragging = false; kick(); });
+        swipe.addEventListener("pointerup", end);
+        swipe.addEventListener("pointercancel", () => { dragging = false; kick(); });
       }
 
-      /* Pause when the player scrolls out of view */
+      /* Pause fully when scrolled out of view */
       if ("IntersectionObserver" in window) {
         new IntersectionObserver((entries) => {
           inView = entries[0].isIntersecting;
-          if (inView) kick(); else halt();
-        }, { threshold: 0.2 }).observe(clipshow);
+          if (inView) { setupActive(); kick(); }
+          else { halt(); if (isVideo(index)) { const m = mediaOf(index); if (m) m.pause(); } }
+        }, { threshold: 0.25 }).observe(clipshow);
       }
 
       /* Init */
+      reflectMute();
       toggleBtn.classList.toggle("is-playing", playing);
       toggleBtn.setAttribute("aria-pressed", String(playing));
       toggleBtn.setAttribute("aria-label", playing ? "Gera hlé á sýningu" : "Spila sýningu");
       render();
-      if (bar) bar.style.transform = "scaleX(0)";
-      startT = performance.now();
+      setBar(0);
+      setupActive();
       if (playing) kick();
     }
   }

@@ -84,6 +84,9 @@
     <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 0 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
     <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/><path d="m6.3 6.3 3 3M14.7 14.7l3 3M17.7 6.3l-3 3M9.3 14.7l-3 3"/></symbol>
     <symbol id="i-quote" viewBox="0 0 24 24"><path d="M9.5 6C6.5 6 4 8.5 4 11.5V18h6.5v-6.5H7.2c0-1.8 1-3 2.8-3.2L9.5 6Zm10 0c-3 0-5.5 2.5-5.5 5.5V18H20.5v-6.5h-3.3c0-1.8 1-3 2.8-3.2L19.5 6Z"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m16 9 5 6M21 9l-5 6"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 16.5 4.5-4.5 4 4 3-3L21 17"/></symbol>
   </svg>
 
   <!-- ============ HEADER ============ -->
@@ -210,7 +213,7 @@
           <div>
             <p class="eyebrow">Klippur</p>
             <h2 class="section-title">Bestu mómentin</h2>
-            <p class="section-sub">Ýttu á play og flettu þér í gegnum bestu mómentin úr þáttunum — beint af Instagram. Smelltu á klippu til að horfa á hana í fullri lengd.</p>
+            <p class="section-sub">Bestu mómentin úr þáttunum — spilast sjálfkrafa beint hér á síðunni, klippa eftir klippu. Kveiktu á hljóði eða opnaðu klippuna á Instagram.</p>
           </div>
           <a class="btn btn-outline" href="https://www.instagram.com/betkastid/" target="_blank" rel="noopener">
             Fleiri klippur
@@ -218,11 +221,12 @@
           </a>
         </header>
 
-        <!-- Sjálfspilandi klippu-skyggnusýning (coverflow). Klippurnar eru sóttar
-             beint af Instagram (@betkastid) sem opinber embed. Bættu við klippu með
-             því að afrita <li class="clipshow-slide" data-code="…"> með shortcode
-             færslunnar; teljari, punktar og spilun uppfærast sjálfkrafa. -->
-        <div class="clipshow" data-clipshow data-interval="8000" role="group"
+        <!-- Sjálfspilandi klippu-skyggnusýning (coverflow). Myndböndin eru hýst í
+             assets/clips/ (sótt af Instagram @betkastid) og spilast beint á síðunni;
+             myndafærslur birtast sem myndir. Bættu við klippu með því að afrita <li>
+             hér að neðan — data-type="video" með .mp4 + .jpg, eða data-type="image"
+             með .jpg. Teljari, punktar, hljóð og spilun uppfærast sjálfkrafa. -->
+        <div class="clipshow" data-clipshow data-interval="6000" role="group"
              aria-roledescription="skyggnusýning" aria-label="Klippur úr Betkastinu" data-reveal>
           <div class="clipshow-stage" data-clipshow-stage>
             <button class="clipshow-arrow clipshow-arrow-prev" type="button" data-clipshow-prev aria-label="Fyrri klippa">
@@ -230,103 +234,85 @@
             </button>
 
             <ul class="clipshow-viewport" data-clipshow-viewport>
-              <li class="clipshow-slide" data-code="DIOZ1B8IQmy">
+              <li class="clipshow-slide" data-code="DIOZ1B8IQmy" data-type="video">
                 <div class="clipshow-card">
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/DIOZ1B8IQmy.jpg')" aria-hidden="true"></span>
+                  <video class="clipshow-media" data-src="assets/clips/DIOZ1B8IQmy.mp4" poster="assets/clips/DIOZ1B8IQmy.jpg" muted playsinline preload="none"></video>
                   <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/DIOZ1B8IQmy/" target="_blank" rel="noopener" aria-label="Opna klippu 1 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">01</span>
-                  </a>
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-play"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="DH3VOeUITXb">
+              <li class="clipshow-slide" data-code="DH3VOeUITXb" data-type="video">
                 <div class="clipshow-card">
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/DH3VOeUITXb.jpg')" aria-hidden="true"></span>
+                  <video class="clipshow-media" data-src="assets/clips/DH3VOeUITXb.mp4" poster="assets/clips/DH3VOeUITXb.jpg" muted playsinline preload="none"></video>
                   <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/DH3VOeUITXb/" target="_blank" rel="noopener" aria-label="Opna klippu 2 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">02</span>
-                  </a>
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-play"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="DFThpbJApca">
+              <li class="clipshow-slide" data-code="DFThpbJApca" data-type="image">
                 <div class="clipshow-card">
-                  <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/DFThpbJApca/" target="_blank" rel="noopener" aria-label="Opna klippu 3 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">03</span>
-                  </a>
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/DFThpbJApca.jpg')" aria-hidden="true"></span>
+                  <img class="clipshow-media" src="assets/clips/DFThpbJApca.jpg" alt="Betkastið — Instagram-mynd 3" loading="lazy" />
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-image"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="DC9tdAVAmMA">
+              <li class="clipshow-slide" data-code="DC9tdAVAmMA" data-type="image">
                 <div class="clipshow-card">
-                  <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/DC9tdAVAmMA/" target="_blank" rel="noopener" aria-label="Opna klippu 4 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">04</span>
-                  </a>
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/DC9tdAVAmMA.jpg')" aria-hidden="true"></span>
+                  <img class="clipshow-media" src="assets/clips/DC9tdAVAmMA.jpg" alt="Betkastið — Instagram-mynd 4" loading="lazy" />
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-image"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="C_Iy-OmIxoG">
+              <li class="clipshow-slide" data-code="C_Iy-OmIxoG" data-type="video">
                 <div class="clipshow-card">
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/C_Iy-OmIxoG.jpg')" aria-hidden="true"></span>
+                  <video class="clipshow-media" data-src="assets/clips/C_Iy-OmIxoG.mp4" poster="assets/clips/C_Iy-OmIxoG.jpg" muted playsinline preload="none"></video>
                   <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/C_Iy-OmIxoG/" target="_blank" rel="noopener" aria-label="Opna klippu 5 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">05</span>
-                  </a>
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-play"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="C896d92I-yA">
+              <li class="clipshow-slide" data-code="C896d92I-yA" data-type="image">
                 <div class="clipshow-card">
-                  <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/C896d92I-yA/" target="_blank" rel="noopener" aria-label="Opna klippu 6 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">06</span>
-                  </a>
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/C896d92I-yA.jpg')" aria-hidden="true"></span>
+                  <img class="clipshow-media" src="assets/clips/C896d92I-yA.jpg" alt="Betkastið — Instagram-mynd 6" loading="lazy" />
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-image"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="C8xGVy1orl5">
+              <li class="clipshow-slide" data-code="C8xGVy1orl5" data-type="video">
                 <div class="clipshow-card">
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/C8xGVy1orl5.jpg')" aria-hidden="true"></span>
+                  <video class="clipshow-media" data-src="assets/clips/C8xGVy1orl5.mp4" poster="assets/clips/C8xGVy1orl5.jpg" muted playsinline preload="none"></video>
                   <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/C8xGVy1orl5/" target="_blank" rel="noopener" aria-label="Opna klippu 7 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">07</span>
-                  </a>
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-play"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="C8VQfnKg4bF">
+              <li class="clipshow-slide" data-code="C8VQfnKg4bF" data-type="image">
                 <div class="clipshow-card">
-                  <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/C8VQfnKg4bF/" target="_blank" rel="noopener" aria-label="Opna klippu 8 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">08</span>
-                  </a>
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/C8VQfnKg4bF.jpg')" aria-hidden="true"></span>
+                  <img class="clipshow-media" src="assets/clips/C8VQfnKg4bF.jpg" alt="Betkastið — Instagram-mynd 8" loading="lazy" />
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-image"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="C76pStEoEjS">
+              <li class="clipshow-slide" data-code="C76pStEoEjS" data-type="image">
                 <div class="clipshow-card">
-                  <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/C76pStEoEjS/" target="_blank" rel="noopener" aria-label="Opna klippu 9 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">09</span>
-                  </a>
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/C76pStEoEjS.jpg')" aria-hidden="true"></span>
+                  <img class="clipshow-media" src="assets/clips/C76pStEoEjS.jpg" alt="Betkastið — Instagram-mynd 9" loading="lazy" />
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-image"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="C7Knc9togKQ">
+              <li class="clipshow-slide" data-code="C7Knc9togKQ" data-type="image">
                 <div class="clipshow-card">
-                  <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/C7Knc9togKQ/" target="_blank" rel="noopener" aria-label="Opna klippu 10 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">10</span>
-                  </a>
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/C7Knc9togKQ.jpg')" aria-hidden="true"></span>
+                  <img class="clipshow-media" src="assets/clips/C7Knc9togKQ.jpg" alt="Betkastið — Instagram-mynd 10" loading="lazy" />
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-image"></use></svg></span>
                 </div>
               </li>
-              <li class="clipshow-slide" data-code="C6GxtF9o6z7">
+              <li class="clipshow-slide" data-code="C6GxtF9o6z7" data-type="image">
                 <div class="clipshow-card">
-                  <span class="clipshow-spin" aria-hidden="true"></span>
-                  <a class="clipshow-poster" href="https://www.instagram.com/p/C6GxtF9o6z7/" target="_blank" rel="noopener" aria-label="Opna klippu 11 á Instagram">
-                    <svg class="ic" aria-hidden="true"><use href="#i-instagram"></use></svg>
-                    <span class="clipshow-poster-n">11</span>
-                  </a>
+                  <span class="clipshow-bg" style="background-image:url('assets/clips/C6GxtF9o6z7.jpg')" aria-hidden="true"></span>
+                  <img class="clipshow-media" src="assets/clips/C6GxtF9o6z7.jpg" alt="Betkastið — Instagram-mynd 11" loading="lazy" />
+                  <span class="clipshow-chip" aria-hidden="true"><svg class="ic"><use href="#i-image"></use></svg></span>
                 </div>
               </li>
             </ul>
@@ -340,6 +326,10 @@
             <button class="clipshow-play" type="button" data-clipshow-toggle aria-label="Spila sýningu" aria-pressed="false">
               <svg class="ic ic-play" aria-hidden="true"><use href="#i-play"></use></svg>
               <svg class="ic ic-pause" aria-hidden="true"><use href="#i-pause"></use></svg>
+            </button>
+            <button class="clipshow-mute" type="button" data-clipshow-mute aria-label="Kveikja á hljóði" aria-pressed="false">
+              <svg class="ic ic-muted" aria-hidden="true"><use href="#i-mute"></use></svg>
+              <svg class="ic ic-sound" aria-hidden="true"><use href="#i-volume"></use></svg>
             </button>
             <div class="clipshow-progress" aria-hidden="true"><span class="clipshow-progress-bar" data-clipshow-bar></span></div>
             <p class="clipshow-counter" aria-hidden="true">
