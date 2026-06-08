@@ -1132,47 +1132,162 @@ html:not(.js) .ep-toolbar { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .hero-cover { animation: none; } }
 
-/* Clips (link out to TikTok / Instagram) */
-.clip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.clip-card {
-  position: relative; display: block; aspect-ratio: 9 / 16;
-  border-radius: var(--radius); overflow: hidden; color: #fff;
-  border: 1.5px solid var(--line); box-shadow: var(--shadow-sm);
-  background: linear-gradient(150deg, var(--green-700), var(--emerald-950));
-  transition: transform .2s var(--ease), box-shadow .25s var(--ease), border-color .2s var(--ease);
+/* Screen-reader-only utility (used by the clip slideshow live region) */
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0;
+  border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
 }
-.clip-card.clip-2 { background: linear-gradient(150deg, var(--green-600), #052B30); }
-.clip-card.clip-3 { background: linear-gradient(150deg, var(--green-500), #0A3322); }
-.clip-card.clip-4 { background: linear-gradient(150deg, #1C8F5A, #03241C); }
-.clip-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--green-300); }
-.clip-thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.clip-card::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(4,21,14,.85) 0%, rgba(4,21,14,.10) 44%, rgba(4,21,14,.34) 100%);
+
+/* ---------- Clip slideshow (Instagram) ----------
+   A cinematic, auto-advancing coverflow carousel of Instagram embeds.
+   Active slide centred; neighbours peeled back in 3D. Progressive: without
+   JS it degrades to a simple grid of links (see html:not(.js) rules). */
+.clipshow { position: relative; margin-top: 8px; }
+
+.clipshow-stage {
+  position: relative;
+  height: clamp(500px, 68vh, 650px);
+  perspective: 1700px;
 }
-.clip-tag {
-  position: absolute; left: 12px; top: 12px; z-index: 2;
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
-  color: #fff; background: rgba(4,21,14,.6); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
-  padding: 5px 9px; border-radius: 999px;
+.clipshow-stage::before { /* ambient brand glow behind the deck */
+  content: ""; position: absolute; left: 50%; top: 50%; z-index: 0;
+  width: min(92%, 560px); height: 72%; transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(23,178,87,.34), transparent 72%);
+  filter: blur(22px); pointer-events: none;
 }
-.clip-tag .ic { width: 13px; height: 13px; }
-.clip-play {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.92);
-  z-index: 2; width: 56px; height: 56px; border-radius: 50%;
-  background: rgba(54,216,122,.92); color: var(--emerald-950);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 10px 26px -8px rgba(54,216,122,.8);
-  opacity: .92; transition: transform .2s var(--ease), opacity .2s var(--ease);
+
+.clipshow-viewport {
+  position: absolute; inset: 0; margin: 0; padding: 0; list-style: none;
+  transform-style: preserve-3d;
 }
-.clip-play .ic { width: 24px; height: 24px; margin-left: 2px; }
-.clip-card:hover .clip-play { transform: translate(-50%, -50%) scale(1.04); opacity: 1; }
-.clip-cap {
-  position: absolute; left: 14px; right: 14px; bottom: 13px; z-index: 2;
-  font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; line-height: 1.15; letter-spacing: -.01em;
-  text-shadow: 0 2px 14px rgba(0,0,0,.5);
+
+.clipshow-slide {
+  position: absolute; top: 50%; left: 50%; margin: 0;
+  width: min(90vw, 344px); height: 100%;
+  pointer-events: none;
+  transition: transform .6s var(--ease), opacity .55s var(--ease), filter .55s var(--ease);
+  will-change: transform, opacity;
 }
+.clipshow-slide[data-pos="active"] {
+  z-index: 6; opacity: 1; filter: none; pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+}
+.clipshow-slide[data-pos="prev"] {
+  z-index: 4; opacity: .5; filter: brightness(.62) saturate(.85); cursor: pointer; pointer-events: auto;
+  transform: translate(-118%, -50%) scale(.8) rotateY(22deg);
+}
+.clipshow-slide[data-pos="next"] {
+  z-index: 4; opacity: .5; filter: brightness(.62) saturate(.85); cursor: pointer; pointer-events: auto;
+  transform: translate(18%, -50%) scale(.8) rotateY(-22deg);
+}
+.clipshow-slide[data-pos="far-prev"] {
+  z-index: 2; opacity: 0; transform: translate(-150%, -50%) scale(.62) rotateY(26deg);
+}
+.clipshow-slide[data-pos="far-next"] {
+  z-index: 2; opacity: 0; transform: translate(50%, -50%) scale(.62) rotateY(-26deg);
+}
+.clipshow-slide[data-pos="prev"]:hover,
+.clipshow-slide[data-pos="next"]:hover { opacity: .72; filter: brightness(.78) saturate(.95); }
+
+.clipshow-card {
+  position: relative; width: 100%; height: 100%;
+  border-radius: 24px; overflow: hidden;
+  background: linear-gradient(160deg, var(--green-700), var(--emerald-950));
+  border: 1px solid var(--line-strong); box-shadow: var(--shadow-lg);
+}
+.clipshow-slide:nth-child(3n+2) .clipshow-card { background: linear-gradient(160deg, var(--green-600), #052B30); }
+.clipshow-slide:nth-child(3n)   .clipshow-card { background: linear-gradient(160deg, var(--green-500), #0A3322); }
+.clipshow-slide[data-pos="active"] .clipshow-card {
+  border-color: rgba(124,235,168,.42);
+  box-shadow: 0 30px 80px -24px rgba(0,0,0,.7), 0 0 0 1px rgba(124,235,168,.22), 0 0 60px -12px rgba(23,178,87,.5);
+}
+
+.clipshow-embed {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; display: block; background: #fff;
+  opacity: 0; transition: opacity .45s var(--ease);
+}
+.clipshow-slide.is-loaded .clipshow-embed { opacity: 1; }
+/* Neighbours are a visual preview only — clicks select the slide, not the embed */
+.clipshow-slide:not([data-pos="active"]) .clipshow-embed { pointer-events: none; }
+
+.clipshow-poster {
+  position: absolute; inset: 0; z-index: 0; color: #fff; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+}
+.clipshow-poster .ic { width: 42px; height: 42px; opacity: .92; }
+.clipshow-poster-n { font-family: var(--font-mono); font-size: 1.1rem; letter-spacing: .12em; color: rgba(255,255,255,.7); }
+.clipshow-spin {
+  position: absolute; left: 50%; top: 50%; z-index: 1; width: 34px; height: 34px; margin: -17px 0 0 -17px;
+  border-radius: 50%; border: 3px solid rgba(255,255,255,.22); border-top-color: #fff;
+  animation: clipshow-spin .8s linear infinite;
+}
+@keyframes clipshow-spin { to { transform: rotate(360deg); } }
+.clipshow-slide.is-loaded .clipshow-spin { opacity: 0; animation: none; }
+
+/* Touch swipe layer (added by JS on coarse pointers only) */
+.clipshow-swipe { position: absolute; inset: 0; z-index: 8; touch-action: pan-y; }
+
+/* Arrows */
+.clipshow-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 20;
+  width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
+  border: 1px solid var(--line-strong); color: var(--ink);
+  background: rgba(7,34,26,.66); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  display: grid; place-items: center;
+  transition: background .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease), color .2s var(--ease);
+}
+.clipshow-arrow:hover { background: var(--green-700); border-color: var(--green-400); color: #fff; transform: translateY(-50%) scale(1.06); }
+.clipshow-arrow:active { transform: translateY(-50%) scale(.98); }
+.clipshow-arrow .ic { width: 22px; height: 22px; }
+.clipshow-arrow-prev { left: clamp(2px, 3vw, 26px); }
+.clipshow-arrow-prev .ic { transform: scaleX(-1); }
+.clipshow-arrow-next { right: clamp(2px, 3vw, 26px); }
+
+/* Controls */
+.clipshow-controls {
+  margin-top: clamp(20px, 3vw, 30px);
+  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
+}
+.clipshow-play {
+  flex: none; width: 54px; height: 54px; border-radius: 50%; cursor: pointer;
+  border: 1.5px solid var(--line-strong); background: var(--surface); color: var(--ink);
+  display: grid; place-items: center;
+  transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease), transform .18s var(--ease);
+}
+.clipshow-play:hover { background: var(--surface-2); border-color: var(--green-400); color: #fff; transform: translateY(-2px); }
+.clipshow-play .ic { width: 22px; height: 22px; }
+.clipshow-play .ic-play { margin-left: 2px; }
+.clipshow-play .ic-pause { display: none; }
+.clipshow-play.is-playing .ic-play { display: none; }
+.clipshow-play.is-playing .ic-pause { display: block; }
+
+.clipshow-progress {
+  position: relative; flex: 1 1 150px; max-width: 320px; height: 6px;
+  border-radius: 999px; background: var(--line); overflow: hidden;
+}
+.clipshow-progress-bar {
+  position: absolute; inset: 0; transform-origin: left center; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--green-500), var(--green-300)); border-radius: 999px;
+}
+
+.clipshow-counter {
+  font-family: var(--font-mono); font-size: .9rem; letter-spacing: .04em;
+  display: inline-flex; align-items: baseline; gap: 6px; font-variant-numeric: tabular-nums; color: var(--ink-soft);
+}
+.clipshow-counter-sep { color: var(--green-700); }
+.clipshow-counter span:last-child { color: var(--muted); }
+
+.clipshow-open { flex: none; }
+
+/* Dots */
+.clipshow-dots { margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.clipshow-dot {
+  width: 9px; height: 9px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--line-strong); transition: width .25s var(--ease), background .2s var(--ease);
+}
+.clipshow-dot:hover { background: var(--green-600); }
+.clipshow-dot[aria-current="true"] { width: 26px; background: var(--green-400); }
 
 /* Partners */
 .partner-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; align-items: center; }
@@ -1202,16 +1317,46 @@ html:not(.js) .ep-toolbar { display: none; }
 
 /* Responsive for the new sections */
 @media (max-width: 1000px) {
-  .clip-grid { grid-template-columns: repeat(2, 1fr); }
   .partner-grid { grid-template-columns: repeat(3, 1fr); }
 }
+@media (max-width: 720px) {
+  /* On phones the deck collapses to a single focused clip — neighbours slide
+     fully out and swipe/dots drive navigation. */
+  .clipshow-stage { height: clamp(480px, 76vh, 600px); perspective: none; }
+  .clipshow-slide { width: min(86vw, 330px); transition: transform .45s var(--ease), opacity .45s var(--ease); }
+  .clipshow-slide[data-pos="prev"]  { opacity: 0; transform: translate(-150%, -50%) scale(.82); }
+  .clipshow-slide[data-pos="next"]  { opacity: 0; transform: translate(50%, -50%) scale(.82); }
+  .clipshow-arrow { width: 44px; height: 44px; }
+  .clipshow-arrow .ic { width: 19px; height: 19px; }
+}
 @media (max-width: 560px) {
-  .clip-grid { gap: 12px; }
   .partner-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-cover { width: min(86%, 360px); margin-inline: auto; }
   .hero-cover-play { width: 70px; height: 70px; }
   .hero-cover-play .ic { width: 28px; height: 28px; }
 }
+
+/* Reduced motion: kill 3D transitions + spinner (autoplay is off in JS too) */
+@media (prefers-reduced-motion: reduce) {
+  .clipshow-slide, .clipshow-embed { transition: none; }
+  .clipshow-spin { animation: none; }
+}
+
+/* No-JS fallback: a plain, tappable grid of clip links */
+html:not(.js) .clipshow-stage { height: auto; perspective: none; }
+html:not(.js) .clipshow-stage::before { display: none; }
+html:not(.js) .clipshow-viewport {
+  position: static; transform: none; display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+html:not(.js) .clipshow-slide {
+  position: static; width: auto; height: auto; aspect-ratio: 9 / 16; pointer-events: auto;
+  transform: none !important; opacity: 1 !important; filter: none !important;
+}
+html:not(.js) .clipshow-spin { display: none; }
+html:not(.js) .clipshow-arrow,
+html:not(.js) .clipshow-controls,
+html:not(.js) .clipshow-dots { display: none; }
 
 /* Partnership packages (contact page) */
 .package-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; align-items: start; }
