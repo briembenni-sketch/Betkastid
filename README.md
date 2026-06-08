@@ -61,13 +61,15 @@ Spotify show and site. A few outbound links are marked with `NOTE:` comments in
   (live via the iTunes lookup API, matched by GUID). **Spotify** opens the show (Spotify does
   not expose public per-episode URLs without their API). Episodes are now published **in video
   on Spotify** (not on YouTube)
-- **Clips** (`#klippur`) — a self-playing, coverflow-style slideshow of real Instagram clips
-  (official `/embed/` iframes from `@betkastid`). It auto-advances with a progress bar and supports
-  prev/next, play/pause, dot navigation, keyboard (←/→/space) and touch swipe; it pauses on hover,
-  focus and when off-screen, lazy-loads neighbouring embeds, respects `prefers-reduced-motion`, and
-  degrades to a plain grid of links without JS. Add a clip by copying one
-  `<li class="clipshow-slide" data-code="…">` with the post's shortcode — the counter, dots and
-  playback update automatically
+- **Clips** (`#klippur`) — a self-playing, coverflow-style slideshow that plays the clips **inline**.
+  The videos are self-hosted in `assets/clips/` (downloaded from Instagram `@betkastid`, re-encoded to
+  web-friendly H.264 ≤600px) and **autoplay muted**, advancing to the next clip when each one ends;
+  photo posts (no video) show as images and advance on a timer. Controls: prev/next, play/pause,
+  **mute/unmute**, `nn / 11` counter, dot navigation, an "Opna á Instagram" link, keyboard
+  (←/→, space, `m`) and touch swipe. It pauses off-screen, shows a blurred backdrop behind any aspect
+  ratio, respects `prefers-reduced-motion`, and degrades to a poster grid without JS. Add a clip by
+  copying one `<li class="clipshow-slide" data-code="…" data-type="video|image">` and dropping the
+  matching `assets/clips/<shortcode>.mp4` / `.jpg` — the counter, dots and playback update automatically.
 - **Partners** (`#samstarf`) — `assets/partners/partner-*.svg` are white placeholders; replace
   them with the real transparent-white partner logos (keep the filenames or update `src`)
 - **Source images** — the originals in `Betkast logo og myndir/` are large (~210 MB of
