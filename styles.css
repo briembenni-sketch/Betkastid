@@ -1,5 +1,5 @@
 /* =================================================================
-   Betkastið — landing page
+   Betkastið: landing page
    Aesthetic: editorial sports-book. Light base, deep-emerald drama,
    vivid green accents. Bricolage Grotesque / Hanken Grotesk / Space Mono.
    ================================================================= */
@@ -81,7 +81,7 @@ body {
 /* Lock background scroll while the mobile menu is open. We pin the body with
    position:fixed instead of overflow:hidden, because iOS Safari ignores overflow
    on the body for scrolling AND it knocks position:fixed children out of the
-   viewport — that combination is what hid the open menu off-screen. The menu
+   viewport, that combination is what hid the open menu off-screen. The menu
    script stores the scroll position (as an inline top offset) and restores it. */
 html.nav-open body { position: fixed; left: 0; right: 0; width: 100%; }
 
@@ -789,7 +789,7 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
 }
 
 /* =================================================================
-   Episode toolbar dropdowns (category + sort) — custom & themed
+   Episode toolbar dropdowns (category + sort): custom & themed
    ================================================================= */
 .ep-dd { position: relative; flex: none; }
 
@@ -1087,7 +1087,7 @@ html:not(.js) .ep-toolbar { display: none; }
 @media (max-width: 680px) { .ep-detail-art { width: 100%; max-width: 320px; } }
 
 /* =================================================================
-   Owner update — hero cover art, hero stat line, video, clips,
+   Owner update: hero cover art, hero stat line, video, clips,
    partners, and the contact-page about stats
    ================================================================= */
 
@@ -1219,7 +1219,7 @@ html:not(.js) .ep-toolbar { display: none; }
   object-fit: contain; display: block;
 }
 .clipshow-slide[data-pos="active"] .clipshow-media { cursor: pointer; }
-/* Neighbours are a preview only — clicks select the slide, not the media */
+/* Neighbours are a preview only, clicks select the slide, not the media */
 .clipshow-slide:not([data-pos="active"]) .clipshow-media { pointer-events: none; }
 
 /* Media-type chip (video / photo) */
@@ -1319,7 +1319,7 @@ html:not(.js) .ep-toolbar { display: none; }
 .clipshow-dot:hover { background: var(--green-600); }
 .clipshow-dot[aria-current="true"] { width: 26px; background: var(--green-400); }
 
-/* ---------- Event video (Viðburðir — auto-loop highlight) ----------
+/* ---------- Event video (Viðburðir, auto-loop highlight) ----------
    Vertical "reel" card: portrait 9:16 clip, centered, capped so it reads
    as a featured short rather than a full-bleed player. */
 .eventvideo {
@@ -1382,7 +1382,7 @@ html:not(.js) .ep-toolbar { display: none; }
   .partner-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 720px) {
-  /* On phones the deck collapses to a single focused clip — neighbours slide
+  /* On phones the deck collapses to a single focused clip, neighbours slide
      fully out and swipe/dots drive navigation. */
   .clipshow-stage { height: clamp(430px, 64vh, 500px); perspective: none; }
   .clipshow-slide { width: min(86vw, 330px); transition: transform .45s var(--ease), opacity .45s var(--ease); }

@@ -1,18 +1,18 @@
-# Viðburðir — myndbönd
+# Viðburðir: myndbönd
 
 Þessi mappa geymir myndbandið fyrir hlutann **„Viðburðir betkastins“** á
 forsíðunni (`index.html`).
 
 Núverandi skrár:
-- `afmaeli-betkastid.mp4` — afmælismyndbandið (lóðrétt 9:16, H.264, vef-bjartsýnt).
-- `afmaeli-betkastid.jpg` — plakat (fyrsti rammi sem birtist áður en spilun hefst).
+- `afmaeli-betkastid.mp4`, afmælismyndbandið (lóðrétt 9:16, H.264, vef-bjartsýnt).
+- `afmaeli-betkastid.jpg`, plakat (fyrsti rammi sem birtist áður en spilun hefst).
 
 Myndbandið rúllar sjálfkrafa í lúppu, hljóðlaust þar til gestur kveikir á
 hljóði með hnappnum neðst í hægra horni.
 
 ## Að skipta um myndband
 Settu nýju skrána hér með sama nafni (`afmaeli-betkastid.mp4`) svo ekkert þurfi
-að breyta í `index.html`. Ráðlagt að umkóða í vef-vænt snið fyrst — t.d. með
+að breyta í `index.html`. Ráðlagt að umkóða í vef-vænt snið fyrst, t.d. með
 [ffmpeg](https://ffmpeg.org/):
 
     # Lóðrétt myndband → 720x1280 H.264, hljóðlátt nettengt niðurhal

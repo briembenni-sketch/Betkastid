@@ -1,5 +1,5 @@
 /* =================================================================
-   Betkastið — episodes archive, search/sort/filter, episode page + player
+   Betkastið: episodes archive, search/sort/filter, episode page + player
    Pulls every episode live from the public RSS feed (CORS-enabled),
    classifies by topic, powers the searchable/sortable/filterable archive,
    renders the dedicated episode page (thattur.html?ep=…) with live Apple
