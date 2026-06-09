@@ -1319,6 +1319,38 @@ html:not(.js) .ep-toolbar { display: none; }
 .clipshow-dot:hover { background: var(--green-600); }
 .clipshow-dot[aria-current="true"] { width: 26px; background: var(--green-400); }
 
+/* ---------- Event video (Viðburðir — auto-loop highlight) ----------
+   Vertical "reel" card: portrait 9:16 clip, centered, capped so it reads
+   as a featured short rather than a full-bleed player. */
+.eventvideo {
+  position: relative;
+  width: 100%; max-width: 412px; margin-inline: auto;
+  aspect-ratio: 9 / 16;
+  border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: linear-gradient(160deg, var(--green-800), var(--emerald-950));
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(234,246,238,.06);
+}
+.eventvideo-media {
+  position: absolute; inset: 0; z-index: 1;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+/* Tap-to-unmute toggle */
+.eventvideo-mute {
+  position: absolute; right: 16px; bottom: 16px; z-index: 3;
+  width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
+  border: 1px solid var(--line-strong); color: var(--ink);
+  background: rgba(4,21,14,.6); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  display: grid; place-items: center;
+  transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease), transform .18s var(--ease);
+}
+.eventvideo-mute:hover { background: var(--green-700); border-color: var(--green-400); color: #fff; transform: translateY(-2px); }
+.eventvideo-mute .ic { width: 20px; height: 20px; }
+.eventvideo-mute .ic-sound { display: none; }
+.eventvideo-mute.is-on { border-color: var(--green-500); color: var(--green-300); }
+.eventvideo-mute.is-on .ic-muted { display: none; }
+.eventvideo-mute.is-on .ic-sound { display: block; }
+
 /* Partners */
 .partner-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; align-items: center; }
 .partner-logo {

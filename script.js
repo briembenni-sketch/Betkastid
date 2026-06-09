@@ -444,4 +444,45 @@
       if (playing) kick();
     }
   }
+
+  /* ---------- Event video (Viðburðir — auto-loop highlight with unmute) ----------
+     A single self-hosted highlight reel that loops muted on the front page.
+     Respects reduced-motion (no autoplay, native controls instead), pauses
+     when scrolled out of view, and offers a tap-to-unmute toggle. */
+  const eventVideo = document.querySelector("[data-eventvideo]");
+  if (eventVideo) {
+    const vid = eventVideo.querySelector("video");
+    const muteBtn = eventVideo.querySelector("[data-eventvideo-mute]");
+    if (vid) {
+      if (reduceMotion) {
+        // Don't auto-roll; let the visitor start it themselves.
+        vid.removeAttribute("autoplay");
+        vid.setAttribute("controls", "");
+        if (muteBtn) muteBtn.hidden = true;
+      } else if ("IntersectionObserver" in window) {
+        // Save resources: only roll while in view.
+        new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) { const p = vid.play(); if (p && p.catch) p.catch(() => {}); }
+            else vid.pause();
+          });
+        }, { threshold: 0.25 }).observe(eventVideo);
+      }
+
+      if (muteBtn) {
+        const reflect = () => {
+          const on = !vid.muted;
+          muteBtn.classList.toggle("is-on", on);
+          muteBtn.setAttribute("aria-pressed", String(on));
+          muteBtn.setAttribute("aria-label", on ? "Þagga niður" : "Kveikja á hljóði");
+        };
+        muteBtn.addEventListener("click", () => {
+          vid.muted = !vid.muted;
+          if (!vid.muted && vid.paused) { const p = vid.play(); if (p && p.catch) p.catch(() => {}); }
+          reflect();
+        });
+        reflect();
+      }
+    }
+  }
 })();
