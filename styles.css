@@ -1153,6 +1153,13 @@ html:not(.js) .ep-toolbar { display: none; }
   position: relative;
   height: clamp(470px, 62vh, 540px);
   perspective: 1700px;
+  /* The peeled-back 3D neighbour slides reach far past the deck on both sides.
+     Clip them horizontally so they never widen the page, that horizontal
+     overflow is what let mobile Safari pinch-zoom out and stick. overflow-x:clip
+     keeps the vertical glow/shadow visible; overflow-x:hidden is the Safari <16
+     fallback. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 .clipshow-stage::before { /* ambient brand glow behind the deck */
   content: ""; position: absolute; left: 50%; top: 50%; z-index: 0;
