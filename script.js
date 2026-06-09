@@ -1,5 +1,5 @@
 /* =================================================================
-   Betkastið — interactions
+   Betkastið: interactions
    Vanilla JS, no dependencies. Accessible + reduced-motion aware.
    ================================================================= */
 (function () {
@@ -445,7 +445,7 @@
     }
   }
 
-  /* ---------- Event video (Viðburðir — auto-loop highlight with unmute) ----------
+  /* ---------- Event video (Viðburðir, auto-loop highlight with unmute) ----------
      A single self-hosted highlight reel that loops muted on the front page.
      Respects reduced-motion (no autoplay, native controls instead), pauses
      when scrolled out of view, and offers a tap-to-unmute toggle. */

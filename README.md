@@ -1,31 +1,31 @@
-# Betkastið — landing page
+# Betkastið: landing page
 
 A modern, green-themed site for **Betkastið**, the Icelandic sports &
-prediction podcast — _„Hverjar eru líkurnar?"_ It's a small multi-page static site —
+prediction podcast, _„Hverjar eru líkurnar?"_ It's a small multi-page static site:
 **Forsíða**, **Þættir** (a filterable episode archive with an on-site player) and
-**Hafa samband** — sharing one header/footer and taking cues from chessafterdark.is,
+**Hafa samband**, sharing one header/footer and taking cues from chessafterdark.is,
 with a distinctive sports-book identity built around a green palette.
 
 ## Stack
 
 No build step. Plain, static, fast.
 
-- `index.html` — **Forsíða**: hero (cover art), stats, clips, listen/follow,
+- `index.html`, **Forsíða**: hero (cover art), stats, clips, listen/follow,
   category teasers, partners
-- `thaettir.html` — **Þættir**: the searchable, sortable, filterable episode archive
-- `thattur.html` — **Þáttur**: a single-episode page (artwork, Spotify description,
+- `thaettir.html`, **Þættir**: the searchable, sortable, filterable episode archive
+- `thattur.html`, **Þáttur**: a single-episode page (artwork, Spotify description,
   Spotify/Apple links and in-page play), opened from any episode card
-- `hafa-samband.html` — **Hafa samband**: contact details + a short "Um okkur" section
+- `hafa-samband.html`, **Hafa samband**: contact details + a short "Um okkur" section
 - shared inline SVG icon sprite, header and footer on every page; JSON-LD (`PodcastSeries`) on the front page
-- `styles.css` — design system (CSS variables), layout, animations, responsive
-- `script.js` — mobile nav, sticky header, scroll-reveal, animated stat counters, scroll-spy
-- `episodes.js` — fetches every episode live from the public RSS feed (CORS-enabled),
+- `styles.css`, design system (CSS variables), layout, animations, responsive
+- `script.js`, mobile nav, sticky header, scroll-reveal, animated stat counters, scroll-spy
+- `episodes.js`, fetches every episode live from the public RSS feed (CORS-enabled),
   classifies each by topic, and powers the search, sort and count-pill filters, the dedicated
   episode page (full Spotify description, Spotify show link + live Apple Podcasts episode
   links via iTunes JSONP matched by GUID) and the in-page player
-- `assets/` — brand imagery wired into the page: wordmark logo (header/footer), app icons
+- `assets/`, brand imagery wired into the page: wordmark logo (header/footer), app icons
   (favicon / apple-touch), podcast cover (social preview + hero album card) and host cut-out
-  photos (clips, About panel) — web-optimized from the source files in `Betkast logo og myndir/`.
+  photos (clips, About panel), web-optimized from the source files in `Betkast logo og myndir/`.
   `assets/partners/` holds white placeholder logos for the Samstarfsaðilar section
 
 ## Design
@@ -54,14 +54,14 @@ Content (episodes, rating, handles, contact) is drawn from Betkastið's public
 Spotify show and site. A few outbound links are marked with `NOTE:` comments in
 `index.html` and should be pointed at exact URLs when available:
 
-- **Episodes** — pulled live from the RSS feed (`anchor.fm/s/10a51d438/podcast/rss`) in the
+- **Episodes**, pulled live from the RSS feed (`anchor.fm/s/10a51d438/podcast/rss`) in the
   browser, auto-classified into topic filters, and each plays in-page via its audio enclosure,
   so new episodes appear automatically with no code changes
-- **Episode links** — each episode page deep-links to that episode on **Apple Podcasts**
+- **Episode links**, each episode page deep-links to that episode on **Apple Podcasts**
   (live via the iTunes lookup API, matched by GUID). **Spotify** opens the show (Spotify does
   not expose public per-episode URLs without their API). Episodes are now published **in video
   on Spotify** (not on YouTube)
-- **Clips** (`#klippur`) — a self-playing, coverflow-style slideshow that plays the clips **inline**.
+- **Clips** (`#klippur`), a self-playing, coverflow-style slideshow that plays the clips **inline**.
   The videos are self-hosted in `assets/clips/` (downloaded from Instagram `@betkastid`, re-encoded to
   web-friendly H.264 ≤600px) and **autoplay muted**, advancing to the next clip when each one ends;
   photo posts (no video) show as images and advance on a timer. Controls: prev/next, play/pause,
@@ -69,9 +69,9 @@ Spotify show and site. A few outbound links are marked with `NOTE:` comments in
   (←/→, space, `m`) and touch swipe. It pauses off-screen, shows a blurred backdrop behind any aspect
   ratio, respects `prefers-reduced-motion`, and degrades to a poster grid without JS. Add a clip by
   copying one `<li class="clipshow-slide" data-code="…" data-type="video|image">` and dropping the
-  matching `assets/clips/<shortcode>.mp4` / `.jpg` — the counter, dots and playback update automatically.
-- **Partners** (`#samstarf`) — `assets/partners/partner-*.svg` are white placeholders; replace
+  matching `assets/clips/<shortcode>.mp4` / `.jpg`, the counter, dots and playback update automatically.
+- **Partners** (`#samstarf`), `assets/partners/partner-*.svg` are white placeholders; replace
   them with the real transparent-white partner logos (keep the filenames or update `src`)
-- **Source images** — the originals in `Betkast logo og myndir/` are large (~210 MB of
+- **Source images**, the originals in `Betkast logo og myndir/` are large (~210 MB of
   full-resolution PNGs). The site only uses the optimized derivatives in `assets/`, so the
   originals can safely be removed from the repo (or moved to release storage) to keep clones small
