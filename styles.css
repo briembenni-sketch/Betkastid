@@ -1087,18 +1087,9 @@ html:not(.js) .ep-toolbar { display: none; }
 @media (max-width: 680px) { .ep-detail-art { width: 100%; max-width: 320px; } }
 
 /* =================================================================
-   Owner update: hero cover art, hero stat line, video, clips,
-   partners, and the contact-page about stats
+   Owner update: hero cover art, video, clips,
+   and the contact-page about stats
    ================================================================= */
-
-/* Hero: small trust/stat line (replaces the old rating row) */
-.hero-stats {
-  margin-top: 28px;
-  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
-  font-size: .96rem; color: var(--on-dark-mut);
-}
-.hero-stats strong { color: #fff; font-variant-numeric: tabular-nums; }
-.hero-stats-dot { color: var(--green-700); }
 
 /* Hero: cover-art album card (replaces the host cut-out) */
 .hero-figure { align-items: center; }
@@ -1358,23 +1349,6 @@ html:not(.js) .ep-toolbar { display: none; }
 .eventvideo-mute.is-on .ic-muted { display: none; }
 .eventvideo-mute.is-on .ic-sound { display: block; }
 
-/* Partners */
-.partner-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; align-items: center; }
-.partner-logo {
-  display: flex; align-items: center; justify-content: center;
-  padding: 22px 18px; min-height: 96px;
-  background: rgba(234,246,238,.03);
-  border: 1px solid var(--line); border-radius: var(--radius);
-  transition: border-color .2s var(--ease), background .2s var(--ease);
-}
-.partner-logo:hover { border-color: var(--green-300); background: rgba(234,246,238,.06); }
-.partner-logo img {
-  width: auto; max-width: 100%; height: 40px; object-fit: contain;
-  opacity: .66; transition: opacity .2s var(--ease);
-}
-.partner-logo:hover img { opacity: 1; }
-.partners-cta { margin-top: clamp(28px, 4vw, 40px); display: flex; justify-content: center; }
-
 /* Contact page: about stats trio (replaces the old rating block) */
 .about-stats { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 22px 26px; position: relative; z-index: 1; }
 .about-stats div { display: flex; flex-direction: column; }
@@ -1385,9 +1359,6 @@ html:not(.js) .ep-toolbar { display: none; }
 .about-stats span { margin-top: 5px; font-size: .82rem; color: var(--on-dark-mut); }
 
 /* Responsive for the new sections */
-@media (max-width: 1000px) {
-  .partner-grid { grid-template-columns: repeat(3, 1fr); }
-}
 @media (max-width: 720px) {
   /* On phones the deck collapses to a single focused clip, neighbours slide
      fully out and swipe/dots drive navigation. */
@@ -1399,7 +1370,6 @@ html:not(.js) .ep-toolbar { display: none; }
   .clipshow-arrow .ic { width: 19px; height: 19px; }
 }
 @media (max-width: 560px) {
-  .partner-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-cover { width: min(86%, 360px); margin-inline: auto; }
   .hero-cover-play { width: 70px; height: 70px; }
   .hero-cover-play .ic { width: 28px; height: 28px; }
