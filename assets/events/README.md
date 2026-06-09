@@ -1,19 +1,31 @@
 # Viðburðir — myndbönd
 
-Settu afmælismyndbandið hér með nákvæmlega þessu skráarnafni:
+Þessi mappa geymir myndbandið fyrir hlutann **„Viðburðir betkastins“** á
+forsíðunni (`index.html`).
 
-    afmaeli-betkastid.mp4
+Núverandi skrár:
+- `afmaeli-betkastid.mp4` — afmælismyndbandið (lóðrétt 9:16, H.264, vef-bjartsýnt).
+- `afmaeli-betkastid.jpg` — plakat (fyrsti rammi sem birtist áður en spilun hefst).
 
-Það birtist sjálfkrafa í hlutanum **„Viðburðir betkastins“** á forsíðunni
-(`index.html`) og rúllar þar í lúppu — hljóðlaust þar til gestur kveikir á
-hljóði með hnappnum neðst í hægra horni myndbandsins.
+Myndbandið rúllar sjálfkrafa í lúppu, hljóðlaust þar til gestur kveikir á
+hljóði með hnappnum neðst í hægra horni.
 
-## Ráð fyrir skrána
+## Að skipta um myndband
+Settu nýju skrána hér með sama nafni (`afmaeli-betkastid.mp4`) svo ekkert þurfi
+að breyta í `index.html`. Ráðlagt að umkóða í vef-vænt snið fyrst — t.d. með
+[ffmpeg](https://ffmpeg.org/):
+
+    # Lóðrétt myndband → 720x1280 H.264, hljóðlátt nettengt niðurhal
+    ffmpeg -i INNTAK.mov -vf "scale=720:1280:flags=lanczos" \
+      -c:v libx264 -profile:v high -preset slow -crf 26 -pix_fmt yuv420p \
+      -c:a aac -b:a 128k -movflags +faststart afmaeli-betkastid.mp4
+
+    # Nýtt plakat (rammi á 2. sekúndu)
+    ffmpeg -ss 2 -i afmaeli-betkastid.mp4 -frames:v 1 -q:v 3 afmaeli-betkastid.jpg
+
+## Ráð
 - Helst **.mp4 (H.264 + AAC)** svo það spilist í öllum vöfrum og snjallsímum.
-- Reyndu að halda skránni undir ~10 MB svo forsíðan hlaðist hratt
-  (klipptu/þjappaðu lengra myndband ef þarf).
-- Valfrjálst: bættu líka við `afmaeli-betkastid.webm` fyrir enn minni skrá —
-  bættu þá við `<source ... type="video/webm">` línu á undan .mp4 í `index.html`.
-
-> Forsíðumyndin (`assets/cover-betkastid.jpg`) birtist sem plakat þangað til
-> myndbandsskráin er komin inn, svo hlutinn lítur heillegur út strax.
+- Haltu skránni undir ~15 MB svo forsíðan hlaðist hratt (myndbandið spilast
+  sjálfkrafa, svo stór skrá eyðir gögnum gesta).
+- Fyrir lárétt myndband myndi 9:16 ramminn í `styles.css` (`.eventvideo`) þurfa
+  að breytast í `16 / 9`.

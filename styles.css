@@ -1314,24 +1314,21 @@ html:not(.js) .ep-toolbar { display: none; }
 .clipshow-dot:hover { background: var(--green-600); }
 .clipshow-dot[aria-current="true"] { width: 26px; background: var(--green-400); }
 
-/* ---------- Event video (Viðburðir — auto-loop highlight) ---------- */
+/* ---------- Event video (Viðburðir — auto-loop highlight) ----------
+   Vertical "reel" card: portrait 9:16 clip, centered, capped so it reads
+   as a featured short rather than a full-bleed player. */
 .eventvideo {
-  position: relative; width: 100%; aspect-ratio: 16 / 9;
+  position: relative;
+  width: 100%; max-width: 412px; margin-inline: auto;
+  aspect-ratio: 9 / 16;
   border-radius: var(--radius-lg); overflow: hidden;
   border: 1px solid var(--line-strong);
   background: linear-gradient(160deg, var(--green-800), var(--emerald-950));
   box-shadow: var(--shadow-lg), 0 0 0 1px rgba(234,246,238,.06);
 }
-/* Blurred poster backdrop fills the frame so clips of any aspect ratio
-   (16:9, 9:16, 1:1) sit cleanly letterboxed inside it */
-.eventvideo-bg {
-  position: absolute; inset: 0; z-index: 0;
-  background-size: cover; background-position: center;
-  filter: blur(30px) saturate(1.2) brightness(.5); transform: scale(1.25);
-}
 .eventvideo-media {
   position: absolute; inset: 0; z-index: 1;
-  width: 100%; height: 100%; object-fit: contain; display: block;
+  width: 100%; height: 100%; object-fit: cover; display: block;
 }
 /* Tap-to-unmute toggle */
 .eventvideo-mute {
