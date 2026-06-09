@@ -168,6 +168,11 @@ main > .section:first-child .eyebrow { margin-bottom: 12px; }
   display: flex; align-items: flex-end; justify-content: space-between;
   gap: 24px; flex-wrap: wrap;
 }
+.section-head-center {
+  max-width: none;
+  margin-inline: auto;
+  text-align: center;
+}
 .section-title {
   font-family: var(--font-display);
   font-weight: 800;
